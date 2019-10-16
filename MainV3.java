@@ -80,9 +80,11 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			 */
 
 			ObservableList<listItem> timeSlotList = FXCollections.observableArrayList();
+			timeSlotList.add(new listItem("Please"));
+			timeSlotList.add(new listItem("Do It"));
 			timeSlotList.add(new listItem("Sample Text"));
-			timeSlotList.add(new listItem("Sample Text"));
-			timeSlotList.add(new listItem("Sample Text"));
+			timeSlotList.add(new listItem("Remove Me"));
+			timeSlotList.add(new listItem("Remove Me Again"));
 
 			ListView<listItem> timeSlot_List = new ListView<>(timeSlotList);
 			timeSlot_List.setCellFactory(param -> new ListCell<listItem>() {
@@ -97,11 +99,30 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
+
+			final Button timeSlot_Remove = new Button("Remove");
+			timeSlot_Remove.setVisible(false);
+			timeSlot_Remove.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					final int timeSlot_RemoveIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
+					if (timeSlot_RemoveIndex != -1) {
+						listItem timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
+
+						final int timeSlot_RemoveNewIndex = (timeSlot_RemoveIndex == timeSlot_List.getItems().size()
+								- 1) ? timeSlot_RemoveIndex - 1 : timeSlot_RemoveIndex;
+
+						timeSlot_List.getItems().remove(timeSlot_RemoveIndex);
+						timeSlot_List.getSelectionModel().select(timeSlot_RemoveNewIndex);
+					}
+				}
+			});
+
 			ObservableList<listItem> speakerList = FXCollections.observableArrayList();
+			speakerList.add(new listItem("Legs"));
 			speakerList.add(new listItem("Sample Text"));
-			speakerList.add(new listItem("Sample Text"));
-			speakerList.add(new listItem("Sample Text"));
-			speakerList.add(new listItem("Sample Text"));
+			speakerList.add(new listItem("Redundant"));
+			speakerList.add(new listItem("Incredibly Redundant"));
 
 			ListView<listItem> speaker_List = new ListView<>(speakerList);
 			speaker_List.setCellFactory(param -> new ListCell<listItem>() {
@@ -116,14 +137,34 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
+
+			final Button speaker_Remove = new Button("Remove");
+			speaker_Remove.setVisible(false);
+			speaker_Remove.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					final int speaker_RemoveIndex = speaker_List.getSelectionModel().getSelectedIndex();
+					if (speaker_RemoveIndex != -1) {
+						listItem speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
+
+						final int speaker_RemoveNewIndex = (speaker_RemoveIndex == speaker_List.getItems().size() - 1)
+								? speaker_RemoveIndex - 1 : speaker_RemoveIndex;
+
+						speaker_List.getItems().remove(speaker_RemoveIndex);
+						speaker_List.getSelectionModel().select(speaker_RemoveNewIndex);
+					}
+				}
+			});
+
 			ObservableList<listItem> roomList = FXCollections.observableArrayList();
+			roomList.add(new listItem("Wumbo"));
+			roomList.add(new listItem("Dumbo"));
+			roomList.add(new listItem("Kachow"));
 			roomList.add(new listItem("Sample Text"));
-			roomList.add(new listItem("Sample Text"));
-			roomList.add(new listItem("Sample Text"));
-			roomList.add(new listItem("Sample Text"));
-			roomList.add(new listItem("Sample Text"));
+			roomList.add(new listItem("Pew Pew"));
 
 			ListView<listItem> room_List = new ListView<>(roomList);
+			room_List.setItems(roomList);
 			room_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
 				protected void updateItem(listItem item, boolean empty) {
@@ -136,13 +177,43 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
+
+			final Button room_Remove = new Button("Remove");
+			room_Remove.setVisible(false);
+			room_Remove.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					final int room_RemoveIndex = room_List.getSelectionModel().getSelectedIndex();
+					if (room_RemoveIndex != -1) {
+						listItem room_ItemToRemove = room_List.getSelectionModel().getSelectedItem();
+
+						final int room_RemoveNewIndex = (room_RemoveIndex == room_List.getItems().size() - 1)
+								? room_RemoveIndex - 1 : room_RemoveIndex;
+
+						room_List.getItems().remove(room_RemoveIndex);
+						room_List.getSelectionModel().select(room_RemoveNewIndex);
+					}
+				}
+			});
+
 			ObservableList<listItem> sessionList = FXCollections.observableArrayList();
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Funky"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Talk"));
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Speech"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Programming Session"));
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Remove Me"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Aaaah"));
+			sessionList.add(new listItem("Blah Blah Blah"));
+			sessionList.add(new listItem("Annoying"));
 
 			ListView<listItem> session_List = new ListView<>(sessionList);
 			session_List.setCellFactory(param -> new ListCell<listItem>() {
@@ -154,6 +225,25 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 						setText(null);
 					} else {
 						setText(item.getItem());
+					}
+				}
+			});
+
+			final Button session_Remove = new Button("Remove");
+			session_Remove.setVisible(false);
+			session_Remove.setVisible(false);
+			session_Remove.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					final int session_RemoveIndex = session_List.getSelectionModel().getSelectedIndex();
+					if (session_RemoveIndex != -1) {
+						listItem session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
+
+						final int session_RemoveNewIndex = (session_RemoveIndex == session_List.getItems().size() - 1)
+								? session_RemoveIndex - 1 : session_RemoveIndex;
+
+						session_List.getItems().remove(session_RemoveIndex);
+						session_List.getSelectionModel().select(session_RemoveNewIndex);
 					}
 				}
 			});
@@ -176,56 +266,85 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			Button sessionDone = new Button("Done");
 			sessionDone.setVisible(false);
 
+			timeSlot_List.setEditable(false);
+			timeSlot_List.setMouseTransparent(true);
+			timeSlot_List.setFocusTraversable(false);
+
+			speaker_List.setEditable(false);
+			speaker_List.setMouseTransparent(true);
+			speaker_List.setFocusTraversable(false);
+
+			room_List.setEditable(false);
+			room_List.setMouseTransparent(true);
+			room_List.setFocusTraversable(false);
+
+			session_List.setEditable(false);
+			session_List.setMouseTransparent(true);
+			session_List.setFocusTraversable(false);
+
 			timeSlotEdit.setOnAction(e -> {
 				timeSlot_List.setEditable(true);
 				timeSlot_List.setMouseTransparent(false);
 				timeSlot_List.setFocusTraversable(true);
 				timeSlotDone.setVisible(true);
+				timeSlot_Remove.setVisible(true);
 			});
 
-			 speakerEdit.setOnAction(e -> { 
-				 speaker_List.setEditable(true);
-				 speaker_List.setMouseTransparent(false);
-				 speaker_List.setFocusTraversable(true);
-				 speakerDone.setVisible(true); });
-			 
-			 roomEdit.setOnAction(e -> { 
-				 room_List.setEditable(true);
-				 room_List.setMouseTransparent(false);
-				 room_List.setFocusTraversable(true); 
-				 roomDone.setVisible(true);
-			 });
-			 
-			 sessionEdit.setOnAction(e -> {
-				 session_List.setEditable(true);
-				 session_List.setMouseTransparent(false);
-				 session_List.setFocusTraversable(true);
-				 sessionDone.setVisible(true); });
-			 
-			 timeSlotDone.setOnAction(e -> {
-				 timeSlot_List.setEditable(false);
-				 timeSlot_List.setMouseTransparent(true);
-				 timeSlot_List.setFocusTraversable(false);
-				 timeSlotDone.setVisible(false); });
-			 
-			 speakerDone.setOnAction(e -> {
-				 speaker_List.setEditable(false);
-				 speaker_List.setMouseTransparent(true);
-				 speaker_List.setFocusTraversable(false);
-				 speakerDone.setVisible(false); });
-			 
-			 roomDone.setOnAction(e -> {
-				 room_List.setEditable(false);
-				 room_List.setMouseTransparent(true);
-				 room_List.setFocusTraversable(false);
-				 roomDone.setVisible(false);
-			 });
-			 
-			 sessionDone.setOnAction(e -> {
-				 session_List.setEditable(false);
-				 session_List.setMouseTransparent(true);
-				 session_List.setFocusTraversable(false);
-				 sessionDone.setVisible(false); });
+			speakerEdit.setOnAction(e -> {
+				speaker_List.setEditable(true);
+				speaker_List.setMouseTransparent(false);
+				speaker_List.setFocusTraversable(true);
+				speakerDone.setVisible(true);
+				speaker_Remove.setVisible(true);
+			});
+
+			roomEdit.setOnAction(e -> {
+				room_List.setEditable(true);
+				room_List.setMouseTransparent(false);
+				room_List.setFocusTraversable(true);
+				roomDone.setVisible(true);
+				room_Remove.setVisible(true);
+			});
+
+			sessionEdit.setOnAction(e -> {
+				session_List.setEditable(true);
+				session_List.setMouseTransparent(false);
+				session_List.setFocusTraversable(true);
+				sessionDone.setVisible(true);
+				session_Remove.setVisible(true);
+			});
+
+			timeSlotDone.setOnAction(e -> {
+				timeSlot_List.setEditable(false);
+				timeSlot_List.setMouseTransparent(true);
+				timeSlot_List.setFocusTraversable(false);
+				timeSlotDone.setVisible(false);
+				timeSlot_Remove.setVisible(false);
+			});
+
+			speakerDone.setOnAction(e -> {
+				speaker_List.setEditable(false);
+				speaker_List.setMouseTransparent(true);
+				speaker_List.setFocusTraversable(false);
+				speakerDone.setVisible(false);
+				speaker_Remove.setVisible(false);
+			});
+
+			roomDone.setOnAction(e -> {
+				room_List.setEditable(false);
+				room_List.setMouseTransparent(true);
+				room_List.setFocusTraversable(false);
+				roomDone.setVisible(false);
+				room_Remove.setVisible(false);
+			});
+
+			sessionDone.setOnAction(e -> {
+				session_List.setEditable(false);
+				session_List.setMouseTransparent(true);
+				session_List.setFocusTraversable(false);
+				sessionDone.setVisible(false);
+				session_Remove.setVisible(false);
+			});
 
 			HBox timeSlotButtons = new HBox(timeSlotAdd, timeSlotEdit);
 			timeSlotButtons.setSpacing(5);
@@ -240,22 +359,22 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			sessionButtons.setSpacing(5);
 			sessionButtons.setAlignment(Pos.BOTTOM_CENTER);
 
-			VBox timeSlot = new VBox(labelTimeSlot, timeSlot_List, timeSlotButtons, timeSlotDone);
+			VBox timeSlot = new VBox(labelTimeSlot, timeSlot_List, timeSlotButtons, timeSlot_Remove, timeSlotDone);
 			timeSlot.setAlignment(Pos.CENTER);
 			timeSlot.setSpacing(10);
 			timeSlot.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
-			VBox speaker = new VBox(labelSpeaker, speaker_List, speakerButtons, speakerDone);
+			VBox speaker = new VBox(labelSpeaker, speaker_List, speakerButtons, speaker_Remove, speakerDone);
 			speaker.setAlignment(Pos.CENTER);
 			speaker.setSpacing(10);
 			speaker.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
-			VBox room = new VBox(labelRoom, room_List, roomButtons, roomDone);
+			VBox room = new VBox(labelRoom, room_List, roomButtons, room_Remove, roomDone);
 			room.setAlignment(Pos.CENTER);
 			room.setSpacing(10);
 			room.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
-			VBox session = new VBox(labelSession, session_List, sessionButtons, sessionDone);
+			VBox session = new VBox(labelSession, session_List, sessionButtons, session_Remove, sessionDone);
 			session.setAlignment(Pos.CENTER);
 			session.setSpacing(10);
 			session.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
@@ -286,7 +405,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			roomAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator roomAdd_Separator = new Separator(Orientation.HORIZONTAL);
 
-			//TextArea roomAdd_TextRoom = new TextArea();
+			// TextArea roomAdd_TextRoom = new TextArea();
 
 			ListView<listItem> roomAdd_List = new ListView<>(roomList);
 			roomAdd_List.setCellFactory(param -> new ListCell<listItem>() {
@@ -301,8 +420,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
-			
-			
+
 			roomAdd_List.setEditable(false);
 			roomAdd_List.setMouseTransparent(true);
 			roomAdd_List.setFocusTraversable(false);
@@ -317,6 +435,13 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			TextField roomAdd_NameText = new TextField();
 			TextField roomAdd_CapacityText = new TextField();
+
+			roomAdd_AddButton.setOnAction(e -> {
+				String inputRoomName = roomAdd_NameText.getText();
+				String inputRoomCapacity = roomAdd_NameText.getText();
+				roomList.add(new listItem(inputRoomName));
+
+			});
 
 			VBox roomAdd_Labels = new VBox(roomAdd_NameLabel, roomAdd_CapacityLabel);
 			roomAdd_Labels.setSpacing(15);
@@ -351,8 +476,8 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			Button sessionAdd_AddButton = new Button("Add");
 			Button sessionAdd_HomeButton = new Button("Home");
 
-			//TextArea sessionAdd_textSession = new TextArea();
-			
+			// TextArea sessionAdd_textSession = new TextArea();
+
 			ListView<listItem> sessionAdd_List = new ListView<>(sessionList);
 			sessionAdd_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
@@ -366,7 +491,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
-			
+
 			sessionAdd_List.setEditable(false);
 			sessionAdd_List.setMouseTransparent(true);
 			sessionAdd_List.setFocusTraversable(false);
@@ -402,8 +527,8 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			Button speakerAdd_AddButton = new Button("Add");
 			Button speakerAdd_HomeButton = new Button("Home");
 
-			//TextArea speakerAdd_TextSpeaker = new TextArea();
-	
+			// TextArea speakerAdd_TextSpeaker = new TextArea();
+
 			ListView<listItem> speakerAdd_List = new ListView<>(speakerList);
 			speakerAdd_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
@@ -417,7 +542,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
-			
+
 			speakerAdd_List.setEditable(false);
 			speakerAdd_List.setMouseTransparent(true);
 			speakerAdd_List.setFocusTraversable(false);
@@ -465,8 +590,8 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotAdd_AddButton = new Button("Add");
 			Button timeSlotAdd_HomeButton = new Button("Home");
 
-			//TextArea timeSlotAdd_TextTimeSlot = new TextArea();
-			
+			// TextArea timeSlotAdd_TextTimeSlot = new TextArea();
+
 			ListView<listItem> timeSlotAdd_List = new ListView<>(timeSlotList);
 			timeSlotAdd_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
@@ -480,7 +605,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
-			
+
 			timeSlotAdd_List.setEditable(false);
 			timeSlotAdd_List.setMouseTransparent(true);
 			timeSlotAdd_List.setFocusTraversable(false);
