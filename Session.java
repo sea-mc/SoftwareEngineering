@@ -42,7 +42,7 @@ public class Session {
     public  void setTopic(){
         Scanner input = new Scanner(System.in);
         System.out.println("What is the topic/title of the talk?:");
-        String response = input.nextLine();
+        String sessionTopic = input.nextLine().toLowerCase();
     }
 
     public  String getTopic(){
