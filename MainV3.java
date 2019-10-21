@@ -282,7 +282,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			session_List.setMouseTransparent(true);
 			session_List.setFocusTraversable(false);
 
-			timeSlotEdit.setOnAction(e -> {
+			/*timeSlotEdit.setOnAction(e -> {
 				timeSlot_List.setEditable(true);
 				timeSlot_List.setMouseTransparent(false);
 				timeSlot_List.setFocusTraversable(true);
@@ -344,7 +344,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 				session_List.setFocusTraversable(false);
 				sessionDone.setVisible(false);
 				session_Remove.setVisible(false);
-			});
+			});*/
 
 			HBox timeSlotButtons = new HBox(timeSlotAdd, timeSlotEdit);
 			timeSlotButtons.setSpacing(5);
@@ -691,17 +691,339 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//timeslot edit pageLabel timeSlotAdd_TitleLabel = new Label("Software Engineering Desktop Application");
+			Label timeSlotEdit_TitleLabel = new Label("Boston Code Camp Desktop Application");
+			timeSlotEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
+			timeSlotEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
+			Separator timeSlotEdit_Separator = new Separator(Orientation.HORIZONTAL);
 
+			Button timeSlotEdit_DoneButton = new Button("Done");
+			Button timeSlotEdit_HomeButton = new Button("Home");
+//text area
+			/*TextArea timeSlotEdit_TextTimeSlot = new TextArea();
+			timeSlotEdit_TextTimeSlot.setEditable(false);
+			timeSlotEdit_TextTimeSlot.setMouseTransparent(true);
+			timeSlotEdit_TextTimeSlot.setFocusTraversable(false);*/
+			
+			ListView<listItem> timeSlotEdit_List = new ListView<>(timeSlotList);
+			timeSlotEdit_List.setCellFactory(param -> new ListCell<listItem>() {
+				@Override
+				protected void updateItem(listItem item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (empty || item == null || item.getItem() == null) {
+						setText(null);
+					} else {
+						setText(item.getItem());
+					}
+				}
+			});
+
+			timeSlotEdit_List.setEditable(false);
+			timeSlotEdit_List.setMouseTransparent(true);
+			timeSlotEdit_List.setFocusTraversable(false);
+			
+
+			Label timeSlotEdit_Title = new Label("Edit Time Slot");
+			Label timeSlotEdit_StartTime = new Label("Start Time");
+			Label timeSlotEdit_EndTime = new Label("End Time");
+			Label timeSlotEdit_Duration = new Label("Duration");
+			timeSlotEdit_Title.setFont(new Font("Arial", 48));
+
+			ComboBox<Integer> timeSlotEdit_StartHour = new ComboBox<Integer>();
+			timeSlotEdit_StartHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12);
+			ComboBox<String> timeSlotEdit_StartMinute = new ComboBox<String>();
+			timeSlotEdit_StartMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
+					"55");
+			ComboBox<Integer> timeSlotEdit_EndHour = new ComboBox<Integer>();
+			timeSlotEdit_EndHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12);
+			ComboBox<String> timeSlotEdit_EndMinute = new ComboBox<String>();
+			timeSlotEdit_EndMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
+					"55");
+
+			ToggleGroup timeSlotEdit_StartAMPM = new ToggleGroup();
+			
+			RadioButton timeSlotEdit_StartAM = new RadioButton("A.M.");
+			timeSlotEdit_StartAM.setToggleGroup(timeSlotEdit_StartAMPM);
+
+			RadioButton timeSlotEdit_StartPM = new RadioButton("P.M.");
+			timeSlotEdit_StartPM.setToggleGroup(timeSlotEdit_StartAMPM);
+
+			ToggleGroup timeSlotEdit_EndAMPM = new ToggleGroup();
+
+			RadioButton timeSlotEdit_EndAM = new RadioButton("A.M.");
+			timeSlotEdit_EndAM.setToggleGroup(timeSlotEdit_EndAMPM);
+
+			RadioButton timeSlotEdit_EndPM = new RadioButton("P.M.");
+			timeSlotEdit_EndPM.setToggleGroup(timeSlotEdit_EndAMPM);
+			
+			TextField timeSlotEdit_DurationText= new TextField();
+//start hbox
+			HBox timeSlotEdit_StartComboBox = new HBox(timeSlotEdit_StartHour, timeSlotEdit_StartMinute);
+			timeSlotEdit_StartComboBox.setSpacing(5);
+			timeSlotEdit_StartComboBox.setAlignment(Pos.CENTER);
+//end hbox
+			HBox timeSlotEdit_EndComboBox = new HBox(timeSlotEdit_EndHour, timeSlotEdit_EndMinute);
+			timeSlotEdit_EndComboBox.setSpacing(5);
+			timeSlotEdit_EndComboBox.setAlignment(Pos.CENTER);
+//start radio buttons
+			HBox timeSlotEdit_StartRadioButtons = new HBox(timeSlotEdit_StartAM, timeSlotEdit_StartPM);
+			timeSlotEdit_StartRadioButtons.setSpacing(5);
+			timeSlotEdit_StartRadioButtons.setAlignment(Pos.CENTER);
+//end radio buttons
+			HBox timeSlotEdit_EndRadioButtons = new HBox(timeSlotEdit_EndAM, timeSlotEdit_EndPM);
+			timeSlotEdit_EndRadioButtons.setSpacing(5);
+			timeSlotEdit_EndRadioButtons.setAlignment(Pos.CENTER);
+		//not centered please help	
+			HBox timeSlotEditDuration = new HBox(timeSlotEdit_Duration, timeSlotEdit_DurationText );
+			timeSlotEditDuration.setSpacing(25);
+			timeSlotEditDuration.setAlignment(Pos.CENTER);
+
+			VBox timeSlotEdit_StartTimeInput = new VBox(timeSlotEdit_StartTime, timeSlotEdit_StartComboBox,
+					timeSlotEdit_StartRadioButtons);
+			timeSlotEdit_StartTimeInput.setSpacing(5);
+			timeSlotEdit_StartTimeInput.setAlignment(Pos.CENTER);
+
+			VBox timeSlotEdit_EndTimeInput = new VBox(timeSlotEdit_EndTime, timeSlotEdit_EndComboBox,
+					timeSlotAdd_EndRadioButtons);
+			timeSlotEdit_EndTimeInput.setSpacing(5);
+			timeSlotEdit_EndTimeInput.setAlignment(Pos.CENTER);
+
+			HBox timeSlotEdit_AllInputs = new HBox(timeSlotEdit_StartTimeInput, timeSlotEdit_EndTimeInput);
+			timeSlotEdit_AllInputs.setSpacing(75);
+			timeSlotEdit_AllInputs.setAlignment(Pos.CENTER);
+
+			VBox timeSlotEdit_Page = new VBox(timeSlotEdit_TitleLabel, timeSlotEdit_HomeButton, timeSlotEdit_Separator,
+					timeSlotEdit_Title, timeSlotEdit_List, timeSlotEdit_AllInputs, timeSlotEditDuration,timeSlotEdit_DoneButton);
+			timeSlotEdit_Page.setSpacing(5);
+			timeSlotEdit_Page.setAlignment(Pos.TOP_CENTER);
+			timeSlotEdit_Page.setStyle("-fx-background-color: #ffffff;");
+			timeSlotEdit_Page.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
+
+			Scene timeSlotEdit_Scene = new Scene(timeSlotEdit_Page, 900, 400);
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			
+		//speaker edit page
+			
+			Label speakerEdit_TitleLabel = new Label("Boston Code Camp Desktop Application");
+			speakerEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
+			speakerEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
+			Separator speakerEdit_Separator = new Separator(Orientation.HORIZONTAL);
+
+			Button speakerEdit_DoneButton = new Button("Done");
+			Button speakerEdit_HomeButton = new Button("Home");
+//text area
+			/*TextArea speakerEdit_TextSpeaker = new TextArea();
+			speakerEdit_TextSpeaker.setEditable(false);
+			speakerEdit_TextSpeaker.setMouseTransparent(true);
+			speakerEdit_TextSpeaker.setFocusTraversable(false);*/
+			
+			ListView<listItem> speakerEdit_List = new ListView<>(speakerList);
+			speakerEdit_List.setCellFactory(param -> new ListCell<listItem>() {
+				@Override
+				protected void updateItem(listItem item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (empty || item == null || item.getItem() == null) {
+						setText(null);
+					} else {
+						setText(item.getItem());
+					}
+				}
+			});
+
+			speakerEdit_List.setEditable(false);
+			speakerEdit_List.setMouseTransparent(true);
+			speakerEdit_List.setFocusTraversable(false);
+//good
+			Label speakerEdit_Title = new Label("Speaker Information");
+			Label speakerEdit_FirstName = new Label("First Name");
+			Label speakerEdit_LastName = new Label("Last Name");
+			Label speakerEdit_Email = new Label("Email");
+			speakerEdit_Title.setFont(new Font("Arial", 48));
+//good
+			TextField speakerEdit_FirstNameText = new TextField();
+			TextField speakerEdit_LastNameText = new TextField();
+			TextField speakerEdit_EmailText = new TextField();
+//good
+			VBox speakerEdit_Labels = new VBox(speakerEdit_FirstName, speakerEdit_LastName, speakerEdit_Email);
+			speakerEdit_Labels.setSpacing(15);
+			speakerEdit_Labels.setAlignment(Pos.CENTER_RIGHT);
+//good
+			VBox speakerEdit_Texts = new VBox(speakerEdit_FirstNameText, speakerEdit_LastNameText, speakerEdit_EmailText);
+			speakerEdit_Texts.setSpacing(5);
+			speakerEdit_Texts.setAlignment(Pos.CENTER);
+//good
+			HBox speakerEdit_LabelsAndTexts = new HBox(speakerEdit_Labels, speakerEdit_Texts);
+			speakerEdit_LabelsAndTexts.setSpacing(5);
+			speakerEdit_LabelsAndTexts.setAlignment(Pos.CENTER);
+//good
+			VBox speakerEdit_Page = new VBox(speakerEdit_TitleLabel, speakerEdit_HomeButton, speakerEdit_Separator,
+					speakerEdit_Title, speakerEdit_List, speakerEdit_LabelsAndTexts, speakerEdit_DoneButton);
+			speakerEdit_Page.setSpacing(5);
+			speakerEdit_Page.setAlignment(Pos.TOP_CENTER);
+			speakerEdit_Page.setStyle("-fx-background-color: #ffffff;");
+			speakerEdit_Page.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
+
+			Scene speakerEdit_Scene = new Scene(speakerEdit_Page, 900, 400);
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//room edit
+			
+			Label roomEdit_TitleLabel = new Label("Boston Code Camp Desktop Application");
+			roomEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
+			roomEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
+			Separator roomEdit_Separator = new Separator(Orientation.HORIZONTAL);
+			//help
+			/*TextArea roomEdit_TextRoom = new TextArea();
+			roomEdit_TextRoom.setEditable(false);
+			roomEdit_TextRoom.setMouseTransparent(true);
+			roomEdit_TextRoom.setFocusTraversable(false);*/
+			
+			ListView<listItem> roomEdit_List = new ListView<>(roomList);
+			roomEdit_List.setCellFactory(param -> new ListCell<listItem>() {
+				@Override
+				protected void updateItem(listItem item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (empty || item == null || item.getItem() == null) {
+						setText(null);
+					} else {
+						setText(item.getItem());
+					}
+				}
+			});
+
+			roomEdit_List.setEditable(false);
+			roomEdit_List.setMouseTransparent(true);
+			roomEdit_List.setFocusTraversable(false);
+//good
+			Button roomEdit_DoneButton = new Button("Done");
+			Button roomEdit_HomeButton = new Button("Home");
+//good
+			Label roomEdit_NameLabel = new Label("Name");
+			Label roomEdit_CapacityLabel = new Label("Capacity");
+			Label roomEdit_Title = new Label("Edit Room");
+			roomEdit_Title.setFont(new Font("Arial", 48));
+//good
+			TextField roomEdit_NameText = new TextField();
+			TextField roomEdit_CapacityText = new TextField();
+//good
+			VBox roomEdit_Labels = new VBox(roomEdit_NameLabel, roomEdit_CapacityLabel);
+			roomEdit_Labels.setSpacing(15);
+			roomEdit_Labels.setAlignment(Pos.CENTER_RIGHT);
+//good, adding the text fields to a vbox
+			VBox roomEdit_Texts = new VBox(roomEdit_NameText, roomEdit_CapacityText);
+			roomEdit_Texts.setSpacing(5);
+			roomEdit_Texts.setAlignment(Pos.CENTER);
+//good
+			HBox roomEdit_LabelsAndTexts = new HBox(roomEdit_Labels, roomEdit_Texts);
+			roomEdit_LabelsAndTexts.setSpacing(5);
+			roomEdit_LabelsAndTexts.setAlignment(Pos.CENTER);
+//good
+			VBox roomEdit_Page = new VBox(roomEdit_TitleLabel, roomEdit_HomeButton, roomEdit_Separator, roomEdit_Title,
+					roomEdit_List, roomEdit_LabelsAndTexts, roomEdit_DoneButton);
+			roomEdit_Page.setSpacing(5);
+			roomEdit_Page.setAlignment(Pos.TOP_CENTER);
+			roomEdit_Page.setStyle("-fx-background-color: #ffffff;");
+			roomEdit_Page.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
+
+			Scene roomEdit_Scene = new Scene(roomEdit_Page, 900, 400);
+			
+			///////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			//session edit
+			
+			Label sessionEdit_TitleLabel = new Label("Boston Code Camp Desktop Application");
+			sessionEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
+			sessionEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
+			Separator sessionEdit_Separator = new Separator(Orientation.HORIZONTAL);
+
+			Button sessionEdit_DoneButton = new Button("Done");
+			Button sessionEdit_HomeButton = new Button("Home");
+//text area help
+			/*TextArea sessionEdit_textSession = new TextArea();
+			sessionEdit_textSession.setEditable(false);
+			sessionEdit_textSession.setMouseTransparent(true);
+			sessionEdit_textSession.setFocusTraversable(false);*/
+			
+			ListView<listItem> sessionEdit_List = new ListView<>(sessionList);
+			sessionEdit_List.setCellFactory(param -> new ListCell<listItem>() {
+				@Override
+				protected void updateItem(listItem item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (empty || item == null || item.getItem() == null) {
+						setText(null);
+					} else {
+						setText(item.getItem());
+					}
+				}
+			});
+
+			sessionEdit_List.setEditable(false);
+			sessionEdit_List.setMouseTransparent(true);
+			sessionEdit_List.setFocusTraversable(false);
+//good
+			Label sessionEdit_NameLabel = new Label("Name");
+			Label sessionEdit_Title = new Label("Edit Session");
+			sessionEdit_Title.setFont(new Font("Arial", 48));
+
+			TextField sessionEdit_NameText = new TextField();
+//good
+			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText);
+			sessionEdit_LabelsAndTexts.setSpacing(5);
+			sessionEdit_LabelsAndTexts.setAlignment(Pos.CENTER);
+//good 
+			VBox sessionEdit_Page = new VBox(sessionEdit_TitleLabel, sessionEdit_HomeButton, sessionEdit_Separator,
+					sessionEdit_Title, sessionEdit_List, sessionEdit_LabelsAndTexts, sessionEdit_DoneButton);
+			sessionEdit_Page.setSpacing(5);
+			sessionEdit_Page.setAlignment(Pos.TOP_CENTER);
+			sessionEdit_Page.setStyle("-fx-background-color: #ffffff;");
+			sessionEdit_Page.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+					+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;");
+
+			Scene sessionEdit_Scene = new Scene(sessionEdit_Page, 900, 400);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
 			timeSlotAdd.setOnAction(e -> window.setScene(timeSlotAdd_Scene));
 			speakerAdd.setOnAction(e -> window.setScene(speakerAdd_Scene));
 			roomAdd.setOnAction(e -> window.setScene(roomAdd_Scene));
 			sessionAdd.setOnAction(e -> window.setScene(sessionAdd_Scene));
+			
+			timeSlotEdit.setOnAction(e -> window.setScene(timeSlotEdit_Scene));
+			speakerEdit.setOnAction(e -> window.setScene(speakerEdit_Scene));
+			roomEdit.setOnAction(e -> window.setScene(roomEdit_Scene));
+			sessionEdit.setOnAction(e -> window.setScene(sessionEdit_Scene));
 
 			home.setOnAction(e -> window.setScene(sceneHome));
 			roomAdd_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			sessionAdd_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			speakerAdd_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			timeSlotAdd_HomeButton.setOnAction(e -> window.setScene(sceneHome));
+			
+
+			timeSlotEdit_HomeButton.setOnAction(e ->{
+						window.setScene(sceneHome);});
+					
+					speakerEdit_HomeButton.setOnAction(e ->{
+						window.setScene(sceneHome);});
+					
+					roomEdit_HomeButton.setOnAction(e ->{
+						window.setScene(sceneHome);});
+
+					sessionEdit_HomeButton.setOnAction(e ->{
+						window.setScene(sceneHome);});
 
 		} catch (Exception e) {
 			e.printStackTrace();
