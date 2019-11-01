@@ -58,11 +58,11 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			Label labelTimeSlot = new Label("Time Slot");
 			labelTimeSlot.setStyle("-fx-font: 36 arial;");
-			Label labelSpeaker = new Label("Speaker");
+			Label labelSpeaker = new Label("backEnd.Speaker");
 			labelSpeaker.setStyle("-fx-font: 36 arial;");
-			Label labelRoom = new Label("Room");
+			Label labelRoom = new Label("backEnd.Room");
 			labelRoom.setStyle("-fx-font: 36 arial;");
-			Label labelSession = new Label("Session");
+			Label labelSession = new Label("backEnd.Session");
 			labelSession.setStyle("-fx-font: 36 arial;");
 
 			ObservableList<listItem> timeSlotList = FXCollections.observableArrayList();
@@ -189,7 +189,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Speech"));
 			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Programming Session"));
+			sessionList.add(new listItem("Programming backEnd.Session"));
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Remove Me"));
@@ -288,7 +288,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			window.setScene(sceneHome);
 			window.setTitle("Software Engineering Desktop Application");
 
-			// -Room
+			// -backEnd.Room
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label roomAdd_TitleLabel = new Label("Boston Code Camp Desktop Application");
@@ -314,7 +314,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			Label roomAdd_NameLabel = new Label("Name");
 			Label roomAdd_CapacityLabel = new Label("Capacity");
-			Label roomAdd_Title = new Label("Add Room");
+			Label roomAdd_Title = new Label("Add backEnd.Room");
 			roomAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField roomAdd_NameText = new TextField();
@@ -353,7 +353,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			Scene roomAdd_Scene = new Scene(roomAdd_Page, 900, 400);
 
-			// -Session
+			// -backEnd.Session
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label sessionAdd_TitleLabel = new Label("Boston Code Camp Desktop Application");
@@ -380,10 +380,10 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			// !!!ADD DROP DOWN MENUS FOR SPEAKER, ROOM, TIME SLOT
 			Label sessionAdd_NameLabel = new Label("Name");
-			Label sessionAdd_SpeakerLabel = new Label("Speaker");
-			Label sessionAdd_RoomLabel = new Label("Room");
+			Label sessionAdd_SpeakerLabel = new Label("backEnd.Speaker");
+			Label sessionAdd_RoomLabel = new Label("backEnd.Room");
 			Label sessionAdd_TimeLabel = new Label("Time Slot");
-			Label sessionAdd_Title = new Label("Add Session");
+			Label sessionAdd_Title = new Label("Add backEnd.Session");
 			sessionAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionAdd_NameText = new TextField();
@@ -408,7 +408,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			Scene sessionAdd_Scene = new Scene(sessionAdd_Page, 900, 400);
 
-			// -Speaker
+			// -backEnd.Speaker
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label speakerAdd_TitleLabel = new Label("Boston Code Camp Desktop Application");
@@ -435,7 +435,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					speakerAdd_EmailColumn);
 			speakerAdd_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-			Label speakerAdd_Title = new Label("Speaker Information");
+			Label speakerAdd_Title = new Label("backEnd.Speaker Information");
 			Label speakerAdd_FirstName = new Label("First Name");
 			Label speakerAdd_LastName = new Label("Last Name");
 			Label speakerAdd_Phone = new Label("Email");
@@ -707,7 +707,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			speakerEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			// good
-			Label speakerEdit_Title = new Label("Speaker Information");
+			Label speakerEdit_Title = new Label("backEnd.Speaker Information");
 			Label speakerEdit_FirstName = new Label("First Name");
 			Label speakerEdit_LastName = new Label("Last Name");
 			Label speakerEdit_Email = new Label("Email");
@@ -762,7 +762,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			// good
 			Label roomEdit_NameLabel = new Label("Name");
 			Label roomEdit_CapacityLabel = new Label("Capacity");
-			Label roomEdit_Title = new Label("Edit Room");
+			Label roomEdit_Title = new Label("Edit backEnd.Room");
 			roomEdit_Title.setFont(new Font("Arial", 48));
 			// good
 			TextField roomEdit_NameText = new TextField();
@@ -819,7 +819,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_List.setFocusTraversable(false);
 
 			Label sessionEdit_NameLabel = new Label("Name");
-			Label sessionEdit_Title = new Label("Edit Session");
+			Label sessionEdit_Title = new Label("Edit backEnd.Session");
 			sessionEdit_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionEdit_NameText = new TextField();

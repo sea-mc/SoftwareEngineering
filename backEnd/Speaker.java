@@ -1,9 +1,12 @@
-public class Speaker {
+package backEnd;
+
+public class Speaker{
     private String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
 
+    //TODO create default constructor, setters and getters, add UID
     Speaker(String speakerFName, String speakerLName, String speakerNumber, String speakerEmail){
         if(validateName(speakerFName,speakerLName) != 0 || validateNumber(speakerNumber) != 0 || validateEmail(speakerEmail) != 0){
-            System.out.println("ERR: Speaker object could not be created");
+            System.out.println("ERR: backEnd.Speaker object could not be created");
             System.exit(-1);
         }
         this.speakerFName = speakerFName;
