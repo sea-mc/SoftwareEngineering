@@ -751,12 +751,16 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			TableView<roomCap> roomEdit_Table = new TableView<>();
 			roomEdit_Table.setEditable(true);
 
-			TableColumn roomEdit_Name = new TableColumn("Name");
-			TableColumn roomEdit_Capacity = new TableColumn("Capacity");
+			TableColumn<roomCap, String> roomEdit_Name = new TableColumn("Name");
+			roomEdit_Name.setCellValueFactory(new PropertyValueFactory<>("roomName"));
+			TableColumn<roomCap, String> roomEdit_Capacity = new TableColumn("Capacity");
+			roomEdit_Capacity.setCellValueFactory(new PropertyValueFactory<>("roomCapacity"));
+			
+			roomEdit_Table.setItems(getRoomAndCapacity());
 
 			roomEdit_Table.getColumns().addAll(roomEdit_Name, roomEdit_Capacity);
 			roomEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+		
 			// good
 			Button roomEdit_DoneButton = new Button("Done");
 			Button roomEdit_HomeButton = new Button("Home");
