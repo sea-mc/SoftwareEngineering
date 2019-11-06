@@ -427,7 +427,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			TableColumn<speakerPerson, String> speakerAdd_LastNameColumn = new TableColumn<>("Last Name");
 			speakerAdd_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 			TableColumn<speakerPerson, String> speakerAdd_EmailColumn = new TableColumn<>("Email");
-			speakerAdd_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
+			speakerAdd_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
 			speakerAdd_Table.setItems(getSpeakers());
 
@@ -696,9 +696,9 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			TableColumn<speakerPerson, String> speakerEdit_FirstNameColumn = new TableColumn<>("First Name");
 			speakerEdit_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 			TableColumn<speakerPerson, String> speakerEdit_LastNameColumn = new TableColumn<>("Last Name");
-			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
+			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 			TableColumn<speakerPerson, String> speakerEdit_EmailColumn = new TableColumn<>("Email");
-			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
+			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
 			speakerEdit_Table.setItems(getSpeakers());
 
@@ -923,7 +923,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			this.email = email;
 		}
 
-		public String getFistName() {
+		public String getFirstName() {
 			return firstName;
 		}
 
