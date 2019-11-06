@@ -1,4 +1,4 @@
-public class Back {
+public class Back implements IBack {
     Room room;
     Speaker speaker;
     Timeslot timeBlk;
