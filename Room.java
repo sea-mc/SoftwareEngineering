@@ -1,9 +1,8 @@
-import java.util.Scanner;
-
 public class Room {
 
 	private String roomName, capacity;
 
+	//TODO create default constructor, setters and getters, add UID
 	public Room(String roomName, String capacity){
 		if(checkPositive(capacity) != 0 || checkCapacity(capacity) != 0){
 			System.out.println("ERR: Couldn't create room object");
