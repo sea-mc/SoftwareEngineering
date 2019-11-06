@@ -525,7 +525,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			RadioButton timeSlotAdd_EndPM = new RadioButton("P.M.");
 			timeSlotAdd_EndPM.setToggleGroup(timeSlotAdd_EndAMPM);
 
-			TextField timeSlotAdd_DurationText = new TextField();
+			ComboBox<Integer> timeSlotAdd_DurationComboBox= new ComboBox<Integer>();
 
 			HBox timeSlotAdd_StartComboBox = new HBox(timeSlotAdd_StartHour, timeSlotAdd_StartMinute);
 			timeSlotAdd_StartComboBox.setSpacing(5);
@@ -543,7 +543,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			timeSlotAdd_EndRadioButtons.setSpacing(5);
 			timeSlotAdd_EndRadioButtons.setAlignment(Pos.CENTER);
 
-			HBox timeSlotAddDuration = new HBox(timeSlotAdd_Duration, timeSlotAdd_DurationText);
+			HBox timeSlotAddDuration = new HBox(timeSlotAdd_Duration, timeSlotAdd_DurationComboBox);
 			timeSlotAddDuration.setSpacing(5);
 			timeSlotAddDuration.setAlignment(Pos.CENTER);
 
@@ -616,6 +616,8 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			ComboBox<String> timeSlotEdit_EndMinute = new ComboBox<String>();
 			timeSlotEdit_EndMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
 					"55");
+			
+			ComboBox<Integer> timeSlotEdit_DurationComboBox = new ComboBox<Integer>();
 
 			ToggleGroup timeSlotEdit_StartAMPM = new ToggleGroup();
 
@@ -633,7 +635,6 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			RadioButton timeSlotEdit_EndPM = new RadioButton("P.M.");
 			timeSlotEdit_EndPM.setToggleGroup(timeSlotEdit_EndAMPM);
 
-			TextField timeSlotEdit_DurationText = new TextField();
 			// start hbox
 			HBox timeSlotEdit_StartComboBox = new HBox(timeSlotEdit_StartHour, timeSlotEdit_StartMinute);
 			timeSlotEdit_StartComboBox.setSpacing(5);
@@ -651,7 +652,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			timeSlotEdit_EndRadioButtons.setSpacing(5);
 			timeSlotEdit_EndRadioButtons.setAlignment(Pos.CENTER);
 			// not centered please help
-			HBox timeSlotEditDuration = new HBox(timeSlotEdit_Duration, timeSlotEdit_DurationText);
+			HBox timeSlotEditDuration = new HBox(timeSlotEdit_Duration, timeSlotEdit_DurationComboBox);
 			timeSlotEditDuration.setSpacing(5);
 			timeSlotEditDuration.setAlignment(Pos.CENTER);
 
