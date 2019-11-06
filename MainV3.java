@@ -103,22 +103,16 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ObservableList<listItem> speakerList = FXCollections.observableArrayList();
-			speakerList.add(new listItem("Legs"));
-			speakerList.add(new listItem("Sample Text"));
-			speakerList.add(new listItem("Redundant"));
-			speakerList.add(new listItem("Incredibly Redundant"));
-
-			ListView<listItem> speaker_List = new ListView<>(speakerList);
-			speaker_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<speakerPerson> speaker_List = new ListView<>(getSpeakers());
+			speaker_List.setCellFactory(param -> new ListCell<speakerPerson>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(speakerPerson item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getFirstName() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getFullName());
 					}
 				}
 			});
@@ -129,7 +123,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int speaker_RemoveIndex = speaker_List.getSelectionModel().getSelectedIndex();
 					if (speaker_RemoveIndex != -1) {
-						listItem speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
+						speakerPerson speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
 
 						final int speaker_RemoveNewIndex = (speaker_RemoveIndex == speaker_List.getItems().size() - 1)
 								? speaker_RemoveIndex - 1 : speaker_RemoveIndex;
@@ -140,24 +134,17 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ObservableList<listItem> roomList = FXCollections.observableArrayList();
-			roomList.add(new listItem("Wumbo"));
-			roomList.add(new listItem("Dumbo"));
-			roomList.add(new listItem("Kachow"));
-			roomList.add(new listItem("Sample Text"));
-			roomList.add(new listItem("Pew Pew"));
-
-			ListView<listItem> room_List = new ListView<>(roomList);
-			room_List.setItems(roomList);
-			room_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<roomCap> room_List = new ListView<>(getRoomAndCapacity());
+			room_List.setItems(getRoomAndCapacity());
+			room_List.setCellFactory(param -> new ListCell<roomCap>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(roomCap item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getRoomName() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getRoomName());
 					}
 				}
 			});
@@ -168,7 +155,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int room_RemoveIndex = room_List.getSelectionModel().getSelectedIndex();
 					if (room_RemoveIndex != -1) {
-						listItem room_ItemToRemove = room_List.getSelectionModel().getSelectedItem();
+						roomCap room_ItemToRemove = room_List.getSelectionModel().getSelectedItem();
 
 						final int room_RemoveNewIndex = (room_RemoveIndex == room_List.getItems().size() - 1)
 								? room_RemoveIndex - 1 : room_RemoveIndex;
@@ -920,6 +907,11 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			this.firstName = "";
 			this.lastName = "";
 			this.email = "";
+		}
+
+		public String getFullName() {
+			// TODO Auto-generated method stub
+			return this.firstName+" "+this.lastName;
 		}
 
 		public speakerPerson(String firstName, String lastName, String email) {
