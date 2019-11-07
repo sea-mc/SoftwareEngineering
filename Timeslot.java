@@ -1,12 +1,13 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Timeslot{
+public class Timeslot extends DB_Object {
 
     Back back = new Back();
     private int startTime, endTime;
     ArrayList<Timeslot> timeslotList = new ArrayList<>();
 
+    //TODO create default constructor, setters and getters, add UID
     Timeslot(int startTime, int endTime){
         if(validateTime(startTime,endTime) != 0){
             System.out.println("ERR: backEnd.Timeslot object could not be created.");
@@ -34,3 +35,14 @@ public class Timeslot{
     public void updateTimeslotList(ArrayList<Timeslot> timeslots){
         back.updateTimeslotList(timeslots);
     }
+
+    @Override
+    public void setUID(int UID) {
+        this.UID = UID;
+    }
+
+    @Override
+    public int getUID() {
+        return 0;
+    }
+}
