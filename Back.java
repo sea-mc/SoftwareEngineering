@@ -8,7 +8,7 @@ public class Back implements IBack {
      *
      * @return backEnd.Room object
      */
-    public static Room getRoom(){
+    public Room getRoom(){
         return new Room("", "");
     }
 
@@ -16,7 +16,7 @@ public class Back implements IBack {
      *
      * @return backEnd.Speaker object
      */
-    public static Speaker getSpeaker(){
+    public Speaker getSpeaker(){
         return new Speaker("", "", "", "");
     }
 
@@ -24,7 +24,7 @@ public class Back implements IBack {
      *
      * @return backEnd.Session object
      */
-    public static Session getSession(){
+    public Session getSession(){
         return new Session("");
     }
 
@@ -32,7 +32,7 @@ public class Back implements IBack {
      *
      * @return backEnd.Timeslot object
      */
-    public static Timeslot getTimeslot(){
+    public Timeslot getTimeslot(){
         return new Timeslot(0, 0);
     }
 

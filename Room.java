@@ -8,11 +8,13 @@ public class Room {
 			System.out.println("ERR: Couldn't create room object");
 			System.exit(-1);
 		}
-		this.roomName = roomName;
-		this.capacity = capacity;
+		Back back = new Back();
+		Room temp = back.getRoom();
+		temp.roomName = roomName;
+		temp.capacity = capacity;
 	}
 
-	private  int checkPositive(String capacityCheck) {
+	private int checkPositive(String capacityCheck) {
 		int capacity = Integer.parseInt(capacityCheck);
 		if(capacity > 0) {
 			return 0;
@@ -20,7 +22,7 @@ public class Room {
 		return -1;
 	}
 
-	public  int checkCapacity(String capacityCheck) {
+	public int checkCapacity(String capacityCheck) {
 		if(capacityCheck.matches("[0-9]+")) {
 			return 0;
 		}

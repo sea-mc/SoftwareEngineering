@@ -8,9 +8,10 @@ public class Timeslot{
             System.out.println("ERR: backEnd.Timeslot object could not be created.");
             System.exit(-1);
         }
-        //todo: determine how am/pm will be input/validated (boolean? string?)
-        this.startTime = startTime;
-        this.endTime = endTime;
+        Back back = new Back();
+        Timeslot temp = back.getTimeslot();
+        temp.startTime = startTime;
+        temp.endTime = endTime;
     }
 
     private int validateTime(int start, int end){

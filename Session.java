@@ -2,8 +2,10 @@ public class Session {
 
     private String sessionName;
 
-    //TODO create default constructor, setters and getters, add UID
+
     Session(String sessionName){
-        this.sessionName = sessionName;
+        Back back = new Back();
+        Session temp = back.getSession();
+        temp.sessionName = sessionName;
     }
 }
