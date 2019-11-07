@@ -369,11 +369,15 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			Label sessionAdd_NameLabel = new Label("Name");
 			Label sessionAdd_SpeakerLabel = new Label("Speaker");
 			Label sessionAdd_RoomLabel = new Label("Room");
-			Label sessionAdd_TimeLabel = new Label("Time Slot");
+			Label sessionAdd_TimeSlotLabel = new Label("Time Slot");
 			Label sessionAdd_Title = new Label("Add Session");
 			sessionAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionAdd_NameText = new TextField();
+			
+			ComboBox<Integer> sessionAdd_TimeSlotCombo= new ComboBox<Integer>();
+			ComboBox<String> sessionAdd_SpeakerCombo= new ComboBox<String>();
+			ComboBox<String> sessionAdd_RoomCombo= new ComboBox<String>();
 
 			sessionAdd_AddButton.setOnAction(e -> {
 				String inputSessionName = sessionAdd_NameText.getText();
@@ -384,9 +388,27 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			HBox sessionAdd_LabelsAndTexts = new HBox(sessionAdd_NameLabel, sessionAdd_NameText);
 			sessionAdd_LabelsAndTexts.setSpacing(5);
 			sessionAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
+			
+			HBox sessionAdd_TimeSlot= new HBox(sessionAdd_TimeSlotLabel, sessionAdd_TimeSlotCombo);
+			sessionAdd_TimeSlot.setSpacing(5);
+			sessionAdd_TimeSlot.setAlignment(Pos.CENTER);
+			HBox sessionAdd_Speaker= new HBox(sessionAdd_SpeakerLabel, sessionAdd_SpeakerCombo);
+			sessionAdd_Speaker.setSpacing(5);
+			sessionAdd_Speaker.setAlignment(Pos.CENTER);
+			HBox sessionAdd_Room= new HBox(sessionAdd_RoomLabel, sessionAdd_RoomCombo);
+			sessionAdd_Room.setSpacing(5);
+			sessionAdd_Room.setAlignment(Pos.CENTER);
+			
+			VBox sessionAdd_Attributes= new VBox(sessionAdd_TimeSlot, sessionAdd_Speaker, sessionAdd_Room);
+			sessionAdd_Attributes.setSpacing(5);
+			sessionAdd_Attributes.setAlignment(Pos.CENTER);
+			
+			HBox sessionAdd_Session= new HBox (sessionAdd_LabelsAndTexts, sessionAdd_Attributes);
+			sessionAdd_Session.setSpacing(5);
+			sessionAdd_Session.setAlignment(Pos.CENTER);
 
 			VBox sessionAdd_Page = new VBox(sessionAdd_TitleLabel, sessionAdd_HomeButton, sessionAdd_Separator,
-					sessionAdd_Title, sessionAdd_List, sessionAdd_LabelsAndTexts, sessionAdd_AddButton);
+					sessionAdd_Title, sessionAdd_List, sessionAdd_Session, sessionAdd_AddButton);
 			sessionAdd_Page.setSpacing(5);
 			sessionAdd_Page.setAlignment(Pos.TOP_CENTER);
 			sessionAdd_Page.setStyle("-fx-background-color: #ffffff;");
@@ -815,11 +837,39 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionEdit_NameText = new TextField();
+			
+			ComboBox<Integer> sessionEdit_TimeSlotCombo = new ComboBox<Integer>(); //integer for now until we know how timslots are being passed back and forth
+			ComboBox<String> sessionEdit_SpeakerCombo = new ComboBox<String>();
+			ComboBox<String> sessionEdit_RoomCombo = new ComboBox<String>();
+			
+			Label sessionEdit_TimeSlotLabel= new Label("Time Slot");
+			Label sessionEdit_SpeakerLabel= new Label("Speaker");
+			Label sessionEdit_RoomLabel= new Label("Room");
+			
 			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText);
 			sessionEdit_LabelsAndTexts.setSpacing(5);
 			sessionEdit_LabelsAndTexts.setAlignment(Pos.CENTER);
+			
+			HBox sessionEdit_TimeSlot= new HBox(sessionEdit_TimeSlotLabel, sessionEdit_TimeSlotCombo);
+			sessionEdit_TimeSlot.setSpacing(5);
+			sessionEdit_TimeSlot.setAlignment(Pos.CENTER);
+			HBox sessionEdit_Speaker= new HBox(sessionEdit_SpeakerLabel, sessionEdit_SpeakerCombo);
+			sessionEdit_Speaker.setSpacing(5);
+			sessionEdit_Speaker.setAlignment(Pos.CENTER);
+			HBox sessionEdit_Room= new HBox(sessionEdit_RoomLabel, sessionEdit_RoomCombo);
+			sessionEdit_Room.setSpacing(5);
+			sessionEdit_Room.setAlignment(Pos.CENTER);
+			
+			VBox sessionEdit_Attributes= new VBox(sessionEdit_TimeSlot, sessionEdit_Speaker, sessionEdit_Room);
+			sessionEdit_Attributes.setSpacing(5);
+			sessionEdit_Attributes.setAlignment(Pos.CENTER);
+			
+			HBox sessionEdit_Session= new HBox (sessionEdit_LabelsAndTexts, sessionEdit_Attributes);
+			sessionEdit_Session.setSpacing(5);
+			sessionEdit_Session.setAlignment(Pos.CENTER);
+			
 			VBox sessionEdit_Page = new VBox(sessionEdit_TitleLabel, sessionEdit_HomeButton, sessionEdit_Separator,
-					sessionEdit_Title, sessionEdit_List, sessionEdit_LabelsAndTexts, sessionEdit_DoneButton);
+					sessionEdit_Title, sessionEdit_List, sessionEdit_Session, sessionEdit_DoneButton);
 			sessionEdit_Page.setSpacing(5);
 			sessionEdit_Page.setAlignment(Pos.TOP_CENTER);
 			sessionEdit_Page.setStyle("-fx-background-color: #ffffff;");
