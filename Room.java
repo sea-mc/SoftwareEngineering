@@ -1,6 +1,9 @@
+import java.util.*;
+
 public class Room {
 
 	private String roomName, capacity;
+	ArrayList<Room> roomList = new ArrayList<>();
 
 	//TODO create default constructor, setters and getters, add UID
 	public Room(String roomName, String capacity){
@@ -12,6 +15,7 @@ public class Room {
 		Room temp = back.getRoom();
 		temp.roomName = roomName;
 		temp.capacity = capacity;
+		roomList.add(temp);
 	}
 
 	private int checkPositive(String capacityCheck) {
