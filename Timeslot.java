@@ -45,4 +45,9 @@ public class Timeslot extends DB_Object {
     public int getUID() {
         return 0;
     }
+
+    @Override
+    public void ensureUID() {
+
+    }
 }

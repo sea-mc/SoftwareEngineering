@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Speaker{
+public class Speaker extends DB_Object{
 
     Back back = new Back();
     private String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
@@ -58,4 +58,8 @@ public class Speaker{
         back.updateSpeakerList(speakers);
     }
 
+    @Override
+    public void ensureUID() {
+
+    }
 }

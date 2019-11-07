@@ -45,25 +45,27 @@ public class Back implements IBack {
         }
     }
 
+    /** pushes a list of DB objects to the database
+     *
+     * @param list list of objects to push
+     */
+    public void pushDB_Object(ArrayList<DB_Object> list){
+        for(DB_Object o : list)
+            pushDB_Object(o);
+    }
+
+    /** pushes a single DB object to the database
+     *
+     * @param o singular object to be pushed to the database
+     */
+    private void pushDB_Object(DB_Object o) {
+        //some sql method
+    }
+
     public void updateSpeakerList(ArrayList<Speaker> objectList){
         for(int i=0; i <objectList.size(); i++){
             //pushDB_Object(timeSlotList.indexOf(i))
         }
     }
 
-//    /** checks if object has a UID, if not gives it one
-//     *
-//     * @param o Object
-//     */
-//    public static void ensureUID(I_DB_Object o){
-//
-//    }
-//
-//    /** pushes object to the DB
-//     *
-//     * @param o
-//     */
-//    public static void pushDB_Object(I_DB_Object o){
-//        ensureUID(o);
-//    }
 }
