@@ -39,14 +39,14 @@ public class Back implements IBack {
     }
 
     //I will look into making these methods not needing to be repeated by using a more generic Object list, just putting these here for a placeholder.
-    public void updateTimeslotList(ArrayList<Timeslot> timeslotList){
-        for(int i=0; i <timeslotList.size(); i++){
+    public void updateTimeslotList(ArrayList<Timeslot> objectList){
+        for(int i=0; i <objectList.size(); i++){
             //pushDB_Object(timeSlotList.indexOf(i))
         }
     }
 
-    public void updateSpeakerList(ArrayList<Timeslot> speakerList){
-        for(int i=0; i <speakerList.size(); i++){
+    public void updateSpeakerList(ArrayList<Speaker> objectList){
+        for(int i=0; i <objectList.size(); i++){
             //pushDB_Object(timeSlotList.indexOf(i))
         }
     }

@@ -50,12 +50,12 @@ public class Speaker{
 
     public void removeSpeaker(int index){
         speakerList.remove(index);
-        back.updateSpeakerList(speakerList);
+        updateSpeakerList(speakerList);
         //need to now update speaker list, send to backend to be updated, and return the new speakerList once it returns
     }
 
-    public void updateTimeslotList(ArrayList<Timeslot> timeslots){
-        back.updateTimeslotList(timeslots);
+    public void updateSpeakerList(ArrayList<Speaker> speakers){
+        back.updateSpeakerList(speakers);
     }
 
 }
