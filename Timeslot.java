@@ -1,7 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Timeslot{
+public class Timeslot extends DB_Object {
 
     Back back = new Back();
     private int startTime, endTime;
@@ -36,4 +36,13 @@ public class Timeslot{
         back.updateTimeslotList(timeslots);
     }
 
+    @Override
+    public void setUID(int UID) {
+        this.UID = UID;
+    }
+
+    @Override
+    public int getUID() {
+        return 0;
+    }
 }
