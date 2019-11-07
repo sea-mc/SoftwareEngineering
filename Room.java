@@ -18,6 +18,7 @@ public class Room {
 		roomList.add(temp);
 	}
 
+
 	private int checkPositive(String capacityCheck) {
 		int capacity = Integer.parseInt(capacityCheck);
 		if(capacity > 0) {
