@@ -2,7 +2,8 @@ import java.util.*;
 
 public class Room {
 
-	private String roomName, capacity;
+    Back back = new Back();
+    private String roomName, capacity;
 	ArrayList<Room> roomList = new ArrayList<>();
 
 	//TODO create default constructor, setters and getters, add UID
@@ -11,7 +12,6 @@ public class Room {
 			System.out.println("ERR: Couldn't create room object");
 			System.exit(-1);
 		}
-		Back back = new Back();
 		Room temp = back.getRoom();
 		temp.roomName = roomName;
 		temp.capacity = capacity;
@@ -32,5 +32,10 @@ public class Room {
 		}
 		return -1;
 	}
+
+    public void removeRoom(int index){
+        roomList.remove(index);
+        //need to now update speaker list, send to backend to be updated, and return the new speakerList once it returns
+    }
 
 }

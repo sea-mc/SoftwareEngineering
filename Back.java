@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Back implements IBack {
     Room room;
     Speaker speaker;
@@ -34,6 +36,19 @@ public class Back implements IBack {
      */
     public Timeslot getTimeslot(){
         return new Timeslot(0, 0);
+    }
+
+    //I will look into making these methods not needing to be repeated by using a more generic Object list, just putting these here for a placeholder.
+    public void updateTimeslotList(ArrayList<Timeslot> timeslotList){
+        for(int i=0; i <timeslotList.size(); i++){
+            //pushDB_Object(timeSlotList.indexOf(i))
+        }
+    }
+
+    public void updateSpeakerList(ArrayList<Timeslot> speakerList){
+        for(int i=0; i <speakerList.size(); i++){
+            //pushDB_Object(timeSlotList.indexOf(i))
+        }
     }
 
 //    /** checks if object has a UID, if not gives it one

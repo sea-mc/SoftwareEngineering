@@ -1,4 +1,3 @@
-package application;
 
 import java.awt.Color;
 import java.util.List;
@@ -32,6 +31,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import static javax.swing.text.StyleConstants.Orientation;
 
 public class MainV3 extends Application implements EventHandler<ActionEvent> {
 	Stage window;
