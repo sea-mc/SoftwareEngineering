@@ -7,7 +7,6 @@ public class Timeslot{
     private int startTime, endTime;
     ArrayList<Timeslot> timeslotList = new ArrayList<>();
 
-    //TODO create default constructor, setters and getters, add UID
     Timeslot(int startTime, int endTime){
         if(validateTime(startTime,endTime) != 0){
             System.out.println("ERR: backEnd.Timeslot object could not be created.");
@@ -35,5 +34,3 @@ public class Timeslot{
     public void updateTimeslotList(ArrayList<Timeslot> timeslots){
         back.updateTimeslotList(timeslots);
     }
-
-}

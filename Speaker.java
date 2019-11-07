@@ -25,7 +25,7 @@ public class Speaker{
         char[] nameArr = name.toCharArray();
 
         for(char c : nameArr){
-            if(!(c >= 'a' && c <= 'z') && !(c >= 'A' && c <= 'Z') && c != ' ' && c != '-'){
+            if(!(name.matches("^[\\p{L} .'-]+$"))){
                 return -1;
             }
         }
