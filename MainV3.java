@@ -1,7 +1,3 @@
-
-import java.awt.Color;
-import java.util.List;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,8 +27,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import static javax.swing.text.StyleConstants.Orientation;
 
 public class MainV3 extends Application implements EventHandler<ActionEvent> {
 	Stage window;
@@ -103,28 +97,32 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
-
-			ListView<speakerPerson> speaker_List = new ListView<>(getSpeakers());
-			speaker_List.setCellFactory(param -> new ListCell<speakerPerson>() {
+ObservableList<listItem> speakerList = FXCollections.observableArrayList();
+			speakerList.add(new listItem("Legs"));
+			speakerList.add(new listItem("Sample Text"));
+			speakerList.add(new listItem("Redundant"));
+			speakerList.add(new listItem("Incredibly Redundant"));
+			ListView<listItem> speaker_List = new ListView<>(speakerList);
+			speaker_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(speakerPerson item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getFirstName() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getFullName());
+						setText(item.getItem());
 					}
 				}
 			});
 
-			final Button speaker_Remove = new Button("Remove");
+final Button speaker_Remove = new Button("Remove");
 			speaker_Remove.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					final int speaker_RemoveIndex = speaker_List.getSelectionModel().getSelectedIndex();
 					if (speaker_RemoveIndex != -1) {
-						speakerPerson speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
+						listItem speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
 
 						final int speaker_RemoveNewIndex = (speaker_RemoveIndex == speaker_List.getItems().size() - 1)
 								? speaker_RemoveIndex - 1 : speaker_RemoveIndex;
@@ -134,6 +132,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
+
 
 			ListView<roomCap> room_List = new ListView<>(getRoomAndCapacity());
 			room_List.setItems(getRoomAndCapacity());
@@ -268,7 +267,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			homePage.setStyle("-fx-background-color: #ffffff;");
 
 			Scene sceneHome = new Scene(homePage, 900, 400);
-			sceneHome.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+//			sceneHome.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			window.setMinHeight(sceneHome.getHeight());
 			window.setMinWidth(sceneHome.getWidth());
@@ -330,6 +329,11 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			HBox roomAdd_LabelsAndTexts = new HBox(roomAdd_Labels, roomAdd_Texts);
 			roomAdd_LabelsAndTexts.setSpacing(5);
 			roomAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
+			
+		//	HBox roomAdd_LabelsAndTexts = new HBox(roomAdd_Labels, roomAdd_Texts);
+		//	roomAdd_LabelsAndTexts.setSpacing(5);
+		//	roomAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
+
 
 			VBox roomAdd_Page = new VBox(roomAdd_TitleLabel, roomAdd_HomeButton, roomAdd_Separator, roomAdd_Title,
 					roomAdd_Table, roomAdd_LabelsAndTexts, roomAdd_AddButton);
@@ -605,7 +609,6 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
-
 			timeSlotEdit_List.setEditable(false);
 			timeSlotEdit_List.setMouseTransparent(true);
 			timeSlotEdit_List.setFocusTraversable(false);
@@ -707,9 +710,9 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			TableColumn<speakerPerson, String> speakerEdit_FirstNameColumn = new TableColumn<>("First Name");
 			speakerEdit_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 			TableColumn<speakerPerson, String> speakerEdit_LastNameColumn = new TableColumn<>("Last Name");
-			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
 			TableColumn<speakerPerson, String> speakerEdit_EmailColumn = new TableColumn<>("Email");
-			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
 
 			speakerEdit_Table.setItems(getSpeakers());
 
@@ -887,9 +890,37 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 			sessionAdd.setOnAction(e -> window.setScene(sessionAdd_Scene));
 
 			timeSlotEdit.setOnAction(e -> window.setScene(timeSlotEdit_Scene));
-			speakerEdit.setOnAction(e -> window.setScene(speakerEdit_Scene));
-			roomEdit.setOnAction(e -> window.setScene(roomEdit_Scene));
-			sessionEdit.setOnAction(e -> window.setScene(sessionEdit_Scene));
+                        
+			speakerEdit.setOnAction(e -> {
+                            final int speaker_EditIndex = speaker_List.getSelectionModel().getSelectedIndex();
+                            speakerEdit_FirstNameText.setText(getSpeakers().get(speaker_EditIndex).getFirstName());
+                            speakerEdit_LastNameText.setText(getSpeakers().get(speaker_EditIndex).getLastName());
+                            speakerEdit_EmailText.setText(getSpeakers().get(speaker_EditIndex).getEmail());
+                            window.setScene(speakerEdit_Scene);
+                                });
+			roomEdit.setOnAction(e -> {
+                            final int room_EditIndex = room_List.getSelectionModel().getSelectedIndex();
+                            roomEdit_NameText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomName());
+                            roomEdit_CapacityText.setText(Integer.toString( getRoomAndCapacity().get(room_EditIndex).getRoomCapacity()));
+                           // getRoomAndCapacity().get(room_EditIndex).
+                            window.setScene(roomEdit_Scene);
+                        });
+                        
+			sessionEdit.setOnAction(e ->{
+                            
+                            
+                            final int session_EditIndex = session_List.getSelectionModel().getSelectedIndex();
+                            if (session_EditIndex != -1) {
+						//listItem session_ItemToEdit = session_List.getSelectionModel().getSelectedItem();
+                                              //  session_List.getItems().get(session_EditIndex);
+                                                
+                                              //  sessionEdit_NameText.setText(session_ItemToEdit.getItem().toString());
+                                                sessionEdit_NameText.setText(session_List.getItems().get(session_EditIndex).getItem().toString());
+
+                            }
+				
+                                window.setScene(sessionEdit_Scene);
+                                });
 
 			home.setOnAction(e -> window.setScene(sceneHome));
 			roomAdd_HomeButton.setOnAction(e -> window.setScene(sceneHome));
