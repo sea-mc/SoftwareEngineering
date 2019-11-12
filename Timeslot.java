@@ -1,11 +1,11 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Timeslot extends DB_Object {
+public class Timeslot extends DB_Object implements IFront {
 
     Back back = new Back();
     private int startTime, endTime;
-    ArrayList<Timeslot> timeslotList = new ArrayList<>();
+    ArrayList<DB_Object> timeslotList = new ArrayList<>();
 
     //TODO create default constructor, setters and getters, add UID
     Timeslot(int startTime, int endTime){
@@ -16,7 +16,7 @@ public class Timeslot extends DB_Object {
         Timeslot temp = back.getTimeslot();
         temp.startTime = startTime;
         temp.endTime = endTime;
-        timeslotList.add(temp);
+        addToList(temp);
     }
 
     private int validateTime(int start, int end){
@@ -26,25 +26,20 @@ public class Timeslot extends DB_Object {
         return 0;
     }
 
-    public void removeTimeslot(int index){
+    @Override
+    public void removeFromList(int index){
         timeslotList.remove(index);
-        updateTimeslotList(timeslotList);
+        back.pushDB_Object(timeslotList);
         //need to now return the new speakerList once it returns from backend
     }
 
-    public void updateTimeslotList(ArrayList<Timeslot> timeslots){
-        back.updateTimeslotList(timeslots);
+    @Override
+    public void addToList(DB_Object o){
+        timeslotList.add(o);
+        back.pushDB_Object(timeslotList);
     }
 
-    @Override
-    public void setUID(int UID) {
-        this.UID = UID;
-    }
 
-    @Override
-    public int getUID() {
-        return 0;
-    }
 
     @Override
     public void ensureUID() {

@@ -28,6 +28,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import static javax.swing.text.StyleConstants.Orientation;
+
 public class MainV3 extends Application implements EventHandler<ActionEvent> {
 	Stage window;
 
@@ -97,6 +99,7 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
+
 ObservableList<listItem> speakerList = FXCollections.observableArrayList();
 			speakerList.add(new listItem("Legs"));
 			speakerList.add(new listItem("Sample Text"));
@@ -972,11 +975,7 @@ final Button speaker_Remove = new Button("Remove");
 
 	public ObservableList<roomCap> getRoomAndCapacity() {
 		ObservableList<roomCap> roomsAndCapacities = FXCollections.observableArrayList();
-		roomsAndCapacities.add(new roomCap("Red 517", 76));
-		roomsAndCapacities.add(new roomCap("White 121", 50));
-		roomsAndCapacities.add(new roomCap("Dawny 211", 32));
-		roomsAndCapacities.add(new roomCap("Crabs 12", 200));
-
+		Room room1 = new Room("Beatty 401", "150");
 		return roomsAndCapacities;
 	}
 

@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class Session {
-
+public class Session extends DB_Object implements IFront{
+    Back back = new Back();
     private String sessionName;
-    ArrayList<Session> sessionList = new ArrayList<>();
+    ArrayList<DB_Object> sessionList = new ArrayList<>();
 
 
 
@@ -11,11 +11,23 @@ public class Session {
         Back back = new Back();
         Session temp = back.getSession();
         temp.sessionName = sessionName;
-        sessionList.add(temp);
+        addToList(temp);
     }
 
-    public void removeSession(int index){
+    @Override
+    public void ensureUID() {
+        //some code to ensure there is a UID attached, if not we set the UID
+    }
+
+    @Override
+    public void removeFromList(int index) {
         sessionList.remove(index);
-        //need to now update speaker list, send to backend to be updated, and return the new speakerList once it returns
+        back.pushDB_Object(sessionList);
+    }
+
+    @Override
+    public void addToList(DB_Object o) {
+        sessionList.add(o);
+        back.pushDB_Object(sessionList);
     }
 }

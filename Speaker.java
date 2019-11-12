@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class Speaker extends DB_Object{
+public class Speaker extends DB_Object implements IFront {
 
     Back back = new Back();
     private String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
-    ArrayList<Speaker> speakerList = new ArrayList<>();
+    ArrayList<DB_Object> speakerList = new ArrayList<>();
 
 
     Speaker(String speakerFName, String speakerLName, String speakerNumber, String speakerEmail){
@@ -17,7 +17,7 @@ public class Speaker extends DB_Object{
         temp.speakerLName = speakerLName;
         temp.speakerPhoneNumber = speakerNumber;
         temp.speakerEmail = speakerEmail;
-        speakerList.add(temp);
+        addToList(temp);
     }
 
     public int validateName(String fname, String lname){
@@ -48,14 +48,17 @@ public class Speaker extends DB_Object{
         return -1;
     }
 
-    public void removeSpeaker(int index){
+    @Override
+    public void removeFromList(int index){
         speakerList.remove(index);
-        updateSpeakerList(speakerList);
+        back.pushDB_Object(speakerList);
         //need to now update speaker list, send to backend to be updated, and return the new speakerList once it returns
     }
 
-    public void updateSpeakerList(ArrayList<Speaker> speakers){
-        back.updateSpeakerList(speakers);
+    @Override
+    public void addToList(DB_Object object) {
+        speakerList.add(object);
+        back.pushDB_Object(speakerList);
     }
 
     @Override

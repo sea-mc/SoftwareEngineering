@@ -38,13 +38,6 @@ public class Back implements IBack {
         return new Timeslot(0, 0);
     }
 
-    //I will look into making these methods not needing to be repeated by using a more generic Object list, just putting these here for a placeholder.
-    public void updateTimeslotList(ArrayList<Timeslot> objectList){
-        for(int i=0; i <objectList.size(); i++){
-            //pushDB_Object(timeSlotList.indexOf(i))
-        }
-    }
-
     /** pushes a list of DB objects to the database
      *
      * @param list list of objects to push
@@ -61,11 +54,4 @@ public class Back implements IBack {
     private void pushDB_Object(DB_Object o) {
         //some sql method
     }
-
-    public void updateSpeakerList(ArrayList<Speaker> objectList){
-        for(int i=0; i <objectList.size(); i++){
-            //pushDB_Object(timeSlotList.indexOf(i))
-        }
-    }
-
 }
