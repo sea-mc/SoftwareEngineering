@@ -3,6 +3,9 @@ package application;
 import java.awt.Color;
 import java.util.List;
 
+import application.MainV3.roomCap;
+import application.MainV3.speakerPerson;
+import application.MainV4.timeSlotItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,23 +68,17 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			Label labelSession = new Label("Session");
 			labelSession.setStyle("-fx-font: 36 arial;");
 
-			ObservableList<listItem> timeSlotList = FXCollections.observableArrayList();
-			timeSlotList.add(new listItem("Please"));
-			timeSlotList.add(new listItem("Do It"));
-			timeSlotList.add(new listItem("Sample Text"));
-			timeSlotList.add(new listItem("Remove Me"));
-			timeSlotList.add(new listItem("Remove Me Again"));
 
-			ListView<listItem> timeSlot_List = new ListView<>(timeSlotList);
-			timeSlot_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<timeSlotItem> timeSlot_List = new ListView<>(getTimeSlotItems());
+			timeSlot_List.setCellFactory(param -> new ListCell<timeSlotItem>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(timeSlotItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getTime() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getTime());
 					}
 				}
 			});
@@ -92,7 +89,7 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int timeSlot_RemoveIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
 					if (timeSlot_RemoveIndex != -1) {
-						listItem timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
+						timeSlotItem timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
 
 						final int timeSlot_RemoveNewIndex = (timeSlot_RemoveIndex == timeSlot_List.getItems().size()
 								- 1) ? timeSlot_RemoveIndex - 1 : timeSlot_RemoveIndex;
@@ -103,32 +100,26 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ObservableList<listItem> speakerList = FXCollections.observableArrayList();
-			speakerList.add(new listItem("Legs"));
-			speakerList.add(new listItem("Sample Text"));
-			speakerList.add(new listItem("Redundant"));
-			speakerList.add(new listItem("Incredibly Redundant"));
-			ListView<listItem> speaker_List = new ListView<>(speakerList);
-			speaker_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<speakerPerson> speaker_List = new ListView<>(getSpeakers());
+			speaker_List.setCellFactory(param -> new ListCell<speakerPerson>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(speakerPerson item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getFirstName() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getFullName());
 					}
 				}
 			});
-
 			final Button speaker_Remove = new Button("Remove");
 			speaker_Remove.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					final int speaker_RemoveIndex = speaker_List.getSelectionModel().getSelectedIndex();
 					if (speaker_RemoveIndex != -1) {
-						listItem speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
+						speakerPerson speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
 
 						final int speaker_RemoveNewIndex = (speaker_RemoveIndex == speaker_List.getItems().size() - 1)
 								? speaker_RemoveIndex - 1 : speaker_RemoveIndex;
@@ -171,35 +162,17 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ObservableList<listItem> sessionList = FXCollections.observableArrayList();
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Funky"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Talk"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Speech"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Programming Session"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Remove Me"));
-			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Aaaah"));
-			sessionList.add(new listItem("Blah Blah Blah"));
-			sessionList.add(new listItem("Annoying"));
 
-			ListView<listItem> session_List = new ListView<>(sessionList);
-			session_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<sessionItem> session_List = new ListView<>(getSessions());
+			session_List.setCellFactory(param -> new ListCell<sessionItem>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(sessionItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getName() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getName());
 					}
 				}
 			});
@@ -210,7 +183,7 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int session_RemoveIndex = session_List.getSelectionModel().getSelectedIndex();
 					if (session_RemoveIndex != -1) {
-						listItem session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
+						sessionItem session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
 
 						final int session_RemoveNewIndex = (session_RemoveIndex == session_List.getItems().size() - 1)
 								? session_RemoveIndex - 1 : session_RemoveIndex;
@@ -361,16 +334,16 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			Button sessionAdd_AddButton = new Button("Add");
 			Button sessionAdd_HomeButton = new Button("Home");
 
-			ListView<listItem> sessionAdd_List = new ListView<>(sessionList);
-			sessionAdd_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<sessionItem> sessionAdd_List = new ListView<>(getSessions());
+			sessionAdd_List.setCellFactory(param -> new ListCell<sessionItem>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(sessionItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getName() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getName());
 					}
 				}
 			});
@@ -385,13 +358,27 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 
 			TextField sessionAdd_NameText = new TextField();
 
-			ComboBox<Integer> sessionAdd_TimeSlotCombo = new ComboBox<Integer>();
+			ComboBox<String> sessionAdd_TimeSlotCombo = new ComboBox<String>();
+	
+			for ( timeSlotItem ts : getTimeSlotItems()){
+				sessionAdd_TimeSlotCombo.getItems().add(ts.getTime());
+			}
+			
 			ComboBox<String> sessionAdd_SpeakerCombo = new ComboBox<String>();
+			for ( speakerPerson s : getSpeakers()){
+				sessionAdd_SpeakerCombo.getItems().add(s.getFullName());
+			}
+						
 			ComboBox<String> sessionAdd_RoomCombo = new ComboBox<String>();
+			for ( roomCap r : getRoomAndCapacity()){
+				sessionAdd_RoomCombo.getItems().add(r.getRoomName());
+			}
+			
 
 			sessionAdd_AddButton.setOnAction(e -> {
 				String inputSessionName = sessionAdd_NameText.getText();
-				sessionList.add(new listItem(inputSessionName));
+				
+				//sessionList.add(new sessionItem(inputSessionName));
 
 			});
 
@@ -481,16 +468,16 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotAdd_AddButton = new Button("Add");
 			Button timeSlotAdd_HomeButton = new Button("Home");
 
-			ListView<listItem> timeSlotAdd_List = new ListView<>(timeSlotList);
-			timeSlotAdd_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<timeSlotItem> timeSlotAdd_List = new ListView<>(getTimeSlotItems());
+			timeSlotAdd_List.setCellFactory(param -> new ListCell<timeSlotItem>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(timeSlotItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getTime() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getTime());
 					}
 				}
 			});
@@ -561,16 +548,16 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotEdit_DoneButton = new Button("Done");
 			Button timeSlotEdit_HomeButton = new Button("Home");
 
-			ListView<listItem> timeSlotEdit_List = new ListView<>(timeSlotList);
-			timeSlotEdit_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<timeSlotItem> timeSlotEdit_List = new ListView<>(getTimeSlotItems());
+			timeSlotEdit_List.setCellFactory(param -> new ListCell<timeSlotItem>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(timeSlotItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getTime() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getTime());
 					}
 				}
 			});
@@ -584,18 +571,18 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			Label timeSlotEdit_Duration = new Label("Duration");
 			timeSlotEdit_Title.setFont(new Font("Arial", 48));
 
-			ComboBox<String> timeSlotEdit_StartHour = new ComboBox<String>();
-			timeSlotEdit_StartHour.getItems().addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
-					"12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
-			ComboBox<String> timeSlotEdit_StartMinute = new ComboBox<String>();
-			timeSlotEdit_StartMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
-					"55");
-			ComboBox<String> timeSlotEdit_EndHour = new ComboBox<String>();
-			timeSlotEdit_EndHour.getItems().addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
-					"12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
-			ComboBox<String> timeSlotEdit_EndMinute = new ComboBox<String>();
-			timeSlotEdit_EndMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
-					"55");
+			ComboBox<Integer> timeSlotEdit_StartHour = new ComboBox<Integer>();
+			timeSlotEdit_StartHour.getItems().addAll(00,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+					12, 13,14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24);
+			ComboBox<Integer> timeSlotEdit_StartMinute = new ComboBox<Integer>();
+			timeSlotEdit_StartMinute.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50,
+					55);
+			ComboBox<Integer> timeSlotEdit_EndHour = new ComboBox<Integer>();
+			timeSlotEdit_EndHour.getItems().addAll(00,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+					12, 13,14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24);
+			ComboBox<Integer> timeSlotEdit_EndMinute = new ComboBox<Integer>();
+			timeSlotEdit_EndMinute.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50,
+					55);
 
 			ComboBox<Integer> timeSlotEdit_DurationComboBox = new ComboBox<Integer>();
 
@@ -652,9 +639,9 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			TableColumn<speakerPerson, String> speakerEdit_FirstNameColumn = new TableColumn<>("First Name");
 			speakerEdit_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 			TableColumn<speakerPerson, String> speakerEdit_LastNameColumn = new TableColumn<>("Last Name");
-			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
+			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 			TableColumn<speakerPerson, String> speakerEdit_EmailColumn = new TableColumn<>("Email");
-			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
+			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
 			speakerEdit_Table.setItems(getSpeakers());
 
@@ -760,16 +747,16 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			Button sessionEdit_DoneButton = new Button("Done");
 			Button sessionEdit_HomeButton = new Button("Home");
 
-			ListView<listItem> sessionEdit_List = new ListView<>(sessionList);
-			sessionEdit_List.setCellFactory(param -> new ListCell<listItem>() {
+			ListView<sessionItem> sessionEdit_List = new ListView<>(getSessions());
+			sessionEdit_List.setCellFactory(param -> new ListCell<sessionItem>() {
 				@Override
-				protected void updateItem(listItem item, boolean empty) {
+				protected void updateItem(sessionItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getItem() == null) {
+					if (empty || item == null || item.getName() == null) {
 						setText(null);
 					} else {
-						setText(item.getItem());
+						setText(item.getName());
 					}
 				}
 			});
@@ -784,22 +771,21 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 
 			TextField sessionEdit_NameText = new TextField();
 
-			ComboBox<Integer> sessionEdit_TimeSlotCombo = new ComboBox<Integer>(); // integer
-																					// for
-																					// now
-																					// until
-																					// we
-																					// know
-																					// how
-																					// timslots
-																					// are
-																					// being
-																					// passed
-																					// back
-																					// and
-																					// forth
+			ComboBox<String> sessionEdit_TimeSlotCombo = new ComboBox<String>(); // integer
+			for ( timeSlotItem ts : getTimeSlotItems()){
+				sessionEdit_TimeSlotCombo.getItems().add(ts.getTime());
+			}
+			
 			ComboBox<String> sessionEdit_SpeakerCombo = new ComboBox<String>();
+			for ( speakerPerson s : getSpeakers()){
+				sessionEdit_SpeakerCombo.getItems().add(s.getFullName());
+			}
+			
 			ComboBox<String> sessionEdit_RoomCombo = new ComboBox<String>();
+			for ( roomCap r : getRoomAndCapacity()){
+				sessionEdit_RoomCombo.getItems().add(r.getRoomName());
+			}
+			
 
 			Label sessionEdit_TimeSlotLabel = new Label("Time Slot");
 			Label sessionEdit_SpeakerLabel = new Label("Speaker");
@@ -828,7 +814,14 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			roomAdd.setOnAction(e -> window.setScene(roomAdd_Scene));
 			sessionAdd.setOnAction(e -> window.setScene(sessionAdd_Scene));
 
-			timeSlotEdit.setOnAction(e -> window.setScene(timeSlotEdit_Scene));
+			timeSlotEdit.setOnAction(e ->{ 
+			final int timeSlot_EditIndex= timeSlot_List.getSelectionModel().getSelectedIndex();
+			timeSlotEdit_StartHour.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getStartHour());
+			timeSlotEdit_StartMinute.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getStartMinute());
+			timeSlotEdit_EndHour.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getEndHour());
+			timeSlotEdit_EndMinute.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getEndMinute());
+			window.setScene(timeSlotEdit_Scene);
+			});
 
 			speakerEdit.setOnAction(e -> {
 				final int speaker_EditIndex = speaker_List.getSelectionModel().getSelectedIndex();
@@ -841,7 +834,7 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 				final int room_EditIndex = room_List.getSelectionModel().getSelectedIndex();
 				roomEdit_NameText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomName());
 				roomEdit_CapacityText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomCapacity());
-				// getRoomAndCapacity().get(room_EditIndex).
+				getRoomAndCapacity().get(room_EditIndex);
 				window.setScene(roomEdit_Scene);
 			});
 
@@ -849,12 +842,10 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 
 				final int session_EditIndex = session_List.getSelectionModel().getSelectedIndex();
 				if (session_EditIndex != -1) {
-					// listItem session_ItemToEdit =
-					// session_List.getSelectionModel().getSelectedItem();
-					// session_List.getItems().get(session_EditIndex);
-
-					// sessionEdit_NameText.setText(session_ItemToEdit.getItem().toString());
-					sessionEdit_NameText.setText(session_List.getItems().get(session_EditIndex).getItem().toString());
+					sessionEdit_NameText.setText(session_List.getItems().get(session_EditIndex).getName());
+					sessionEdit_TimeSlotCombo.setValue(getSessions().get(session_EditIndex).getTimeSlot().getTime());
+					sessionEdit_SpeakerCombo.setValue(getSessions().get(session_EditIndex).getSpeaker().getFullName());
+					sessionEdit_RoomCombo.setValue(getSessions().get(session_EditIndex).getRoom().getRoomName());
 
 				}
 
@@ -911,7 +902,8 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 
 	public ObservableList<roomCap> getRoomAndCapacity() {
 		ObservableList<roomCap> roomsAndCapacities = FXCollections.observableArrayList();
-		roomCap room1 = new roomCap("Beatty 401", "150");
+		roomsAndCapacities.add(new roomCap("Beatty 401", "150"));
+
 		return roomsAndCapacities;
 	}
 
@@ -972,6 +964,131 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 		return speakers;
 	}
 
+	public class sessionItem{
+		private String name;
+		private speakerPerson speaker;
+		private roomCap room;
+		private timeSlotItem timeSlot;
+
+		public sessionItem() {
+			this.name="";
+			this.speaker=null;
+			this.room=null;
+			this.timeSlot=null;
+		}
+
+		public sessionItem(String name, speakerPerson speaker, roomCap room, timeSlotItem timeSlot) {
+			this.name=name;
+			this.speaker=speaker;
+			this.room=room;
+			this.timeSlot=timeSlot;
+		}
+
+		public String getName()
+		{
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name=name;
+		}
+
+		public speakerPerson getSpeaker() {
+			return speaker;
+		}
+
+		public void setSpeaker(speakerPerson speaker) {
+			this.speaker=speaker;
+		}
+
+		public roomCap getRoom() {
+			return room;
+		}
+
+		public void setRoom(roomCap room) {
+			this.room=room;
+		}
+
+		public timeSlotItem getTimeSlot() {
+			return timeSlot;
+		}
+
+		public void setTimeSlot(timeSlotItem timeSlot) {
+			this.timeSlot=timeSlot;
+		}
+	}
+
+	public ObservableList<sessionItem> getSessions() {
+		ObservableList<sessionItem> sessions = FXCollections.observableArrayList();
+		sessions.add(new sessionItem("Test Session",new speakerPerson("John","Fawkner","fawknerj@wit.edu"),new roomCap("Beatty 401", "150"), new timeSlotItem(8,15,9,15)));
+		return sessions;
+	}
+
+
+
+	public class timeSlotItem{
+		private int startHour;
+		private int startMinute;
+		private int endHour;
+		private int endMinute;
+
+		public timeSlotItem() {
+			this.startHour=0;
+			this.startMinute=0;
+			this.endHour=0;
+			this.endHour=0;
+		}
+
+		public timeSlotItem(int startHour, int startMinute, int endHour, int endMinute) {
+			this.startHour=startHour;
+			this.startMinute=startMinute;
+			this.endHour=endHour;
+			this.endMinute=endMinute;
+		}
+
+		public int getStartHour() {
+			return startHour;
+		}
+
+		public void setStartHour(int startHour) {
+			this.startHour=startHour;
+		}
+
+		public int getStartMinute() {
+			return startMinute;
+		}
+
+		public void setStartMinute(int startMinute) {
+			this.startMinute=startMinute;
+		}
+
+		public int getEndHour() {
+			return endHour;
+		}
+
+		public void setEndHour(int endHour) {
+			this.endHour=endHour;
+		}
+
+		public int getEndMinute() {
+			return endMinute;
+		}
+
+		public void setEndMinute(int endMinute) {
+			this.endMinute=endMinute;
+		}
+
+		public String getTime() {
+			return startHour+":"+startMinute+" - "+endHour+":"+endMinute;
+		}
+	}
+
+	public ObservableList<timeSlotItem> getTimeSlotItems() {
+		ObservableList<timeSlotItem> timeSlotList = FXCollections.observableArrayList();
+		timeSlotList.add(new timeSlotItem(8,15,9,15));
+		return timeSlotList;
+	}
+
 	public static class listItem {
 		private final String item;
 
@@ -983,4 +1100,5 @@ public class MainV4 extends Application implements EventHandler<ActionEvent> {
 			return item;
 		}
 	}
+
 }
