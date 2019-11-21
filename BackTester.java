@@ -1,8 +1,18 @@
 import org.mockito.Mockito;
 
-public class BackTester extends Mockito implements IBack {
+import java.sql.SQLException;
 
-    public static void main(String [] args){
+public class BackTester extends Mockito {
+
+    public static void main(String [] args) {
+        Back ba = new Back();
+        try {
+            ba.connect2DB();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 }

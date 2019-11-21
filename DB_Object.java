@@ -1,23 +1,31 @@
+import java.sql.Connection;
+import java.util.UUID;
+
 abstract class DB_Object {
-    int UID;
+    UUID UID;
+    static Connection conn;
 
     public DB_Object(){
-        this(-1);
+        this(UUID.fromString(""));
     }
-    public DB_Object(int UID){
+    public DB_Object(UUID UID){
         this.UID = UID;
     }
 
-    public void setUID(int UID) {
+    public void setUID(UUID UID) {
         this.UID = UID;
     }
 
-    public int getUID() {
+    public UUID getUID() {
         return UID;
     }
 
-    public abstract void ensureUID();
+    public void ensureUID(){
 
-    public abstract String toString();
+    }
+
+    public String toString(){
+        return "UID: " + UID.toString() + "\n";
+    }
 
 }

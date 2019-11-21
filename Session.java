@@ -1,37 +1,27 @@
-import java.util.ArrayList;
-
-public class Session extends DB_Object implements IFront, IBack{
+public class Session extends DB_Object implements IFront{
     private String sessionName;
-    ArrayList<DB_Object> sessionList = new ArrayList<>();
+    //ArrayList<DB_Object> sessionList = new ArrayList<>();
 
 
 
     Session(String sessionName){
-//        Back back = new Back();
-//        Session temp = back.getSession();
-//        temp.sessionName = sessionName;
-//        addToList(temp);
-    }
-
-    @Override
-    public void ensureUID() {
-        //some code to ensure there is a UID attached, if not we set the UID
+        this.sessionName = sessionName;
     }
 
     @Override
     public String toString() {
-        return null;
+        return(super.toString() + "Name: " + this.sessionName + "\n" );
     }
 
     @Override
     public void removeFromList(int index) {
-        sessionList.remove(index);
+        //sessionList.remove(index);
 //        back.pushDB_Object(sessionList);
     }
 
     @Override
     public void addToList(DB_Object o) {
-        sessionList.add(o);
+        //sessionList.add(o);
 //        back.pushDB_Object(sessionList);
     }
 }

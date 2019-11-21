@@ -2,17 +2,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
-public interface IBack {
-    final String NAME = "root";
-    final String PASSWORD = "";
-    final String URL = "http://localhost/phpmyadmin/db_structure.php?db=codecamp";
+public class Back {
+    String NAME = "root";
+    String PASSWORD = "";
+    String URL = "http://localhost/phpmyadmin/db_structure.php?db=codecamp";
 
     /** Creates new, blank backEnd.Room object
      *
      * @return backEnd.Room object
      */
-    public default Room getRoom(){
+    Room getRoom(){
         return new Room("", "");
     }
 
@@ -20,7 +21,7 @@ public interface IBack {
      *
      * @return backEnd.Speaker object
      */
-    public default Speaker getSpeaker(){
+    Speaker getSpeaker(){
         return new Speaker("", "", "", "");
     }
 
@@ -28,7 +29,7 @@ public interface IBack {
      *
      * @return backEnd.Session object
      */
-    public default Session getSession(){
+    Session getSession(){
         return new Session("");
     }
 
@@ -36,7 +37,7 @@ public interface IBack {
      *
      * @return backEnd.Timeslot object
      */
-    public default Timeslot getTimeslot(){
+    Timeslot getTimeslot(){
         return new Timeslot(0, 0);
     }
 
@@ -44,7 +45,7 @@ public interface IBack {
      *
      * @param list list of objects to push
      */
-    public default ArrayList<DB_Object> pushDB_Object(ArrayList<DB_Object> list){
+    ArrayList<DB_Object> pushDB_Object(ArrayList<DB_Object> list){
         for(DB_Object o : list)
             pushDB_Object(o);
         return null;//TODO return DB Object arrayList instead of array
@@ -54,7 +55,7 @@ public interface IBack {
      *
      * @param o singular object to be pushed to the database
      */
-    private ArrayList<DB_Object> pushDB_Object(DB_Object o) {
+    ArrayList<DB_Object> pushDB_Object(DB_Object o) {
         return null;
     }
 
@@ -63,7 +64,7 @@ public interface IBack {
      * @throws ClassNotFoundException from connect2DB
      * @throws SQLException from connect2DB
      */
-    public default void connect2DB() throws SQLException, ClassNotFoundException {
+    void connect2DB() throws SQLException, ClassNotFoundException {
         connect2DB(URL, NAME, PASSWORD);
     }
 
@@ -73,20 +74,22 @@ public interface IBack {
      * @param user username to use to connect to the DB
      * @param pass password for access to the DB
      */
-    public default void connect2DB(String u, String user, String pass) {
-
+    void connect2DB(String u, String user, String pass) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+
             Connection c = DriverManager.getConnection(u, user, pass);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             String msg = e instanceof SQLException ? "COULD NOT CONNECT TO THE DATABASE" : "";
-            System.out.println("FATAL ERROR! COULD NOT CONNECT TO DB!");
+            System.out.println("FATAL ERROR! " + msg + " ");
         }
     }
 
-    class NotConnectedException extends Exception{
-        public NotConnectedException(String msg){
-            super(msg);
-        }
+    private UUID getLastUID(){
+        return null;
     }
 }
