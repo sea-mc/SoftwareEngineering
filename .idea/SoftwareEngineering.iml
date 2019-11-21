@@ -36,6 +36,9 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="javafx.base (2)" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="mssql-jdbc-6.4.0.jre9" level="project" />
+    <orderEntry type="library" name="json-20190722" level="project" />
+    <orderEntry type="library" name="mockito-core-3.1.0" level="project" />
   </component>
 </module>

@@ -1,17 +1,16 @@
 import java.util.ArrayList;
 
-public class Session extends DB_Object implements IFront{
-    Back back = new Back();
+public class Session extends DB_Object implements IFront, IBack{
     private String sessionName;
     ArrayList<DB_Object> sessionList = new ArrayList<>();
 
 
 
     Session(String sessionName){
-        Back back = new Back();
-        Session temp = back.getSession();
-        temp.sessionName = sessionName;
-        addToList(temp);
+//        Back back = new Back();
+//        Session temp = back.getSession();
+//        temp.sessionName = sessionName;
+//        addToList(temp);
     }
 
     @Override
@@ -20,14 +19,19 @@ public class Session extends DB_Object implements IFront{
     }
 
     @Override
+    public String toString() {
+        return null;
+    }
+
+    @Override
     public void removeFromList(int index) {
         sessionList.remove(index);
-        back.pushDB_Object(sessionList);
+//        back.pushDB_Object(sessionList);
     }
 
     @Override
     public void addToList(DB_Object o) {
         sessionList.add(o);
-        back.pushDB_Object(sessionList);
+//        back.pushDB_Object(sessionList);
     }
 }

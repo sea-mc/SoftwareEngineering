@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 public class Timeslot extends DB_Object implements IFront {
 
-    Back back = new Back();
     private int startTime, endTime;
     ArrayList<DB_Object> timeslotList = new ArrayList<>();
 
@@ -13,10 +12,9 @@ public class Timeslot extends DB_Object implements IFront {
             System.out.println("ERR: backEnd.Timeslot object could not be created.");
             System.exit(-1);
         }
-        Timeslot temp = back.getTimeslot();
-        temp.startTime = startTime;
-        temp.endTime = endTime;
-        addToList(temp);
+//        temp.startTime = startTime;
+//        temp.endTime = endTime;
+//        addToList(temp);
     }
 
     private int validateTime(int start, int end){
@@ -29,20 +27,24 @@ public class Timeslot extends DB_Object implements IFront {
     @Override
     public void removeFromList(int index){
         timeslotList.remove(index);
-        back.pushDB_Object(timeslotList);
+//        back.pushDB_Object(timeslotList);
         //need to now return the new speakerList once it returns from backend
     }
 
     @Override
     public void addToList(DB_Object o){
         timeslotList.add(o);
-        back.pushDB_Object(timeslotList);
+//        back.pushDB_Object(timeslotList);
     }
 
 
 
     @Override
     public void ensureUID() {
+    }
 
+    @Override
+    public String toString() {
+        return null;
     }
 }

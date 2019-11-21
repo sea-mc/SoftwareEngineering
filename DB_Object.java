@@ -18,4 +18,6 @@ abstract class DB_Object {
 
     public abstract void ensureUID();
 
+    public abstract String toString();
+
 }

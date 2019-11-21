@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Speaker extends DB_Object implements IFront {
 
-    Back back = new Back();
+
     private String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
     ArrayList<DB_Object> speakerList = new ArrayList<>();
 
@@ -12,12 +12,12 @@ public class Speaker extends DB_Object implements IFront {
             System.out.println("ERR: backEnd.Speaker object could not be created");
             System.exit(-1);
         }
-        Speaker temp = back.getSpeaker();
-        temp.speakerFName = speakerFName;
-        temp.speakerLName = speakerLName;
-        temp.speakerPhoneNumber = speakerNumber;
-        temp.speakerEmail = speakerEmail;
-        addToList(temp);
+//        Speaker temp = back.getSpeaker();
+//        temp.speakerFName = speakerFName;
+//        temp.speakerLName = speakerLName;
+//        temp.speakerPhoneNumber = speakerNumber;
+//        temp.speakerEmail = speakerEmail;
+//        addToList(temp);
     }
 
     public int validateName(String fname, String lname){
@@ -51,18 +51,23 @@ public class Speaker extends DB_Object implements IFront {
     @Override
     public void removeFromList(int index){
         speakerList.remove(index);
-        back.pushDB_Object(speakerList);
+//        back.pushDB_Object(speakerList);
         //need to now update speaker list, send to backend to be updated, and return the new speakerList once it returns
     }
 
     @Override
     public void addToList(DB_Object object) {
         speakerList.add(object);
-        back.pushDB_Object(speakerList);
+//        back.pushDB_Object(speakerList);
     }
 
     @Override
     public void ensureUID() {
 
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }
