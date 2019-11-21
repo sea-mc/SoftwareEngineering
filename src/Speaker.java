@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Speaker extends DB_Object implements IFront {
 
     Back back = new Back();
-    private String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
+    public String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
     ArrayList<DB_Object> speakerList = new ArrayList<>();
 
 
@@ -17,18 +17,16 @@ public class Speaker extends DB_Object implements IFront {
         temp.speakerLName = speakerLName;
         temp.speakerPhoneNumber = speakerNumber;
         temp.speakerEmail = speakerEmail;
+        System.out.println("Adding Speaker to list.");
         addToList(temp);
     }
 
     public int validateName(String fname, String lname){
         String name = fname+lname;
-        char[] nameArr = name.toCharArray();
-
-        for(char c : nameArr){
-            if(!(name.matches("^[\\p{L} .'-]+$"))){
+        if(!(name.matches("^[\\p{L} .'-]+$"))){
                 return -1;
-            }
         }
+
         speakerFName = fname;
         speakerLName = lname;
         return 0;
@@ -58,6 +56,7 @@ public class Speaker extends DB_Object implements IFront {
     @Override
     public void addToList(DB_Object object) {
         speakerList.add(object);
+        System.out.println("Calling backend.");
         back.pushDB_Object(speakerList);
     }
 

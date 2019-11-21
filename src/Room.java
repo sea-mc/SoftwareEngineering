@@ -3,10 +3,9 @@ import java.util.*;
 public class Room extends DB_Object implements IFront{
 
     Back back = new Back();
-    private String roomName, capacity;
+    public String roomName, capacity;
 	ArrayList<DB_Object> roomList = new ArrayList<>();
 
-	//TODO create default constructor, setters and getters, add UID
 	public Room(String roomName, String capacity){
 		if(checkPositive(capacity) != 0 || checkCapacity(capacity) != 0){
 			System.out.println("ERR: Couldn't create room object");
@@ -15,6 +14,7 @@ public class Room extends DB_Object implements IFront{
 		Room temp = back.getRoom();
 		temp.roomName = roomName;
 		temp.capacity = capacity;
+		System.out.println("Adding Room to the list.");
 		addToList(temp);
 	}
 
@@ -44,6 +44,7 @@ public class Room extends DB_Object implements IFront{
 	@Override
 	public void addToList(DB_Object object) {
 		roomList.add(object);
+		System.out.println("Calling backend.");
 		back.pushDB_Object(roomList);
 	}
 

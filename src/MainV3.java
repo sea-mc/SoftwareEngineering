@@ -1,11 +1,3 @@
-package application;
-
-import java.awt.Color;
-import java.util.List;
-
-import application.MainV3.roomCap;
-import application.MainV3.speakerPerson;
-import application.MainV5.timeSlotItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,19 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -36,7 +16,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class MainV5 extends Application implements EventHandler<ActionEvent> {
+import static javax.swing.text.StyleConstants.Orientation;
+
+public class MainV3 extends Application implements EventHandler<ActionEvent> {
 	Stage window;
 
 	@Override
@@ -68,16 +50,23 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Label labelSession = new Label("Session");
 			labelSession.setStyle("-fx-font: 36 arial;");
 
-			ListView<timeSlotItem> timeSlot_List = new ListView<>(getTimeSlotItems());
-			timeSlot_List.setCellFactory(param -> new ListCell<timeSlotItem>() {
+			ObservableList<listItem> timeSlotList = FXCollections.observableArrayList();
+			timeSlotList.add(new listItem("Please"));
+			timeSlotList.add(new listItem("Do It"));
+			timeSlotList.add(new listItem("Sample Text"));
+			timeSlotList.add(new listItem("Remove Me"));
+			timeSlotList.add(new listItem("Remove Me Again"));
+
+			ListView<listItem> timeSlot_List = new ListView<>(timeSlotList);
+			timeSlot_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(timeSlotItem item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getTime() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getTime());
+						setText(item.getItem());
 					}
 				}
 			});
@@ -88,7 +77,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int timeSlot_RemoveIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
 					if (timeSlot_RemoveIndex != -1) {
-						timeSlotItem timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
+						listItem timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
 
 						final int timeSlot_RemoveNewIndex = (timeSlot_RemoveIndex == timeSlot_List.getItems().size()
 								- 1) ? timeSlot_RemoveIndex - 1 : timeSlot_RemoveIndex;
@@ -99,26 +88,32 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ListView<speakerPerson> speaker_List = new ListView<>(getSpeakers());
-			speaker_List.setCellFactory(param -> new ListCell<speakerPerson>() {
+ObservableList<listItem> speakerList = FXCollections.observableArrayList();
+			speakerList.add(new listItem("Legs"));
+			speakerList.add(new listItem("Sample Text"));
+			speakerList.add(new listItem("Redundant"));
+			speakerList.add(new listItem("Incredibly Redundant"));
+			ListView<listItem> speaker_List = new ListView<>(speakerList);
+			speaker_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(speakerPerson item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getFirstName() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getFullName());
+						setText(item.getItem());
 					}
 				}
 			});
-			final Button speaker_Remove = new Button("Remove");
+
+final Button speaker_Remove = new Button("Remove");
 			speaker_Remove.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					final int speaker_RemoveIndex = speaker_List.getSelectionModel().getSelectedIndex();
 					if (speaker_RemoveIndex != -1) {
-						speakerPerson speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
+						listItem speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
 
 						final int speaker_RemoveNewIndex = (speaker_RemoveIndex == speaker_List.getItems().size() - 1)
 								? speaker_RemoveIndex - 1 : speaker_RemoveIndex;
@@ -128,6 +123,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 					}
 				}
 			});
+
 
 			ListView<roomCap> room_List = new ListView<>(getRoomAndCapacity());
 			room_List.setItems(getRoomAndCapacity());
@@ -161,16 +157,35 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ListView<sessionItem> session_List = new ListView<>(getSessions());
-			session_List.setCellFactory(param -> new ListCell<sessionItem>() {
+			ObservableList<listItem> sessionList = FXCollections.observableArrayList();
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Funky"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Talk"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Speech"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Programming Session"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Remove Me"));
+			sessionList.add(new listItem("Sample Text"));
+			sessionList.add(new listItem("Aaaah"));
+			sessionList.add(new listItem("Blah Blah Blah"));
+			sessionList.add(new listItem("Annoying"));
+
+			ListView<listItem> session_List = new ListView<>(sessionList);
+			session_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(sessionItem item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getName() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getName());
+						setText(item.getItem());
 					}
 				}
 			});
@@ -181,7 +196,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int session_RemoveIndex = session_List.getSelectionModel().getSelectedIndex();
 					if (session_RemoveIndex != -1) {
-						sessionItem session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
+						listItem session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
 
 						final int session_RemoveNewIndex = (session_RemoveIndex == session_List.getItems().size() - 1)
 								? session_RemoveIndex - 1 : session_RemoveIndex;
@@ -243,7 +258,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			homePage.setStyle("-fx-background-color: #ffffff;");
 
 			Scene sceneHome = new Scene(homePage, 900, 400);
-			// sceneHome.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+//			sceneHome.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			window.setMinHeight(sceneHome.getHeight());
 			window.setMinWidth(sceneHome.getWidth());
@@ -305,11 +320,11 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			HBox roomAdd_LabelsAndTexts = new HBox(roomAdd_Labels, roomAdd_Texts);
 			roomAdd_LabelsAndTexts.setSpacing(5);
 			roomAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
+			
+		//	HBox roomAdd_LabelsAndTexts = new HBox(roomAdd_Labels, roomAdd_Texts);
+		//	roomAdd_LabelsAndTexts.setSpacing(5);
+		//	roomAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
 
-			// HBox roomAdd_LabelsAndTexts = new HBox(roomAdd_Labels,
-			// roomAdd_Texts);
-			// roomAdd_LabelsAndTexts.setSpacing(5);
-			// roomAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
 
 			VBox roomAdd_Page = new VBox(roomAdd_TitleLabel, roomAdd_HomeButton, roomAdd_Separator, roomAdd_Title,
 					roomAdd_Table, roomAdd_LabelsAndTexts, roomAdd_AddButton);
@@ -332,16 +347,16 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button sessionAdd_AddButton = new Button("Add");
 			Button sessionAdd_HomeButton = new Button("Home");
 
-			ListView<sessionItem> sessionAdd_List = new ListView<>(getSessions());
-			sessionAdd_List.setCellFactory(param -> new ListCell<sessionItem>() {
+			ListView<listItem> sessionAdd_List = new ListView<>(sessionList);
+			sessionAdd_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(sessionItem item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getName() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getName());
+						setText(item.getItem());
 					}
 				}
 			});
@@ -355,38 +370,41 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionAdd_NameText = new TextField();
-
-			ComboBox<String> sessionAdd_TimeSlotCombo = new ComboBox<String>();
-
-			for (timeSlotItem ts : getTimeSlotItems()) {
-				sessionAdd_TimeSlotCombo.getItems().add(ts.getTime());
-			}
-
-			ComboBox<String> sessionAdd_SpeakerCombo = new ComboBox<String>();
-			for (speakerPerson s : getSpeakers()) {
-				sessionAdd_SpeakerCombo.getItems().add(s.getFullName());
-			}
-
-			ComboBox<String> sessionAdd_RoomCombo = new ComboBox<String>();
-			for (roomCap r : getRoomAndCapacity()) {
-				sessionAdd_RoomCombo.getItems().add(r.getRoomName());
-			}
+			
+			ComboBox<Integer> sessionAdd_TimeSlotCombo= new ComboBox<Integer>();
+			ComboBox<String> sessionAdd_SpeakerCombo= new ComboBox<String>();
+			ComboBox<String> sessionAdd_RoomCombo= new ComboBox<String>();
 
 			sessionAdd_AddButton.setOnAction(e -> {
 				String inputSessionName = sessionAdd_NameText.getText();
-
-				// sessionList.add(new sessionItem(inputSessionName));
+				sessionList.add(new listItem(inputSessionName));
 
 			});
 
-			HBox sessionAdd_LabelsAndTexts = new HBox(sessionAdd_NameLabel, sessionAdd_NameText,
-					sessionAdd_TimeSlotLabel, sessionAdd_TimeSlotCombo, sessionAdd_SpeakerLabel,
-					sessionAdd_SpeakerCombo, sessionAdd_RoomLabel, sessionAdd_RoomCombo);
+			HBox sessionAdd_LabelsAndTexts = new HBox(sessionAdd_NameLabel, sessionAdd_NameText);
 			sessionAdd_LabelsAndTexts.setSpacing(5);
 			sessionAdd_LabelsAndTexts.setAlignment(Pos.CENTER);
+			
+			HBox sessionAdd_TimeSlot= new HBox(sessionAdd_TimeSlotLabel, sessionAdd_TimeSlotCombo);
+			sessionAdd_TimeSlot.setSpacing(5);
+			sessionAdd_TimeSlot.setAlignment(Pos.CENTER);
+			HBox sessionAdd_Speaker= new HBox(sessionAdd_SpeakerLabel, sessionAdd_SpeakerCombo);
+			sessionAdd_Speaker.setSpacing(5);
+			sessionAdd_Speaker.setAlignment(Pos.CENTER);
+			HBox sessionAdd_Room= new HBox(sessionAdd_RoomLabel, sessionAdd_RoomCombo);
+			sessionAdd_Room.setSpacing(5);
+			sessionAdd_Room.setAlignment(Pos.CENTER);
+			
+			VBox sessionAdd_Attributes= new VBox(sessionAdd_TimeSlot, sessionAdd_Speaker, sessionAdd_Room);
+			sessionAdd_Attributes.setSpacing(5);
+			sessionAdd_Attributes.setAlignment(Pos.CENTER);
+			
+			HBox sessionAdd_Session= new HBox (sessionAdd_LabelsAndTexts, sessionAdd_Attributes);
+			sessionAdd_Session.setSpacing(5);
+			sessionAdd_Session.setAlignment(Pos.CENTER);
 
 			VBox sessionAdd_Page = new VBox(sessionAdd_TitleLabel, sessionAdd_HomeButton, sessionAdd_Separator,
-					sessionAdd_Title, sessionAdd_List, sessionAdd_LabelsAndTexts, sessionAdd_AddButton);
+					sessionAdd_Title, sessionAdd_List, sessionAdd_Session, sessionAdd_AddButton);
 			sessionAdd_Page.setSpacing(5);
 			sessionAdd_Page.setAlignment(Pos.TOP_CENTER);
 			sessionAdd_Page.setStyle("-fx-background-color: #ffffff;");
@@ -465,16 +483,16 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotAdd_AddButton = new Button("Add");
 			Button timeSlotAdd_HomeButton = new Button("Home");
 
-			ListView<timeSlotItem> timeSlotAdd_List = new ListView<>(getTimeSlotItems());
-			timeSlotAdd_List.setCellFactory(param -> new ListCell<timeSlotItem>() {
+			ListView<listItem> timeSlotAdd_List = new ListView<>(timeSlotList);
+			timeSlotAdd_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(timeSlotItem item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getTime() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getTime());
+						setText(item.getItem());
 					}
 				}
 			});
@@ -486,19 +504,33 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotAdd_Title.setFont(new Font("Arial", 48));
 
 			ComboBox<Integer> timeSlotAdd_StartHour = new ComboBox<Integer>();
-			timeSlotAdd_StartHour.getItems().addAll(00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-					19, 20, 21, 22, 23);
-			ComboBox<Integer> timeSlotAdd_StartMinute = new ComboBox<Integer>();
-			timeSlotAdd_StartMinute.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
+			timeSlotAdd_StartHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9);
+			ComboBox<String> timeSlotAdd_StartMinute = new ComboBox<String>();
+			timeSlotAdd_StartMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
+					"55");
 			ComboBox<Integer> timeSlotAdd_EndHour = new ComboBox<Integer>();
-			timeSlotAdd_EndHour.getItems().addAll(00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-					20, 21, 22, 23);
-			ComboBox<Integer> timeSlotAdd_EndMinute = new ComboBox<Integer>();
-			timeSlotAdd_EndMinute.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
+			timeSlotAdd_EndHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9);
+			ComboBox<String> timeSlotAdd_EndMinute = new ComboBox<String>();
+			timeSlotAdd_EndMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
+					"55");
 
-			ComboBox<Integer> timeSlotAdd_DurationComboBox = new ComboBox<Integer>();
-			timeSlotAdd_DurationComboBox.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,
-					75, 80, 80, 90, 95, 100, 105, 110, 115, 120);
+			ToggleGroup timeSlotAdd_StartAMPM = new ToggleGroup();
+
+			RadioButton timeSlotAdd_StartAM = new RadioButton("A.M.");
+			timeSlotAdd_StartAM.setToggleGroup(timeSlotAdd_StartAMPM);
+
+			RadioButton timeSlotAdd_StartPM = new RadioButton("P.M.");
+			timeSlotAdd_StartPM.setToggleGroup(timeSlotAdd_StartAMPM);
+
+			ToggleGroup timeSlotAdd_EndAMPM = new ToggleGroup();
+
+			RadioButton timeSlotAdd_EndAM = new RadioButton("A.M.");
+			timeSlotAdd_EndAM.setToggleGroup(timeSlotAdd_EndAMPM);
+
+			RadioButton timeSlotAdd_EndPM = new RadioButton("P.M.");
+			timeSlotAdd_EndPM.setToggleGroup(timeSlotAdd_EndAMPM);
+
+			ComboBox<Integer> timeSlotAdd_DurationComboBox= new ComboBox<Integer>();
 
 			HBox timeSlotAdd_StartComboBox = new HBox(timeSlotAdd_StartHour, timeSlotAdd_StartMinute);
 			timeSlotAdd_StartComboBox.setSpacing(5);
@@ -508,25 +540,35 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotAdd_EndComboBox.setSpacing(5);
 			timeSlotAdd_EndComboBox.setAlignment(Pos.CENTER);
 
-			VBox timeSlotAddDuration = new VBox(timeSlotAdd_Duration, timeSlotAdd_DurationComboBox);
+			HBox timeSlotAdd_StartRadioButtons = new HBox(timeSlotAdd_StartAM, timeSlotAdd_StartPM);
+			timeSlotAdd_StartRadioButtons.setSpacing(5);
+			timeSlotAdd_StartRadioButtons.setAlignment(Pos.CENTER);
+
+			HBox timeSlotAdd_EndRadioButtons = new HBox(timeSlotAdd_EndAM, timeSlotAdd_EndPM);
+			timeSlotAdd_EndRadioButtons.setSpacing(5);
+			timeSlotAdd_EndRadioButtons.setAlignment(Pos.CENTER);
+
+			HBox timeSlotAddDuration = new HBox(timeSlotAdd_Duration, timeSlotAdd_DurationComboBox);
 			timeSlotAddDuration.setSpacing(5);
 			timeSlotAddDuration.setAlignment(Pos.CENTER);
 
-			VBox timeSlotAdd_StartTimeInput = new VBox(timeSlotAdd_StartTime, timeSlotAdd_StartComboBox);
+			VBox timeSlotAdd_StartTimeInput = new VBox(timeSlotAdd_StartTime, timeSlotAdd_StartComboBox,
+					timeSlotAdd_StartRadioButtons);
 			timeSlotAdd_StartTimeInput.setSpacing(5);
 			timeSlotAdd_StartTimeInput.setAlignment(Pos.CENTER);
 
-			VBox timeSlotAdd_EndTimeInput = new VBox(timeSlotAdd_EndTime, timeSlotAdd_EndComboBox);
+			VBox timeSlotAdd_EndTimeInput = new VBox(timeSlotAdd_EndTime, timeSlotAdd_EndComboBox,
+					timeSlotAdd_EndRadioButtons);
 			timeSlotAdd_EndTimeInput.setSpacing(5);
 			timeSlotAdd_EndTimeInput.setAlignment(Pos.CENTER);
 
-			HBox timeSlotAdd_AllInputs = new HBox(timeSlotAdd_StartTimeInput, timeSlotAddDuration,
-					timeSlotAdd_EndTimeInput);
-			timeSlotAdd_AllInputs.setSpacing(5);
+			HBox timeSlotAdd_AllInputs = new HBox(timeSlotAdd_StartTimeInput, timeSlotAdd_EndTimeInput);
+			timeSlotAdd_AllInputs.setSpacing(75);
 			timeSlotAdd_AllInputs.setAlignment(Pos.CENTER);
 
 			VBox timeSlotAdd_Page = new VBox(timeSlotAdd_TitleLabel, timeSlotAdd_HomeButton, timeSlotAdd_Separator,
-					timeSlotAdd_Title, timeSlotAdd_List, timeSlotAdd_AllInputs, timeSlotAdd_AddButton);
+					timeSlotAdd_Title, timeSlotAdd_List, timeSlotAdd_AllInputs, timeSlotAddDuration,
+					timeSlotAdd_AddButton);
 			timeSlotAdd_Page.setSpacing(5);
 			timeSlotAdd_Page.setAlignment(Pos.TOP_CENTER);
 			timeSlotAdd_Page.setStyle("-fx-background-color: #ffffff;");
@@ -545,16 +587,16 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotEdit_DoneButton = new Button("Done");
 			Button timeSlotEdit_HomeButton = new Button("Home");
 
-			ListView<timeSlotItem> timeSlotEdit_List = new ListView<>(getTimeSlotItems());
-			timeSlotEdit_List.setCellFactory(param -> new ListCell<timeSlotItem>() {
+			ListView<listItem> timeSlotEdit_List = new ListView<>(timeSlotList);
+			timeSlotEdit_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(timeSlotItem item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getTime() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getTime());
+						setText(item.getItem());
 					}
 				}
 			});
@@ -569,19 +611,33 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotEdit_Title.setFont(new Font("Arial", 48));
 
 			ComboBox<Integer> timeSlotEdit_StartHour = new ComboBox<Integer>();
-			timeSlotEdit_StartHour.getItems().addAll(00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-					19, 20, 21, 22, 23);
-			ComboBox<Integer> timeSlotEdit_StartMinute = new ComboBox<Integer>();
-			timeSlotEdit_StartMinute.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
+			timeSlotEdit_StartHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+			ComboBox<String> timeSlotEdit_StartMinute = new ComboBox<String>();
+			timeSlotEdit_StartMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
+					"55");
 			ComboBox<Integer> timeSlotEdit_EndHour = new ComboBox<Integer>();
-			timeSlotEdit_EndHour.getItems().addAll(00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-					19, 20, 21, 22, 23);
-			ComboBox<Integer> timeSlotEdit_EndMinute = new ComboBox<Integer>();
-			timeSlotEdit_EndMinute.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
-
+			timeSlotEdit_EndHour.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+			ComboBox<String> timeSlotEdit_EndMinute = new ComboBox<String>();
+			timeSlotEdit_EndMinute.getItems().addAll("00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50",
+					"55");
+			
 			ComboBox<Integer> timeSlotEdit_DurationComboBox = new ComboBox<Integer>();
-			timeSlotEdit_DurationComboBox.getItems().addAll(00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,
-					75, 80, 80, 90, 95, 100, 105, 110, 115, 120);
+
+			ToggleGroup timeSlotEdit_StartAMPM = new ToggleGroup();
+
+			RadioButton timeSlotEdit_StartAM = new RadioButton("A.M.");
+			timeSlotEdit_StartAM.setToggleGroup(timeSlotEdit_StartAMPM);
+
+			RadioButton timeSlotEdit_StartPM = new RadioButton("P.M.");
+			timeSlotEdit_StartPM.setToggleGroup(timeSlotEdit_StartAMPM);
+
+			ToggleGroup timeSlotEdit_EndAMPM = new ToggleGroup();
+
+			RadioButton timeSlotEdit_EndAM = new RadioButton("A.M.");
+			timeSlotEdit_EndAM.setToggleGroup(timeSlotEdit_EndAMPM);
+
+			RadioButton timeSlotEdit_EndPM = new RadioButton("P.M.");
+			timeSlotEdit_EndPM.setToggleGroup(timeSlotEdit_EndAMPM);
 
 			// start hbox
 			HBox timeSlotEdit_StartComboBox = new HBox(timeSlotEdit_StartHour, timeSlotEdit_StartMinute);
@@ -591,27 +647,36 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			HBox timeSlotEdit_EndComboBox = new HBox(timeSlotEdit_EndHour, timeSlotEdit_EndMinute);
 			timeSlotEdit_EndComboBox.setSpacing(5);
 			timeSlotEdit_EndComboBox.setAlignment(Pos.CENTER);
-
+			// start radio buttons
+			HBox timeSlotEdit_StartRadioButtons = new HBox(timeSlotEdit_StartAM, timeSlotEdit_StartPM);
+			timeSlotEdit_StartRadioButtons.setSpacing(5);
+			timeSlotEdit_StartRadioButtons.setAlignment(Pos.CENTER);
+			// end radio buttons
+			HBox timeSlotEdit_EndRadioButtons = new HBox(timeSlotEdit_EndAM, timeSlotEdit_EndPM);
+			timeSlotEdit_EndRadioButtons.setSpacing(5);
+			timeSlotEdit_EndRadioButtons.setAlignment(Pos.CENTER);
 			// not centered please help
-			VBox timeSlotEditDuration = new VBox(timeSlotEdit_Duration, timeSlotEdit_DurationComboBox);
+			HBox timeSlotEditDuration = new HBox(timeSlotEdit_Duration, timeSlotEdit_DurationComboBox);
 			timeSlotEditDuration.setSpacing(5);
 			timeSlotEditDuration.setAlignment(Pos.CENTER);
 
-			VBox timeSlotEdit_StartTimeInput = new VBox(timeSlotEdit_StartTime, timeSlotEdit_StartComboBox);
+			VBox timeSlotEdit_StartTimeInput = new VBox(timeSlotEdit_StartTime, timeSlotEdit_StartComboBox,
+					timeSlotEdit_StartRadioButtons);
 			timeSlotEdit_StartTimeInput.setSpacing(5);
 			timeSlotEdit_StartTimeInput.setAlignment(Pos.CENTER);
 
-			VBox timeSlotEdit_EndTimeInput = new VBox(timeSlotEdit_EndTime, timeSlotEdit_EndComboBox);
+			VBox timeSlotEdit_EndTimeInput = new VBox(timeSlotEdit_EndTime, timeSlotEdit_EndComboBox,
+					timeSlotEdit_EndRadioButtons);
 			timeSlotEdit_EndTimeInput.setSpacing(5);
 			timeSlotEdit_EndTimeInput.setAlignment(Pos.CENTER);
 
-			HBox timeSlotEdit_AllInputs = new HBox(timeSlotEdit_StartTimeInput, timeSlotEditDuration,
-					timeSlotEdit_EndTimeInput);
-			timeSlotEdit_AllInputs.setSpacing(5);
+			HBox timeSlotEdit_AllInputs = new HBox(timeSlotEdit_StartTimeInput, timeSlotEdit_EndTimeInput);
+			timeSlotEdit_AllInputs.setSpacing(75);
 			timeSlotEdit_AllInputs.setAlignment(Pos.CENTER);
 
 			VBox timeSlotEdit_Page = new VBox(timeSlotEdit_TitleLabel, timeSlotEdit_HomeButton, timeSlotEdit_Separator,
-					timeSlotEdit_Title, timeSlotEdit_List, timeSlotEdit_AllInputs, timeSlotEdit_DoneButton);
+					timeSlotEdit_Title, timeSlotEdit_List, timeSlotEdit_AllInputs, timeSlotEditDuration,
+					timeSlotEdit_DoneButton);
 			timeSlotEdit_Page.setSpacing(5);
 			timeSlotEdit_Page.setAlignment(Pos.TOP_CENTER);
 			timeSlotEdit_Page.setStyle("-fx-background-color: #ffffff;");
@@ -636,9 +701,9 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			TableColumn<speakerPerson, String> speakerEdit_FirstNameColumn = new TableColumn<>("First Name");
 			speakerEdit_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 			TableColumn<speakerPerson, String> speakerEdit_LastNameColumn = new TableColumn<>("Last Name");
-			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+			speakerEdit_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
 			TableColumn<speakerPerson, String> speakerEdit_EmailColumn = new TableColumn<>("Email");
-			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+			speakerEdit_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("emailName"));
 
 			speakerEdit_Table.setItems(getSpeakers());
 
@@ -694,12 +759,12 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			roomEdit_Name.setCellValueFactory(new PropertyValueFactory<>("roomName"));
 			TableColumn<roomCap, String> roomEdit_Capacity = new TableColumn("Capacity");
 			roomEdit_Capacity.setCellValueFactory(new PropertyValueFactory<>("roomCapacity"));
-
+			
 			roomEdit_Table.setItems(getRoomAndCapacity());
 
 			roomEdit_Table.getColumns().addAll(roomEdit_Name, roomEdit_Capacity);
 			roomEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+		
 			// good
 			Button roomEdit_DoneButton = new Button("Done");
 			Button roomEdit_HomeButton = new Button("Home");
@@ -744,53 +809,62 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button sessionEdit_DoneButton = new Button("Done");
 			Button sessionEdit_HomeButton = new Button("Home");
 
-			ListView<sessionItem> sessionEdit_List = new ListView<>(getSessions());
-			sessionEdit_List.setCellFactory(param -> new ListCell<sessionItem>() {
+			ListView<listItem> sessionEdit_List = new ListView<>(sessionList);
+			sessionEdit_List.setCellFactory(param -> new ListCell<listItem>() {
 				@Override
-				protected void updateItem(sessionItem item, boolean empty) {
+				protected void updateItem(listItem item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getName() == null) {
+					if (empty || item == null || item.getItem() == null) {
 						setText(null);
 					} else {
-						setText(item.getName());
+						setText(item.getItem());
 					}
 				}
 			});
+
+			sessionEdit_List.setEditable(false);
+			sessionEdit_List.setMouseTransparent(true);
+			sessionEdit_List.setFocusTraversable(false);
 
 			Label sessionEdit_NameLabel = new Label("Name");
 			Label sessionEdit_Title = new Label("Edit Session");
 			sessionEdit_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionEdit_NameText = new TextField();
-
-			ComboBox<String> sessionEdit_TimeSlotCombo = new ComboBox<String>(); // integer
-			for (timeSlotItem ts : getTimeSlotItems()) {
-				sessionEdit_TimeSlotCombo.getItems().add(ts.getTime());
-			}
-
+			
+			ComboBox<Integer> sessionEdit_TimeSlotCombo = new ComboBox<Integer>(); //integer for now until we know how timslots are being passed back and forth
 			ComboBox<String> sessionEdit_SpeakerCombo = new ComboBox<String>();
-			for (speakerPerson s : getSpeakers()) {
-				sessionEdit_SpeakerCombo.getItems().add(s.getFullName());
-			}
-
 			ComboBox<String> sessionEdit_RoomCombo = new ComboBox<String>();
-			for (roomCap r : getRoomAndCapacity()) {
-				sessionEdit_RoomCombo.getItems().add(r.getRoomName());
-			}
-
-			Label sessionEdit_TimeSlotLabel = new Label("Time Slot");
-			Label sessionEdit_SpeakerLabel = new Label("Speaker");
-			Label sessionEdit_RoomLabel = new Label("Room");
-
-			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText,
-					sessionEdit_TimeSlotLabel, sessionEdit_TimeSlotCombo, sessionEdit_SpeakerLabel,
-					sessionEdit_SpeakerCombo, sessionEdit_RoomLabel, sessionEdit_RoomCombo);
+			
+			Label sessionEdit_TimeSlotLabel= new Label("Time Slot");
+			Label sessionEdit_SpeakerLabel= new Label("Speaker");
+			Label sessionEdit_RoomLabel= new Label("Room");
+			
+			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText);
 			sessionEdit_LabelsAndTexts.setSpacing(5);
 			sessionEdit_LabelsAndTexts.setAlignment(Pos.CENTER);
-
+			
+			HBox sessionEdit_TimeSlot= new HBox(sessionEdit_TimeSlotLabel, sessionEdit_TimeSlotCombo);
+			sessionEdit_TimeSlot.setSpacing(5);
+			sessionEdit_TimeSlot.setAlignment(Pos.CENTER);
+			HBox sessionEdit_Speaker= new HBox(sessionEdit_SpeakerLabel, sessionEdit_SpeakerCombo);
+			sessionEdit_Speaker.setSpacing(5);
+			sessionEdit_Speaker.setAlignment(Pos.CENTER);
+			HBox sessionEdit_Room= new HBox(sessionEdit_RoomLabel, sessionEdit_RoomCombo);
+			sessionEdit_Room.setSpacing(5);
+			sessionEdit_Room.setAlignment(Pos.CENTER);
+			
+			VBox sessionEdit_Attributes= new VBox(sessionEdit_TimeSlot, sessionEdit_Speaker, sessionEdit_Room);
+			sessionEdit_Attributes.setSpacing(5);
+			sessionEdit_Attributes.setAlignment(Pos.CENTER);
+			
+			HBox sessionEdit_Session= new HBox (sessionEdit_LabelsAndTexts, sessionEdit_Attributes);
+			sessionEdit_Session.setSpacing(5);
+			sessionEdit_Session.setAlignment(Pos.CENTER);
+			
 			VBox sessionEdit_Page = new VBox(sessionEdit_TitleLabel, sessionEdit_HomeButton, sessionEdit_Separator,
-					sessionEdit_Title, sessionEdit_List, sessionEdit_LabelsAndTexts, sessionEdit_DoneButton);
+					sessionEdit_Title, sessionEdit_List, sessionEdit_Session, sessionEdit_DoneButton);
 			sessionEdit_Page.setSpacing(5);
 			sessionEdit_Page.setAlignment(Pos.TOP_CENTER);
 			sessionEdit_Page.setStyle("-fx-background-color: #ffffff;");
@@ -806,43 +880,38 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			roomAdd.setOnAction(e -> window.setScene(roomAdd_Scene));
 			sessionAdd.setOnAction(e -> window.setScene(sessionAdd_Scene));
 
-			timeSlotEdit.setOnAction(e -> {
-				final int timeSlot_EditIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
-				timeSlotEdit_StartHour.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getStartHour());
-				timeSlotEdit_StartMinute.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getStartMinute());
-				timeSlotEdit_EndHour.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getEndHour());
-				timeSlotEdit_EndMinute.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getEndMinute());
-				window.setScene(timeSlotEdit_Scene);
-			});
-
+			timeSlotEdit.setOnAction(e -> window.setScene(timeSlotEdit_Scene));
+                        
 			speakerEdit.setOnAction(e -> {
-				final int speaker_EditIndex = speaker_List.getSelectionModel().getSelectedIndex();
-				speakerEdit_FirstNameText.setText(getSpeakers().get(speaker_EditIndex).getFirstName());
-				speakerEdit_LastNameText.setText(getSpeakers().get(speaker_EditIndex).getLastName());
-				speakerEdit_EmailText.setText(getSpeakers().get(speaker_EditIndex).getEmail());
-				window.setScene(speakerEdit_Scene);
-			});
+                            final int speaker_EditIndex = speaker_List.getSelectionModel().getSelectedIndex();
+                            speakerEdit_FirstNameText.setText(getSpeakers().get(speaker_EditIndex).getFirstName());
+                            speakerEdit_LastNameText.setText(getSpeakers().get(speaker_EditIndex).getLastName());
+                            speakerEdit_EmailText.setText(getSpeakers().get(speaker_EditIndex).getEmail());
+                            window.setScene(speakerEdit_Scene);
+                                });
 			roomEdit.setOnAction(e -> {
-				final int room_EditIndex = room_List.getSelectionModel().getSelectedIndex();
-				roomEdit_NameText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomName());
-				roomEdit_CapacityText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomCapacity());
-				getRoomAndCapacity().get(room_EditIndex);
-				window.setScene(roomEdit_Scene);
-			});
+                            final int room_EditIndex = room_List.getSelectionModel().getSelectedIndex();
+                            roomEdit_NameText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomName());
+                            roomEdit_CapacityText.setText(Integer.toString( getRoomAndCapacity().get(room_EditIndex).getRoomCapacity()));
+                           // getRoomAndCapacity().get(room_EditIndex).
+                            window.setScene(roomEdit_Scene);
+                        });
+                        
+			sessionEdit.setOnAction(e ->{
+                            
+                            
+                            final int session_EditIndex = session_List.getSelectionModel().getSelectedIndex();
+                            if (session_EditIndex != -1) {
+						//listItem session_ItemToEdit = session_List.getSelectionModel().getSelectedItem();
+                                              //  session_List.getItems().get(session_EditIndex);
+                                                
+                                              //  sessionEdit_NameText.setText(session_ItemToEdit.getItem().toString());
+                                                sessionEdit_NameText.setText(session_List.getItems().get(session_EditIndex).getItem().toString());
 
-			sessionEdit.setOnAction(e -> {
-
-				final int session_EditIndex = session_List.getSelectionModel().getSelectedIndex();
-				if (session_EditIndex != -1) {
-					sessionEdit_NameText.setText(session_List.getItems().get(session_EditIndex).getName());
-					sessionEdit_TimeSlotCombo.setValue(getSessions().get(session_EditIndex).getTimeSlot().getTime());
-					sessionEdit_SpeakerCombo.setValue(getSessions().get(session_EditIndex).getSpeaker().getFullName());
-					sessionEdit_RoomCombo.setValue(getSessions().get(session_EditIndex).getRoom().getRoomName());
-
-				}
-
-				window.setScene(sessionEdit_Scene);
-			});
+                            }
+				
+                                window.setScene(sessionEdit_Scene);
+                                });
 
 			home.setOnAction(e -> window.setScene(sceneHome));
 			roomAdd_HomeButton.setOnAction(e -> window.setScene(sceneHome));
@@ -863,14 +932,14 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 	public class roomCap {
 		private String roomName;
-		private String roomCapacity;
+		private int roomCapacity;
 
 		public roomCap() {
 			this.roomName = "";
-			this.roomCapacity = "";
+			this.roomCapacity = 0;
 		}
 
-		public roomCap(String roomName, String roomCapacity) {
+		public roomCap(String roomName, int roomCapacity) {
 			this.roomName = roomName;
 			this.roomCapacity = roomCapacity;
 		}
@@ -883,19 +952,18 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			this.roomName = roomName;
 		}
 
-		public String getRoomCapacity() {
+		public int getRoomCapacity() {
 			return roomCapacity;
 		}
 
-		public void setRoomCapacity(String roomCapacity) {
+		public void setRoomCapacity(int roomCapacity) {
 			this.roomCapacity = roomCapacity;
 		}
 	}
 
 	public ObservableList<roomCap> getRoomAndCapacity() {
 		ObservableList<roomCap> roomsAndCapacities = FXCollections.observableArrayList();
-		roomsAndCapacities.add(new roomCap("Beatty 401", "150"));
-
+		Room room1 = new Room("Beatty 401", "150");
 		return roomsAndCapacities;
 	}
 
@@ -912,7 +980,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 		public String getFullName() {
 			// TODO Auto-generated method stub
-			return this.firstName + " " + this.lastName;
+			return this.firstName+" "+this.lastName;
 		}
 
 		public speakerPerson(String firstName, String lastName, String email) {
@@ -956,164 +1024,6 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 		return speakers;
 	}
 
-	public class sessionItem {
-		private String name;
-		private speakerPerson speaker;
-		private roomCap room;
-		private timeSlotItem timeSlot;
-
-		public sessionItem() {
-			this.name = "";
-			this.speaker = null;
-			this.room = null;
-			this.timeSlot = null;
-		}
-
-		public sessionItem(String name, speakerPerson speaker, roomCap room, timeSlotItem timeSlot) {
-			this.name = name;
-			this.speaker = speaker;
-			this.room = room;
-			this.timeSlot = timeSlot;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public speakerPerson getSpeaker() {
-			return speaker;
-		}
-
-		public void setSpeaker(speakerPerson speaker) {
-			this.speaker = speaker;
-		}
-
-		public roomCap getRoom() {
-			return room;
-		}
-
-		public void setRoom(roomCap room) {
-			this.room = room;
-		}
-
-		public timeSlotItem getTimeSlot() {
-			return timeSlot;
-		}
-
-		public void setTimeSlot(timeSlotItem timeSlot) {
-			this.timeSlot = timeSlot;
-		}
-	}
-
-	public ObservableList<sessionItem> getSessions() {
-		ObservableList<sessionItem> sessions = FXCollections.observableArrayList();
-		sessions.add(new sessionItem("Test Session", new speakerPerson("John", "Fawkner", "fawknerj@wit.edu"),
-				new roomCap("Beatty 401", "150"), new timeSlotItem(8, 15, 9, 15)));
-		return sessions;
-	}
-
-	public class timeSlotItem {
-		private int startHour;
-		private int startMinute;
-		private int endHour;
-		private int endMinute;
-		private int duration;
-
-		public timeSlotItem() {
-			this.startHour = 0;
-			this.startMinute = 0;
-			this.endHour = 0;
-			this.endHour = 0;
-			this.duration = 0;
-		}
-
-		public timeSlotItem(int startHour, int startMinute, int endHour, int endMinute) {
-			this.startHour = startHour;
-			this.startMinute = startMinute;
-			this.endHour = endHour;
-			this.endMinute = endMinute;
-		}
-
-		public int getStartHour() {
-			return startHour;
-		}
-
-		public void setStartHour(int startHour) {
-			this.startHour = startHour;
-		}
-
-		public int getStartMinute() {
-			return startMinute;
-		}
-
-		public void setStartMinute(int startMinute) {
-			this.startMinute = startMinute;
-		}
-
-		public int getEndHour() {
-			return endHour;
-		}
-
-		public void setEndHour(int endHour) {
-			this.endHour = endHour;
-		}
-
-		public int getEndMinute() {
-			return endMinute;
-		}
-
-		public void setEndMinute(int endMinute) {
-			this.endMinute = endMinute;
-		}
-
-		public int getDuration() {
-			return duration;
-		}
-
-		public void setDurationHour(int duration) {
-			this.duration = duration;
-		}
-
-		public void calculateDuration() {
-			int durationHourCalc = (endHour - startHour) * 60;
-			int durationMinuteCalc = startMinute - endMinute;
-			Math.abs(durationMinuteCalc);
-			int durationCalc = durationHourCalc + durationMinuteCalc;
-			duration = durationCalc;
-		}
-
-		public void caculateStartTime(int endHour, int endMinute) {
-			int calculateMinutes = duration % 60;
-			int calculateHours = duration / 60;
-
-			startHour = endHour - calculateHours;
-			startMinute = endMinute - calculateMinutes;
-		}
-
-		public void caculateEndTime(int startHour, int startMinute) {
-			int calculateMinutes = duration % 60;
-			int calculateHours = duration / 60;
-
-			endHour = startHour + calculateHours;
-			endMinute = startMinute + calculateMinutes;
-		}
-
-		public String getTime() {
-			return startHour + ":" + startMinute + " - " + endHour + ":" + endMinute;
-		}
-
-	}
-
-	public ObservableList<timeSlotItem> getTimeSlotItems() {
-		ObservableList<timeSlotItem> timeSlotList = FXCollections.observableArrayList();
-		timeSlotList.add(new timeSlotItem(8, 15, 9, 15));
-		return timeSlotList;
-	}
-
 	public static class listItem {
 		private final String item;
 
@@ -1125,5 +1035,4 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			return item;
 		}
 	}
-
 }

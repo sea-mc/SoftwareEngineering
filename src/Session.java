@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Session extends DB_Object implements IFront{
     Back back = new Back();
-    private String sessionName;
+    public String sessionName;
     ArrayList<DB_Object> sessionList = new ArrayList<>();
 
 
@@ -11,6 +11,7 @@ public class Session extends DB_Object implements IFront{
         Back back = new Back();
         Session temp = back.getSession();
         temp.sessionName = sessionName;
+        System.out.println("Adding Session to the list.");
         addToList(temp);
     }
 
@@ -28,6 +29,7 @@ public class Session extends DB_Object implements IFront{
     @Override
     public void addToList(DB_Object o) {
         sessionList.add(o);
+        System.out.println("Calling backend.");
         back.pushDB_Object(sessionList);
     }
 }

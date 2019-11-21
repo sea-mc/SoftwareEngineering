@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Timeslot extends DB_Object implements IFront {
 
     Back back = new Back();
-    private int startTime, endTime;
+    public int startTime, endTime;
     ArrayList<DB_Object> timeslotList = new ArrayList<>();
 
     //TODO create default constructor, setters and getters, add UID
@@ -16,6 +16,7 @@ public class Timeslot extends DB_Object implements IFront {
         Timeslot temp = back.getTimeslot();
         temp.startTime = startTime;
         temp.endTime = endTime;
+        System.out.println("Adding time-slot to the list.");
         addToList(temp);
     }
 
@@ -36,6 +37,7 @@ public class Timeslot extends DB_Object implements IFront {
     @Override
     public void addToList(DB_Object o){
         timeslotList.add(o);
+        System.out.println("Calling backend.");
         back.pushDB_Object(timeslotList);
     }
 
