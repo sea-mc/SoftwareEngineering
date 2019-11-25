@@ -9,36 +9,14 @@ public class Back {
     String PASSWORD = "";
     String URL = "http://localhost/phpmyadmin/db_structure.php?db=codecamp";
 
-    /** Creates new, blank backEnd.Room object
-     *
-     * @return backEnd.Room object
-     */
-    Room getRoom(){
-        return new Room("", "");
-    }
-
-    /** Creates new, blank backEnd.Speaker object
-     *
-     * @return backEnd.Speaker object
-     */
-    Speaker getSpeaker(){
-        return new Speaker("", "", "", "");
-    }
-
-    /** Creates new, blank backEnd.Session object
-     *
-     * @return backEnd.Session object
-     */
-    Session getSession(){
-        return new Session("");
-    }
-
-    /** Creates new, blank backEnd.Timeslot object
-     *
-     * @return backEnd.Timeslot object
-     */
-    Timeslot getTimeslot(){
-        return new Timeslot(0, 0);
+    public Back(){
+        try {
+            connect2DB();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /** pushes a list of DB objects to the database
@@ -77,14 +55,11 @@ public class Back {
     void connect2DB(String u, String user, String pass) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
+            Connection c = DriverManager.getConnection(u, user, pass);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        try {
-
-            Connection c = DriverManager.getConnection(u, user, pass);
         } catch (SQLException e) {
-            String msg = e instanceof SQLException ? "COULD NOT CONNECT TO THE DATABASE" : "";
+            String msg = e instanceof SQLException ? "COULD NOT CONNECT TO THE DATABASE" : "Class.forName failed";
             System.out.println("FATAL ERROR! " + msg + " ");
         }
     }
