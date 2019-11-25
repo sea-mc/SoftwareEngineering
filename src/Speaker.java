@@ -1,24 +1,15 @@
-import java.util.ArrayList;
-
-public class Speaker extends DB_Object implements IFront {
-
-    Back back = new Back();
+public class Speaker extends DB_Object {
     public String speakerFName, speakerLName, speakerPhoneNumber, speakerEmail;
-    ArrayList<DB_Object> speakerList = new ArrayList<>();
-
 
     Speaker(String speakerFName, String speakerLName, String speakerNumber, String speakerEmail){
         if(validateName(speakerFName,speakerLName) != 0 || validateNumber(speakerNumber) != 0 || validateEmail(speakerEmail) != 0){
             System.out.println("ERR: backEnd.Speaker object could not be created");
             System.exit(-1);
         }
-        Speaker temp = back.getSpeaker();
-        temp.speakerFName = speakerFName;
-        temp.speakerLName = speakerLName;
-        temp.speakerPhoneNumber = speakerNumber;
-        temp.speakerEmail = speakerEmail;
-        System.out.println("Adding Speaker to list.");
-        addToList(temp);
+        this.speakerFName = speakerFName;
+        this.speakerLName = speakerLName;
+        this.speakerPhoneNumber = speakerNumber;
+        this.speakerEmail = speakerEmail;
     }
 
     public int validateName(String fname, String lname){
@@ -44,20 +35,6 @@ public class Speaker extends DB_Object implements IFront {
             return 0;
         }
         return -1;
-    }
-
-    @Override
-    public void removeFromList(int index){
-        speakerList.remove(index);
-        back.pushDB_Object(speakerList);
-        //need to now update speaker list, send to backend to be updated, and return the new speakerList once it returns
-    }
-
-    @Override
-    public void addToList(DB_Object object) {
-        speakerList.add(object);
-        System.out.println("Calling backend.");
-        back.pushDB_Object(speakerList);
     }
 
     @Override
