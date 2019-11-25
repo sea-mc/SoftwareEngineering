@@ -9,6 +9,20 @@ public class Back {
     String PASSWORD = "";
     String URL = "http://localhost/phpmyadmin/db_structure.php?db=codecamp";
 
+    // cmds
+    private String pullRoom = "SELECT * FROM Room";
+    private String delRoom = "DELETE * FROM ROOM WHERE RoomID = [ID]";
+    private String pushRoom = "INSERT INTO ROOM (json)";
+    private String updateRoom = "UPDATE Room SET Room_JSON ([new_json]) WHERE RoomID = [ID]";
+    private String pullSpeaeker = "SELECT * FROM Speaker";
+    private String delSpeaker = "DELETE * FROM SPEAKER WHERE SpeakerID = [ID]";
+    private String pushSpeaker = "INSERT INTO SPEAKER (json)";
+    private String updateSpeaker = "UPDATE Speaker SET Speaker_JSON ([new_json]) WHERE SpeakerID = [ID]";
+    private String E = "SELECT * FROM userResponse";
+    private String R = "DELETE * FROM USERRESPONSE WHERE userResponseID = [ID]";
+    private String O = "INSERT INTO USERRESPONSE (json)";
+    private String r = "UPDATE userResponse SET userResponse_JSON ([new_json]) WHERE userResponseID = [ID]";
+
     public Back(){
         try {
             connect2DB();
@@ -56,9 +70,7 @@ public class Back {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection c = DriverManager.getConnection(u, user, pass);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             String msg = e instanceof SQLException ? "COULD NOT CONNECT TO THE DATABASE" : "Class.forName failed";
             System.out.println("FATAL ERROR! " + msg + " ");
         }
