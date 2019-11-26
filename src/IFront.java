@@ -1,7 +1,17 @@
+import java.util.ArrayList;
+
 public interface IFront {
+    Back back = new Back();
+    ArrayList<DB_Object> objectList = new ArrayList<>();
 
-    public void removeFromList(int index);
+    static ArrayList<DB_Object> removeFromList(int index, ArrayList<DB_Object> list){
+        list.remove(index);
+        return list;
+    }
 
-    public void addToList(DB_Object object);
-
+    static ArrayList<DB_Object> addToList(DB_Object o){
+        objectList.add(o);
+        back.pushDB_Object(objectList);
+        return objectList;
+    }
 }

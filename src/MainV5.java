@@ -1,5 +1,4 @@
 
-package application;
 
 import java.awt.Color;
 import java.util.ArrayList;
