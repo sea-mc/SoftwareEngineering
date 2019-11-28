@@ -10,9 +10,9 @@ public class Back {
     private static final String PASS = "password";
     private static final String URL = "jdbc:mysql://localhost/codecamp";
     private static Gson g;
-    Connection con;
+    private Connection con;
 
-    public Back(){
+    Back(){
         connect2DB();
         g = new Gson();
     }
@@ -95,15 +95,18 @@ public class Back {
     }
 
     /**
-     * Deletes a DB_Object with same UID as o
+     * Deletes a DB_Object with same UID as o, if UID is < 0, it WILL delete all entries from the table
      * @param o Object used to identify UID
-     * @return
+     * @return Resultant list from the DB
      */
     public ArrayList<DB_Object> delDB_Object(DB_Object o){
         try {
             if (con.isClosed())
                 connect2DB();
-            con.createStatement().execute(delCmd(o));
+            if(o.UID<0)
+                con.createStatement().execute(delAllCmd(o));
+            else
+                con.createStatement().execute(delCmd(o));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,11 +173,16 @@ public class Back {
      * @param o Object used to specify Type / UID
      * @return String representation of SQL command
      */
-    public static String delCmd(DB_Object o){
+    private static String delCmd(DB_Object o){
         return String.format("DELETE FROM %s WHERE UUID = %d", o.getClass().getName(), o.UID);
     }
 
-    public static String delAllCmd(DB_Object o){
+    /**
+     * generates and formats a simple SQL command for deleting all objects of type o from table o
+     * @param o Object used to specify Type / UID / table
+     * @return String representation of SQL command
+     */
+    private static String delAllCmd(DB_Object o){
         return String.format("DELETE FROM %s", o.getClass().getName());
     }
 
