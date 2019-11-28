@@ -3,25 +3,26 @@ public class Session extends DB_Object implements IFront{
     private Timeslot timeslot;
     private Speaker speaker;
     private Room room;
-    private int UID;
 
    public Session(){
-        this.UID=-1;
-        this.sessionName = null;
-        this.timeslot=null;
-        this.speaker=null;
-        this.room=null;
+        super();
+        this.sessionName = "Murder 101";
+        this.timeslot = new Timeslot();
+        this.speaker = new Speaker();
+        this.room = new Room();
     }
 
 
     public Session(int UID,String sessionName, Timeslot timeslot, Speaker speaker,Room room){
-        Back back = new Back();
-        Session temp = new Session(UID, sessionName, timeslot, speaker, room);
-        IFront.addToList(temp);
+        super(UID);
+        this.sessionName = sessionName;
+        this.timeslot = timeslot;
+        this.speaker = speaker;
+        this.room = room;
     }
 
     @Override
-    public void ensureUID() {
-        //some code to ensure there is a UID attached, if not we set the UID
+    public String toString() {
+        return super.toString() + "Session Name: " + sessionName + "\nTimeslot: " + timeslot.toString() + "\nSpeaker: " + speaker.toString() + "\nRoom: " + room.toString() + "\n";
     }
 }

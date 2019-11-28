@@ -1,28 +1,25 @@
+import java.io.Serializable;
 import java.util.*;
 
 public class Room extends DB_Object implements IFront{
 
-    private String roomName, capacity;
-    private int UID;
-    ArrayList<DB_Object> roomList = new ArrayList<>();
+    String roomName, capacity;
 
 	public Room() {
-		this.UID=-1;
+		super();
 		this.roomName=null;
 		this.capacity=null;
 	}
 
 	public Room(int UID,String roomName, String capacity){
+	    super(UID);
 		if(checkPositive(capacity) != 0 || checkCapacity(capacity) != 0){
 			System.out.println("ERR: Couldn't create room object");
 			System.exit(-1);
 		}
-		Room temp = new Room(UID, roomName, capacity);
-		IFront.addToList(temp);
-	}
+		this.roomName = roomName;
+		this.capacity = capacity;
 
-	public ArrayList<DB_Object> getRoomList(){
-		return roomList;
 	}
 	
 	private int checkPositive(String capacityCheck) {
@@ -40,8 +37,8 @@ public class Room extends DB_Object implements IFront{
 		return -1;
 	}
 
-	@Override
-	public void ensureUID() {
-
-	}
+    @Override
+    public String toString() {
+        return super.toString() + "Room Name: " + roomName + "\nCapacity: " + capacity + "\n";
+    }
 }
