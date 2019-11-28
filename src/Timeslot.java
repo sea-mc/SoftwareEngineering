@@ -2,11 +2,10 @@ import java.util.ArrayList;
 
 public class Timeslot extends DB_Object implements IFront {
 
-    private int startTime, endTime, startTimeHour, startTimeMin, endTimeHour, endTimeMin, UID;
-    ArrayList<DB_Object> timeslotList = new ArrayList<>();
+    private int startTime, endTime, startTimeHour, startTimeMin, endTimeHour, endTimeMin;
 
     public Timeslot() {
-        int UID=-1;
+        super();
         startTimeHour = 00;
         startTimeMin = 00;
         String tempStart = startTimeHour + ""+ startTimeMin;
@@ -15,17 +14,15 @@ public class Timeslot extends DB_Object implements IFront {
         int endTimeMin = 00;
         String tempBack = endTimeHour + "" + endTimeMin;
         endTime = Integer.parseInt(tempBack);
-
-        Timeslot temp = new Timeslot();
-        temp.startTime = startTime;
-        temp.endTime = endTime;
     }
 
     public Timeslot(int UID,int startTimeHour, int startTimeMin, int endTimeHour, int endTimeMin){
+        super(UID);
         if(validateTime(startTimeHour,endTimeHour,startTimeMin,endTimeMin) != 0){
-            System.out.println("ERR: backEnd.Timeslot object could not be created.");
+            System.out.println("ERR: Timeslot object could not be created.");
             System.exit(-1);
         }
+
         String tempBack = endTimeHour + "" + endTimeMin;
         endTime = Integer.parseInt(tempBack);
         Timeslot temp = new Timeslot(UID, startTimeHour, startTimeMin, endTimeHour, endTimeMin);
@@ -52,11 +49,7 @@ public class Timeslot extends DB_Object implements IFront {
     }
 
     @Override
-    public void ensureUID() {
-
+    public String toString() {
+        return super.toString() + "Start Time: " + startTimeHour + ":" + startTimeMin + "\nEnd Time: " + endTimeHour + ":" + endTimeMin + "\n";
     }
-
-	public ArrayList<DB_Object> getTimeSlotList() {
-		return timeslotList;
-	}
 }

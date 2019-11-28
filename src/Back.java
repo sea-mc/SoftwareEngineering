@@ -1,36 +1,20 @@
+import com.google.gson.Gson;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Back {
-    String NAME = "root";
-    String PASSWORD = "";
-    String URL = "http://localhost/phpmyadmin/db_structure.php?db=codecamp";
-
-    // cmds
-    private String pullRoom = "SELECT * FROM Room";
-    private String delRoom = "DELETE * FROM ROOM WHERE RoomID = [ID]";
-    private String pushRoom = "INSERT INTO ROOM (json)";
-    private String updateRoom = "UPDATE Room SET Room_JSON ([new_json]) WHERE RoomID = [ID]";
-    private String pullSpeaeker = "SELECT * FROM Speaker";
-    private String delSpeaker = "DELETE * FROM SPEAKER WHERE SpeakerID = [ID]";
-    private String pushSpeaker = "INSERT INTO SPEAKER (json)";
-    private String updateSpeaker = "UPDATE Speaker SET Speaker_JSON ([new_json]) WHERE SpeakerID = [ID]";
-    private String E = "SELECT * FROM userResponse";
-    private String R = "DELETE * FROM USERRESPONSE WHERE userResponseID = [ID]";
-    private String O = "INSERT INTO USERRESPONSE (json)";
-    private String r = "UPDATE userResponse SET userResponse_JSON ([new_json]) WHERE userResponseID = [ID]";
+    private static final String NAME = "admin";
+    private static final String PASS = "password";
+    private static final String URL = "jdbc:mysql://localhost/codecamp";
+    private static Gson g;
+    Connection con;
 
     public Back(){
-        try {
-            connect2DB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        connect2DB();
+        g = new Gson();
     }
 
     /** pushes a list of DB objects to the database
@@ -40,24 +24,38 @@ public class Back {
     ArrayList<DB_Object> pushDB_Object(ArrayList<DB_Object> list){
         for(DB_Object o : list)
             pushDB_Object(o);
-        return null;//TODO return DB Object arrayList instead of array
+        return pullTable(list.get(0));
     }
 
-    /** pushes a single DB object to the database
-     *
+    /** pushes a single DB object to the database, if object with same UID exists in the DB it is overwritten
      * @param o singular object to be pushed to the database
      */
-    ArrayList<DB_Object> pushDB_Object(DB_Object o) {
-        return null;
+    public ArrayList<DB_Object> pushDB_Object(DB_Object o) {
+        if(o.UID>0){
+            try {
+                if(con.isClosed())
+                    connect2DB();
+                ResultSet rs = con.createStatement().executeQuery(allUUIDCmd(o));
+                while(rs.next()){
+                    if(o.UID==rs.getInt(1)){
+                        con.createStatement().execute(updateCmd(o));
+                        return pullTable(o);
+                    }
+                }
+                con.createStatement().execute(pushCmd(o));
+            } catch (SQLException e) {
+                System.out.println("FATAL ERROR! >:|");
+                e.printStackTrace();
+            }
+        }
+        return pullTable(o);
     }
 
     /** attempts to connect to the database using default values
      *
-     * @throws ClassNotFoundException from connect2DB
-     * @throws SQLException from connect2DB
      */
-    void connect2DB() throws SQLException, ClassNotFoundException {
-        connect2DB(URL, NAME, PASSWORD);
+    private void connect2DB() {
+        connect2DB(URL, NAME, PASS);
     }
 
     /** Attempts a connection to the DB using non standard URL, name, and pass
@@ -66,17 +64,135 @@ public class Back {
      * @param user username to use to connect to the DB
      * @param pass password for access to the DB
      */
-    void connect2DB(String u, String user, String pass) {
+    private void connect2DB(String u, String user, String pass) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection c = DriverManager.getConnection(u, user, pass);
-        } catch (ClassNotFoundException | SQLException e) {
-            String msg = e instanceof SQLException ? "COULD NOT CONNECT TO THE DATABASE" : "Class.forName failed";
-            System.out.println("FATAL ERROR! " + msg + " ");
+            con = DriverManager.getConnection(u, user, pass);
+        } catch (SQLException e) {
+            System.out.println("FATAL ERROR! COULD NOT CONNECT TO THE DATABASE\n"+e.getMessage());
         }
     }
 
-    private UUID getLastUID(){
-        return null;
+    /**
+     * Pulls everything from the DB and stores it into an Array List directly
+     * @param o Object used to specify which table
+     * @return ArrayList of DB_Objects containing all Objects in DB in Table o
+     */
+    private ArrayList<DB_Object> pullTable(DB_Object o){
+        ResultSet rs;
+        ArrayList<DB_Object> res = new ArrayList<>();
+        try {
+            if(con.isClosed())
+                connect2DB();
+            rs = con.createStatement().executeQuery(pullTableCmd(o));
+            while(rs.next())
+                res.add(g.fromJson(rs.getString(1),o.getClass()));
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("FATAL ERROR! >:|");
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
+     * Deletes a DB_Object with same UID as o
+     * @param o Object used to identify UID
+     * @return
+     */
+    public ArrayList<DB_Object> delDB_Object(DB_Object o){
+        try {
+            if (con.isClosed())
+                connect2DB();
+            con.createStatement().execute(delCmd(o));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pullTable(o);
+    }
+
+    /**
+     *  calculates the highest UID in use
+     * @param o object that indicates which table to look at
+     * @return highest UID in use
+     */
+    public int nextUID(DB_Object o){
+        int max = 1;
+        try {
+            if(con.isClosed())
+                connect2DB();
+            ResultSet rs = con.createStatement().executeQuery(maxUUIDCmd(o));
+            rs.next();
+            max = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return max;
+    }
+
+    /**
+     * generates and formats a simple SQL command for pulling a single object of type o from table o
+     * @param o Object used to specify Type / UID
+     * @return String representation of SQL command
+     */
+    private static String pullCmd(DB_Object o){
+        return String.format("SELECT * FROM %s WHERE UUID = %d", o.getClass().getName(), o.UID);
+    }
+
+    /**
+     * generates and formats a simple SQL command for pulling a table o
+     * @param o Object used to specify Type / UID
+     * @return String representation of SQL command
+     */
+    private static String pullTableCmd(DB_Object o){
+        return String.format("SELECT * FROM %s", o.getClass().getName());
+    }
+
+    /**
+     * generates and formats a simple SQL command for pushing a single object of type o to table o
+     * @param o Object used to specify Type / UID
+     * @return String representation of SQL command
+     */
+    private static String pushCmd(DB_Object o){
+        return String.format("INSERT INTO %s VALUES ('%s', %d);", o.getClass().getName(), g.toJson(o), o.UID);
+    }
+
+    /**
+     * generates and formats a simple SQL command for updating a single object of type o to table o
+     * @param o Object used to specify Type / UID
+     * @return String representation of SQL command
+     */
+    private static String updateCmd(DB_Object o){
+        return String.format("UPDATE %s SET Object = '%s', UUID = %d WHERE UUID = %d", o.getClass().getName(), g.toJson(o), o.UID, o.UID);
+    }
+
+    /**
+     * generates and formats a simple SQL command for deleting a single object of type o from table o
+     * @param o Object used to specify Type / UID
+     * @return String representation of SQL command
+     */
+    public static String delCmd(DB_Object o){
+        return String.format("DELETE FROM %s WHERE UUID = %d", o.getClass().getName(), o.UID);
+    }
+
+    public static String delAllCmd(DB_Object o){
+        return String.format("DELETE FROM %s", o.getClass().getName());
+    }
+
+    /**
+     * generates and formats a simple SQL command for pulling a full list of UIDs as these are faster to compare
+     * @param o Object used to specify table
+     * @return String representation of SQL command
+     */
+    private static String allUUIDCmd(DB_Object o){
+        return String.format("SELECT UUID FROM %s", o.getClass().getName());
+    }
+
+    /**
+     * generates and formats a simple SQL command for pulling the largest UID found in table o
+     * @param o Object used to specify Type / UID / Table
+     * @return String representation of SQL command
+     */
+    private static String maxUUIDCmd(DB_Object o){
+        return String.format("SELECT MAX(UUID) FROM %s", o.getClass().getName());
     }
 }

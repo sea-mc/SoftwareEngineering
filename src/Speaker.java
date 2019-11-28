@@ -1,26 +1,24 @@
 import java.util.ArrayList;
 
 public class Speaker extends DB_Object implements IFront {
-
-    Back back = new Back();
     private String speakerFName, speakerLName, speakerEmail;
-    int UID;
-    private ArrayList<DB_Object> speakerList = new ArrayList<>();
 
     public Speaker() {
-        this.UID=-1;
-        this.speakerFName=null;
-        this.speakerLName=null;
-        this.speakerEmail=null;
+        super();
+        this.speakerFName="Mike";
+        this.speakerLName="Hunt";
+        this.speakerEmail="HuntM@wit.edu";
     }
 
     public Speaker(int UID, String speakerFName, String speakerLName, String speakerEmail){
+        super(UID);
         if(validateName(speakerFName,speakerLName) != 0 || validateEmail(speakerEmail) != 0){
             System.out.println("ERR: backEnd.Speaker object could not be created");
             System.exit(-1);
         }
-        Speaker temp = new Speaker(UID, speakerFName, speakerFName, speakerEmail);
-        IFront.addToList(temp);
+        this.speakerLName = speakerFName;
+        this.speakerLName = speakerLName;
+        this.speakerEmail = speakerEmail;
     }
 
 	public int validateName(String fname, String lname){
@@ -51,11 +49,12 @@ public class Speaker extends DB_Object implements IFront {
         return -1;
     }
     
-    private String getFullName(String fname, String lname) {
+    public String getFullName(String fname, String lname) {
 		return fname+ " " +lname;
 	}
 
-    public ArrayList<DB_Object> getSpeakerList() {
-        return speakerList;
+    @Override
+    public String toString() {
+        return super.toString() + "First Name: " + speakerFName + "\nLast Name: " + speakerLName + "\nEmail: " + speakerEmail + "\n";
     }
 }
