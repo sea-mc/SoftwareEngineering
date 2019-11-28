@@ -27,7 +27,7 @@ public class BackTester {
     }
 
     public static void testRemove(){
-        bk.delTable(new Room());
+        bk.delDB_Object(new Room());
     }
 
     public static void testPull(){
