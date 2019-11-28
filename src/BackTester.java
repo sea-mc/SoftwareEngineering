@@ -10,23 +10,29 @@ public class BackTester {
     public static void main(String[] args) throws SQLException {
         bk = new Back();
         roomz = bk.pushDB_Object(new Room());
-        Room broken = new Room(bk.nextUID(new Room()), "Adams", "100");
-        bk.delDB_Object(broken);
         testAdd();
+        System.out.println("\n\n\n\n\n");
+        testPull();
+        testRemove();
+        System.out.println(bk.pushDB_Object(new Room()));
     }
 
     public static void testAdd(){
+
         DB_Object bob = new Room(3, "bob", "300");
         DB_Object Jack = new Room(2, "Jack", "200");
         DB_Object Anne = new Room(1, "Anne", "100");
 
-        roomz.add(bob);
-        roomz.add(Anne);
-        bk.pushDB_Object(Jack);
-        System.out.println(bk.pushDB_Object(roomz));
+        System.out.println(roomz);
     }
 
     public static void testRemove(){
+        bk.delTable(new Room());
+    }
+
+    public static void testPull(){
+        roomz = bk.pushDB_Object(new Room());
+
 
     }
 }
