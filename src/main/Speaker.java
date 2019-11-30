@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package main;
 
 public class Speaker extends DB_Object implements IFront {
     private String speakerFName, speakerLName, speakerEmail;
@@ -13,7 +13,7 @@ public class Speaker extends DB_Object implements IFront {
     public Speaker(int UID, String speakerFName, String speakerLName, String speakerEmail){
         super(UID);
         if(validateName(speakerFName,speakerLName) != 0 || validateEmail(speakerEmail) != 0){
-            System.out.println("ERR: backEnd.Speaker object could not be created");
+            System.out.println("ERR: backEnd.main.Speaker object could not be created");
             System.exit(-1);
         }
         this.speakerLName = speakerFName;
@@ -48,7 +48,7 @@ public class Speaker extends DB_Object implements IFront {
         }
         return -1;
     }
-    
+
     public String getFullName(String fname, String lname) {
 		return fname+ " " +lname;
 	}

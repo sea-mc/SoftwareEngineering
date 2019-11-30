@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package main;
 
 public class Timeslot extends DB_Object implements IFront {
 
@@ -19,14 +19,13 @@ public class Timeslot extends DB_Object implements IFront {
     public Timeslot(int UID,int startTimeHour, int startTimeMin, int endTimeHour, int endTimeMin){
         super(UID);
         if(validateTime(startTimeHour,endTimeHour,startTimeMin,endTimeMin) != 0){
-            System.out.println("ERR: Timeslot object could not be created.");
+            System.out.println("ERR: main.Timeslot object could not be created.");
             System.exit(-1);
         }
 
         String tempBack = endTimeHour + "" + endTimeMin;
         endTime = Integer.parseInt(tempBack);
         Timeslot temp = new Timeslot(UID, startTimeHour, startTimeMin, endTimeHour, endTimeMin);
-        IFront.addToList(temp);
     }
 
 	private int validateTime(int startHour, int endHour, int startMin, int endMin){

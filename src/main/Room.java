@@ -1,9 +1,8 @@
-import java.io.Serializable;
-import java.util.*;
+package main;
 
-public class Room extends DB_Object implements IFront{
+public class Room extends DB_Object implements IFront {
 
-    String roomName, capacity;
+    private String roomName, capacity;
 
 	public Room() {
 		super();
@@ -30,7 +29,7 @@ public class Room extends DB_Object implements IFront{
 		return -1;
 	}
 
-	public int checkCapacity(String capacityCheck) {
+	private int checkCapacity(String capacityCheck) {
 		if(capacityCheck.matches("[0-9]+")) {
 			return 0;
 		}
@@ -39,6 +38,6 @@ public class Room extends DB_Object implements IFront{
 
     @Override
     public String toString() {
-        return super.toString() + "Room Name: " + roomName + "\nCapacity: " + capacity + "\n";
+        return super.toString() + "main.Room Name: " + roomName + "\nCapacity: " + capacity + "\n";
     }
 }

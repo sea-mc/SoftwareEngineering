@@ -1,3 +1,5 @@
+package main;
+
 import com.google.gson.Gson;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,10 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Back {
-    private static final String NAME = "admin";
-    private static final String PASS = "password";
-    private static final String URL = "jdbc:mysql://localhost/codecamp";
-    private static Gson g;
+    private final String NAME = "admin";
+    private final String PASS = "password";
+    private final String URL = "jdbc:mysql://localhost/codecamp";
+    private Gson g;
     private Connection con;
 
     Back(){
@@ -95,7 +97,7 @@ public class Back {
     }
 
     /**
-     * Deletes a DB_Object with same UID as o, if UID is < 0, it WILL delete all entries from the table
+     * Deletes a main.DB_Object with same UID as o, if UID is < 0, it WILL delete all entries from the table
      * @param o Object used to identify UID
      * @return Resultant list from the DB
      */

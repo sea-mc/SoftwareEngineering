@@ -1,19 +1,17 @@
+package main;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import static javax.swing.text.StyleConstants.Orientation;
@@ -43,11 +41,11 @@ public class MainV3 extends Application implements EventHandler<ActionEvent> {
 
 			Label labelTimeSlot = new Label("Time Slot");
 			labelTimeSlot.setStyle("-fx-font: 36 arial;");
-			Label labelSpeaker = new Label("Speaker");
+			Label labelSpeaker = new Label("main.Speaker");
 			labelSpeaker.setStyle("-fx-font: 36 arial;");
-			Label labelRoom = new Label("Room");
+			Label labelRoom = new Label("main.Room");
 			labelRoom.setStyle("-fx-font: 36 arial;");
-			Label labelSession = new Label("Session");
+			Label labelSession = new Label("main.Session");
 			labelSession.setStyle("-fx-font: 36 arial;");
 
 			ObservableList<listItem> timeSlotList = FXCollections.observableArrayList();
@@ -167,7 +165,7 @@ final Button speaker_Remove = new Button("Remove");
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Speech"));
 			sessionList.add(new listItem("Sample Text"));
-			sessionList.add(new listItem("Programming Session"));
+			sessionList.add(new listItem("Programming main.Session"));
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Sample Text"));
 			sessionList.add(new listItem("Remove Me"));
@@ -266,7 +264,7 @@ final Button speaker_Remove = new Button("Remove");
 			window.setScene(sceneHome);
 			window.setTitle("Software Engineering Desktop Application");
 
-			// -Room
+			// -main.Room
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label roomAdd_TitleLabel = new Label("Boston Code Camp Desktop Application");
@@ -292,7 +290,7 @@ final Button speaker_Remove = new Button("Remove");
 
 			Label roomAdd_NameLabel = new Label("Name");
 			Label roomAdd_CapacityLabel = new Label("Capacity");
-			Label roomAdd_Title = new Label("Add Room");
+			Label roomAdd_Title = new Label("Add main.Room");
 			roomAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField roomAdd_NameText = new TextField();
@@ -336,7 +334,7 @@ final Button speaker_Remove = new Button("Remove");
 
 			Scene roomAdd_Scene = new Scene(roomAdd_Page, 900, 400);
 
-			// -Session
+			// -main.Session
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label sessionAdd_TitleLabel = new Label("Boston Code Camp Desktop Application");
@@ -363,10 +361,10 @@ final Button speaker_Remove = new Button("Remove");
 
 			// !!!ADD DROP DOWN MENUS FOR SPEAKER, ROOM, TIME SLOT
 			Label sessionAdd_NameLabel = new Label("Name");
-			Label sessionAdd_SpeakerLabel = new Label("Speaker");
-			Label sessionAdd_RoomLabel = new Label("Room");
+			Label sessionAdd_SpeakerLabel = new Label("main.Speaker");
+			Label sessionAdd_RoomLabel = new Label("main.Room");
 			Label sessionAdd_TimeSlotLabel = new Label("Time Slot");
-			Label sessionAdd_Title = new Label("Add Session");
+			Label sessionAdd_Title = new Label("Add main.Session");
 			sessionAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionAdd_NameText = new TextField();
@@ -413,7 +411,7 @@ final Button speaker_Remove = new Button("Remove");
 
 			Scene sessionAdd_Scene = new Scene(sessionAdd_Page, 900, 400);
 
-			// -Speaker
+			// -main.Speaker
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label speakerAdd_TitleLabel = new Label("Boston Code Camp Desktop Application");
@@ -440,7 +438,7 @@ final Button speaker_Remove = new Button("Remove");
 					speakerAdd_EmailColumn);
 			speakerAdd_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-			Label speakerAdd_Title = new Label("Speaker Information");
+			Label speakerAdd_Title = new Label("main.Speaker Information");
 			Label speakerAdd_FirstName = new Label("First Name");
 			Label speakerAdd_LastName = new Label("Last Name");
 			Label speakerAdd_Phone = new Label("Email");
@@ -712,7 +710,7 @@ final Button speaker_Remove = new Button("Remove");
 			speakerEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			// good
-			Label speakerEdit_Title = new Label("Speaker Information");
+			Label speakerEdit_Title = new Label("main.Speaker Information");
 			Label speakerEdit_FirstName = new Label("First Name");
 			Label speakerEdit_LastName = new Label("Last Name");
 			Label speakerEdit_Email = new Label("Email");
@@ -771,7 +769,7 @@ final Button speaker_Remove = new Button("Remove");
 			// good
 			Label roomEdit_NameLabel = new Label("Name");
 			Label roomEdit_CapacityLabel = new Label("Capacity");
-			Label roomEdit_Title = new Label("Edit Room");
+			Label roomEdit_Title = new Label("Edit main.Room");
 			roomEdit_Title.setFont(new Font("Arial", 48));
 			// good
 			TextField roomEdit_NameText = new TextField();
@@ -828,7 +826,7 @@ final Button speaker_Remove = new Button("Remove");
 			sessionEdit_List.setFocusTraversable(false);
 
 			Label sessionEdit_NameLabel = new Label("Name");
-			Label sessionEdit_Title = new Label("Edit Session");
+			Label sessionEdit_Title = new Label("Edit main.Session");
 			sessionEdit_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionEdit_NameText = new TextField();
@@ -838,8 +836,8 @@ final Button speaker_Remove = new Button("Remove");
 			ComboBox<String> sessionEdit_RoomCombo = new ComboBox<String>();
 			
 			Label sessionEdit_TimeSlotLabel= new Label("Time Slot");
-			Label sessionEdit_SpeakerLabel= new Label("Speaker");
-			Label sessionEdit_RoomLabel= new Label("Room");
+			Label sessionEdit_SpeakerLabel= new Label("main.Speaker");
+			Label sessionEdit_RoomLabel= new Label("main.Room");
 			
 			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText);
 			sessionEdit_LabelsAndTexts.setSpacing(5);

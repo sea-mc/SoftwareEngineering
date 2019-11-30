@@ -1,3 +1,5 @@
+package main;
+
 import com.google.gson.Gson;
 
 import java.sql.*;

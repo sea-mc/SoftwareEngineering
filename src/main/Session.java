@@ -1,4 +1,6 @@
-public class Session extends DB_Object implements IFront{
+package main;
+
+public class Session extends DB_Object implements IFront {
     private String sessionName;
     private Timeslot timeslot;
     private Speaker speaker;
@@ -6,7 +8,7 @@ public class Session extends DB_Object implements IFront{
 
    public Session(){
         super();
-        this.sessionName = "Murder 101";
+        this.sessionName = "Writing code to please your Professor 101";
         this.timeslot = new Timeslot();
         this.speaker = new Speaker();
         this.room = new Room();
@@ -23,6 +25,6 @@ public class Session extends DB_Object implements IFront{
 
     @Override
     public String toString() {
-        return super.toString() + "Session Name: " + sessionName + "\nTimeslot: " + timeslot.toString() + "\nSpeaker: " + speaker.toString() + "\nRoom: " + room.toString() + "\n";
+        return super.toString() + "main.Session Name: " + sessionName + "\nmain.Timeslot: " + timeslot.toString() + "\nmain.Speaker: " + speaker.toString() + "\nmain.Room: " + room.toString() + "\n";
     }
 }
