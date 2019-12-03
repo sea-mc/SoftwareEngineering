@@ -6,12 +6,11 @@ public interface IFront {
 
     static ArrayList<DB_Object> removeFromList(int index, ArrayList<DB_Object> list){
         list.remove(index);
-        return list;
+        return back.pushDB_Object(list);
     }
 
     static ArrayList<DB_Object> addToList(DB_Object o){
         objectList.add(o);
-        back.pushDB_Object(objectList);
-        return objectList;
+        return back.pushDB_Object(objectList);
     }
 }
