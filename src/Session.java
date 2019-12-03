@@ -1,5 +1,3 @@
-package main;
-
 public class Session extends DB_Object implements IFront {
     private String sessionName;
     private Timeslot timeslot;

@@ -1,5 +1,3 @@
-package main;
-
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -336,8 +334,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				int timeSlotStartMinute = Integer.parseInt(timeSlotAdd_StartMinute.getValue());
 				int timeSlotEndHour = Integer.parseInt(timeSlotAdd_EndHour.getValue());
 				int timeSlotEndMinute = Integer.parseInt(timeSlotAdd_EndMinute.getValue());
-				Timeslot temp = new Timeslot(timeSlotStartHour, timeSlotStartMinute, timeSlotEndHour,
-						timeSlotEndMinute);
+				Timeslot temp = new Timeslot(timeSlotStartHour, timeSlotStartMinute, timeSlotEndHour, timeSlotEndMinute);
 				ArrayList<DB_Object> toAdd = Timeslot.addToList(temp);
 				timeSlotAdd_List.setItems(getTimeSlotItems(toAdd));
 

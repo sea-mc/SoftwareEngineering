@@ -1,5 +1,3 @@
-package main;
-
 abstract class DB_Object {
     public int UID;
 

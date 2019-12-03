@@ -1,5 +1,3 @@
-package main;
-
 public class Room extends DB_Object implements IFront {
 
     private String roomName, capacity;

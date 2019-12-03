@@ -1,5 +1,3 @@
-package main;
-
 public class Speaker extends DB_Object implements IFront {
     private String speakerFName, speakerLName, speakerEmail;
 

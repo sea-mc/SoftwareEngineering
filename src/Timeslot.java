@@ -1,5 +1,3 @@
-package main;
-
 public class Timeslot extends DB_Object implements IFront {
 
     private int startTime, endTime, startTimeHour, startTimeMin, endTimeHour, endTimeMin;
