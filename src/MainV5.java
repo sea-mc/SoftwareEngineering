@@ -1,5 +1,8 @@
-import java.util.ArrayList;
 
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,27 +16,37 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainV5 extends Application implements EventHandler<ActionEvent> {
-
-	private Stage window;
-	private Label mainTitleLabel = labelMaker("Boston Code Camp Desktop Application");
-	private String styleSet = "-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
+	Timeslot timeSlot = new Timeslot();
+	Speaker speaker = new Speaker();
+	
+	Stage window;
+	Label mainTitleLabel = labelMaker("Boston Code Camp Desktop Application");
+	String styleSet = "-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 			+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;";
-	private String[] stringHours = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+	String backgroundColor = "-fx-background-color: #ffffff;";
+	String[] stringHours = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
 			"16", "17", "18", "19", "20", "21", "22", "23", "24" };
-	private String[] stringMinutes = { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" };
-	private Integer[] hours = { 00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
-	private Integer[] minutes = { 00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
+	String[] stringMinutes = { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" };
+	Integer[] hours = { 00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
+	Integer[] minutes = { 00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 
 	@Override
 	public void handle(ActionEvent event) {
@@ -48,8 +61,6 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Timeslot timeSlot = new Timeslot();
-		Speaker speaker = new Speaker();
 		window = primaryStage;
 		try {
 			Label title = mainTitleLabel;
@@ -57,15 +68,15 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			title.setAlignment(Pos.TOP_CENTER);
 			Separator separator = new Separator(Orientation.HORIZONTAL);
 
-			ListView<Object> timeSlot_List = new ListView<>(getTimeSlotItems());
-			timeSlot_List.setCellFactory(param -> new ListCell<Object>() {
-				protected void updateItem(timeSlotItem item, boolean empty) {
+			ListView<DB_Object> timeSlot_List = new ListView<>(getTimeSlotItems(IFront.addToList(new Timeslot())));
+			timeSlot_List.setCellFactory(param -> new ListCell<DB_Object>() {
+				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getTime() == null) {
+					if (empty || item == null || item.getClass().toString() == null) {
 						setText(null);
 					} else {
-						setText(item.getTime());
+						setText(item.getClass().toString());
 					}
 				}
 			});
@@ -76,7 +87,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int timeSlot_RemoveIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
 					if (timeSlot_RemoveIndex != -1) {
-						Object timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
+						DB_Object timeSlot_ItemToRemove = timeSlot_List.getSelectionModel().getSelectedItem();
 
 						final int timeSlot_RemoveNewIndex = (timeSlot_RemoveIndex == timeSlot_List.getItems().size()
 								- 1) ? timeSlot_RemoveIndex - 1 : timeSlot_RemoveIndex;
@@ -87,16 +98,16 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ListView<speakerPerson> speaker_List = new ListView<>(getSpeakers());
-			speaker_List.setCellFactory(param -> new ListCell<speakerPerson>() {
+			ListView<DB_Object> speaker_List = new ListView<>(getSpeakers(IFront.addToList(new Speaker())));
+			speaker_List.setCellFactory(param -> new ListCell<DB_Object>() {
 				@Override
-				protected void updateItem(speakerPerson item, boolean empty) {
+				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getFirstName() == null) {
+					if (empty || item == null || item.getClass().toString() == null) {
 						setText(null);
 					} else {
-						setText(item.getFullName());
+						setText(item.getClass().toString());
 					}
 				}
 			});
@@ -106,7 +117,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int speaker_RemoveIndex = speaker_List.getSelectionModel().getSelectedIndex();
 					if (speaker_RemoveIndex != -1) {
-						speakerPerson speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
+						DB_Object speaker_ItemToRemove = speaker_List.getSelectionModel().getSelectedItem();
 
 						final int speaker_RemoveNewIndex = (speaker_RemoveIndex == speaker_List.getItems().size() - 1)
 								? speaker_RemoveIndex - 1
@@ -118,17 +129,17 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ListView<roomCap> room_List = new ListView<>(getRoomAndCapacity());
-			room_List.setItems(getRoomAndCapacity());
-			room_List.setCellFactory(param -> new ListCell<roomCap>() {
+			ListView<DB_Object> room_List = new ListView<>(getRoomAndCapacity(IFront.addToList(new Room())));
+			room_List.setItems(getRoomAndCapacity(IFront.addToList(new Room())));
+			room_List.setCellFactory(param -> new ListCell<DB_Object>() {
 				@Override
-				protected void updateItem(roomCap item, boolean empty) {
+				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getRoomName() == null) {
+					if (empty || item == null || item.toString() == null) {
 						setText(null);
 					} else {
-						setText(item.getRoomName());
+						setText(item.getClass().toString());
 					}
 				}
 			});
@@ -139,7 +150,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int room_RemoveIndex = room_List.getSelectionModel().getSelectedIndex();
 					if (room_RemoveIndex != -1) {
-						roomCap room_ItemToRemove = room_List.getSelectionModel().getSelectedItem();
+						DB_Object room_ItemToRemove = room_List.getSelectionModel().getSelectedItem();
 
 						final int room_RemoveNewIndex = (room_RemoveIndex == room_List.getItems().size() - 1)
 								? room_RemoveIndex - 1
@@ -151,16 +162,16 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				}
 			});
 
-			ListView<sessionItem> session_List = new ListView<>(getSessions());
-			session_List.setCellFactory(param -> new ListCell<sessionItem>() {
+			ListView<DB_Object> session_List = new ListView<>(getSessions(IFront.addToList(new Session())));
+			session_List.setCellFactory(param -> new ListCell<DB_Object>() {
 				@Override
-				protected void updateItem(sessionItem item, boolean empty) {
+				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getName() == null) {
+					if (empty || item == null || item.getClass().toString() == null) {
 						setText(null);
 					} else {
-						setText(item.getName());
+						setText(item.getClass().toString());
 					}
 				}
 			});
@@ -171,7 +182,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				public void handle(ActionEvent event) {
 					final int session_RemoveIndex = session_List.getSelectionModel().getSelectedIndex();
 					if (session_RemoveIndex != -1) {
-						sessionItem session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
+						DB_Object session_ItemToRemove = session_List.getSelectionModel().getSelectedItem();
 
 						final int session_RemoveNewIndex = (session_RemoveIndex == session_List.getItems().size() - 1)
 								? session_RemoveIndex - 1
@@ -204,7 +215,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			HBox speakerButtons = new HBox(speakerAdd, speakerEdit);
 			speakerButtons.setSpacing(5);
 			speakerButtons.setAlignment(Pos.BOTTOM_CENTER);
-			Label labelSpeaker = labelMaker("main.Speaker");
+			Label labelSpeaker = labelMaker("Speaker");
 			labelSpeaker.setStyle("-fx-font: 36 arial;");
 			VBox speaker = new VBox(labelSpeaker, speaker_List, speakerButtons, speaker_Remove);
 			speaker.setAlignment(Pos.CENTER);
@@ -218,7 +229,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			HBox roomButtons = new HBox(roomAdd, roomEdit);
 			roomButtons.setSpacing(5);
 			roomButtons.setAlignment(Pos.BOTTOM_CENTER);
-			Label labelRoom = labelMaker("main.Room");
+			Label labelRoom = labelMaker("Room");
 			labelRoom.setStyle("-fx-font: 36 arial;");
 			VBox room = new VBox(labelRoom, room_List, roomButtons, room_Remove);
 			room.setAlignment(Pos.CENTER);
@@ -232,7 +243,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			HBox sessionButtons = new HBox(sessionAdd, sessionEdit);
 			sessionButtons.setSpacing(5);
 			sessionButtons.setAlignment(Pos.BOTTOM_CENTER);
-			Label labelSession = labelMaker("main.Session");
+			Label labelSession = labelMaker("Session");
 			labelSession.setStyle("-fx-font: 36 arial;");
 			VBox session = new VBox(labelSession, session_List, sessionButtons, session_Remove);
 			session.setAlignment(Pos.CENTER);
@@ -246,7 +257,6 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			VBox homePage = new VBox(title, home, separator, homeOption);
 			homePage.setSpacing(5);
 			homePage.setAlignment(Pos.TOP_CENTER);
-			String backgroundColor = "-fx-background-color: #ffffff;";
 			homePage.setStyle(backgroundColor);
 			Scene sceneHome = new Scene(homePage, 900, 400);
 			// sceneHome.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -258,7 +268,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			// -Time Slot
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 			Label timeSlotAdd_TitleLabel = mainTitleLabel;
 			timeSlotAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			timeSlotAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
@@ -267,7 +277,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotAdd_AddButton = buttonMaker("Add");
 			Button timeSlotAdd_HomeButton = buttonMaker("Home");
 
-			ListView<Object> timeSlotAdd_List = new ListView<>(getTimeSlotItems(Timeslot.getTimeSlotList()));
+			ListView<Object> timeSlotAdd_List = new ListView<>(getTimeSlotItems(Timeslot.getTimeSlotList)));
 			timeSlotAdd_List.setCellFactory(param -> new ListCell<Object>() {
 				protected void updateItem(timeSlotItem item, boolean empty) {
 					super.updateItem(item, empty);
@@ -334,17 +344,19 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				int timeSlotStartMinute = Integer.parseInt(timeSlotAdd_StartMinute.getValue());
 				int timeSlotEndHour = Integer.parseInt(timeSlotAdd_EndHour.getValue());
 				int timeSlotEndMinute = Integer.parseInt(timeSlotAdd_EndMinute.getValue());
-				Timeslot temp = new Timeslot(timeSlotStartHour, timeSlotStartMinute, timeSlotEndHour, timeSlotEndMinute);
+				Timeslot temp = new Timeslot(timeSlotStartHour, timeSlotStartMinute, timeSlotEndHour,
+						timeSlotEndMinute);
 				ArrayList<DB_Object> toAdd = Timeslot.addToList(temp);
 				timeSlotAdd_List.setItems(getTimeSlotItems(toAdd));
 
 			});
 
 			Scene timeSlotAdd_Scene = new Scene(timeSlotAdd_Page, 900, 400);
-
-			// -main.Speaker
+*/
+			// -Speaker
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+			/////SHOULD WORK MAYBE/////
+			
 			Label speakerAdd_TitleLabel = mainTitleLabel;
 			speakerAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			speakerAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
@@ -353,23 +365,22 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button speakerAdd_AddButton = buttonMaker("Add");
 			Button speakerAdd_HomeButton = buttonMaker("Home");
 
-			TableView<Object> speakerAdd_Table = new TableView<>();
+			TableView<DB_Object> speakerAdd_Table = new TableView<>();
 			speakerAdd_Table.setEditable(true);
 
-			TableColumn<Speaker, String> speakerAdd_FirstNameColumn = new TableColumn<>("First Name");
-			speakerAdd_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-			TableColumn<Speaker, String> speakerAdd_LastNameColumn = new TableColumn<>("Last Name");
-			speakerAdd_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-			TableColumn<Speaker, String> speakerAdd_EmailColumn = new TableColumn<>("Email");
-			speakerAdd_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+			TableColumn<DB_Object, String> speakerAdd_FirstNameColumn = new TableColumn<>("First Name");
+			speakerAdd_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("speakerFName"));
+			TableColumn<DB_Object, String> speakerAdd_LastNameColumn = new TableColumn<>("Last Name");
+			speakerAdd_LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("speakerLName"));
+			TableColumn<DB_Object, String> speakerAdd_EmailColumn = new TableColumn<>("Email");
+			speakerAdd_EmailColumn.setCellValueFactory(new PropertyValueFactory<>("speakerEmail"));
 
-			speakerAdd_Table.setItems(getSpeakers(Speaker.getSpeakerList()));
+			speakerAdd_Table.setItems(getSpeakers(IFront.addToList(new Speaker())));
 
-			speakerAdd_Table.getColumns().addAll(speakerAdd_FirstNameColumn, speakerAdd_LastNameColumn,
-					speakerAdd_EmailColumn);
+			speakerAdd_Table.getColumns().addAll(speakerAdd_FirstNameColumn, speakerAdd_LastNameColumn, speakerAdd_EmailColumn);
 			speakerAdd_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-			Label speakerAdd_Title = labelMaker("main.Speaker Information");
+			Label speakerAdd_Title = labelMaker("Speaker Information");
 			Label speakerAdd_FirstName = labelMaker("First Name");
 			Label speakerAdd_LastName = labelMaker("Last Name");
 			Label speakerAdd_Phone = labelMaker("Email");
@@ -402,18 +413,18 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				String inputSpeakerAdd_FirstName = speakerAdd_FirstNameText.getText();
 				String inputSpeakerAdd_LastName = speakerAdd_LastNameText.getText();
 				String inputSpeakerAdd_Email = speakerAdd_EmailText.getText();
-				Speaker temp = new Speaker(inputSpeakerAdd_FirstName, inputSpeakerAdd_LastName, "",
+				Speaker temp = new Speaker(-1, inputSpeakerAdd_FirstName, inputSpeakerAdd_LastName,
 						inputSpeakerAdd_Email);
-				ArrayList<DB_Object> toAdd = Speaker.addToList(temp);
+				ArrayList<DB_Object> toAdd = IFront.addToList(temp);
 				speakerAdd_Table.setItems(getSpeakers(toAdd));
 
 			});
 
 			Scene speakerAdd_Scene = new Scene(speakerAdd_Page, 900, 400);
-
-			// -main.Room
+		
+			// -Room
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 			Label roomAdd_TitleLabel = mainTitleLabel;
 			roomAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			roomAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
@@ -427,7 +438,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			TableColumn<Room, Integer> roomAdd_CapacityColumn = new TableColumn<>("Capacity");
 			roomAdd_CapacityColumn.setCellValueFactory(new PropertyValueFactory<>("roomCapacity"));
 
-			roomAdd_Table.setItems(getRoomAndCapacity(Room.getRoomList()));
+			roomAdd_Table.setItems(getRoomAndCapacity(IFront.addToList(new Room())));
 
 			roomAdd_Table.getColumns().addAll(roomAdd_NameColumn, roomAdd_CapacityColumn);
 			roomAdd_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -437,7 +448,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			Label roomAdd_NameLabel = labelMaker("Name");
 			Label roomAdd_CapacityLabel = labelMaker("Capacity");
-			Label roomAdd_Title = labelMaker("Add main.Room");
+			Label roomAdd_Title = labelMaker("Add Room");
 			roomAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField roomAdd_NameText = new TextField();
@@ -451,8 +462,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 					// back
 				} else {
 					// Would call addToList to add a new entry to the database
-					Room temp = new Room(inputRoomName, inputRoomCapacity);
-					ArrayList<DB_Object> toAdd = Room.addToList(temp);
+					Room temp = new Room(-1, inputRoomName, inputRoomCapacity);
+					ArrayList<DB_Object> toAdd = IFront.addToList(temp);
 					roomAdd_Table.setItems(getRoomAndCapacity(toAdd));
 				}
 
@@ -479,7 +490,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			Scene roomAdd_Scene = new Scene(roomAdd_Page, 900, 400);
 
-			// -main.Session
+			// -Session
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Label sessionAdd_TitleLabel = mainTitleLabel;
@@ -490,10 +501,10 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button sessionAdd_AddButton = buttonMaker("Add");
 			Button sessionAdd_HomeButton = buttonMaker("Home");
 
-			ListView<sessionItem> sessionAdd_List = new ListView<>(getSessions());
-			sessionAdd_List.setCellFactory(param -> new ListCell<sessionItem>() {
+			ListView<Session> sessionAdd_List = new ListView<>(getSessions());
+			sessionAdd_List.setCellFactory(param -> new ListCell<Session>() {
 				@Override
-				protected void updateItem(sessionItem item, boolean empty) {
+				protected void updateItem(Session item, boolean empty) {
 					super.updateItem(item, empty);
 
 					if (empty || item == null || item.getName() == null) {
@@ -506,10 +517,10 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			// !!!ADD DROP DOWN MENUS FOR SPEAKER, ROOM, TIME SLOT
 			Label sessionAdd_NameLabel = labelMaker("Name");
-			Label sessionAdd_SpeakerLabel = labelMaker("main.Speaker");
-			Label sessionAdd_RoomLabel = labelMaker("main.Room");
+			Label sessionAdd_SpeakerLabel = labelMaker("Speaker");
+			Label sessionAdd_RoomLabel = labelMaker("Room");
 			Label sessionAdd_TimeSlotLabel = labelMaker("Time Slot");
-			Label sessionAdd_Title = labelMaker("Add main.Session");
+			Label sessionAdd_Title = labelMaker("Add Session");
 			sessionAdd_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionAdd_NameText = new TextField();
@@ -552,9 +563,9 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionAdd_Page.setStyle(styleSet);
 
 			Scene sessionAdd_Scene = new Scene(sessionAdd_Page, 900, 400);
-
+*/
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 			Label timeSlotEdit_TitleLabel = mainTitleLabel;
 			timeSlotEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
 			timeSlotEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
@@ -643,7 +654,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button speakerEdit_DoneButton = buttonMaker("Done");
 			Button speakerEdit_HomeButton = buttonMaker("Home");
 
-			TableView<speakerPerson> speakerEdit_Table = new TableView<>();
+			TableView<Speaker> speakerEdit_Table = new TableView<>();
 			speakerEdit_Table.setEditable(true);
 
 			TableColumn<speakerPerson, String> speakerEdit_FirstNameColumn = new TableColumn<>("First Name");
@@ -660,7 +671,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			speakerEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			// good
-			Label speakerEdit_Title = labelMaker("main.Speaker Information");
+			Label speakerEdit_Title = labelMaker("Speaker Information");
 			Label speakerEdit_FirstName = labelMaker("First Name");
 			Label speakerEdit_LastName = labelMaker("Last Name");
 			Label speakerEdit_Email = labelMaker("Email");
@@ -702,9 +713,9 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			TableView<roomCap> roomEdit_Table = new TableView<>();
 			roomEdit_Table.setEditable(true);
 
-			TableColumn<roomCap, String> roomEdit_Name = new TableColumn<roomCap, String>("Name");
+			TableColumn<Room, String> roomEdit_Name = new TableColumn<Room, String>("Name");
 			roomEdit_Name.setCellValueFactory(new PropertyValueFactory<>("roomName"));
-			TableColumn<roomCap, String> roomEdit_Capacity = new TableColumn("Capacity");
+			TableColumn<Room, String> roomEdit_Capacity = new TableColumn("Capacity");
 			roomEdit_Capacity.setCellValueFactory(new PropertyValueFactory<>("roomCapacity"));
 
 			roomEdit_Table.setItems(getRoomAndCapacity());
@@ -718,7 +729,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			// good
 			Label roomEdit_NameLabel = labelMaker("Name");
 			Label roomEdit_CapacityLabel = labelMaker("Capacity");
-			Label roomEdit_Title = labelMaker("Edit main.Room");
+			Label roomEdit_Title = labelMaker("Edit Room");
 			roomEdit_Title.setFont(new Font("Arial", 48));
 			// good
 			TextField roomEdit_NameText = new TextField();
@@ -774,7 +785,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_List.setFocusTraversable(false);
 
 			Label sessionEdit_NameLabel = labelMaker("Name");
-			Label sessionEdit_Title = labelMaker("Edit main.Session");
+			Label sessionEdit_Title = labelMaker("Edit Session");
 			sessionEdit_Title.setFont(new Font("Arial", 48));
 
 			TextField sessionEdit_NameText = new TextField();
@@ -795,8 +806,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			}
 
 			Label sessionEdit_TimeSlotLabel = labelMaker("Time Slot");
-			Label sessionEdit_SpeakerLabel = labelMaker("main.Speaker");
-			Label sessionEdit_RoomLabel = labelMaker("main.Room");
+			Label sessionEdit_SpeakerLabel = labelMaker("Speaker");
+			Label sessionEdit_RoomLabel = labelMaker("Room");
 
 			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText,
 					sessionEdit_TimeSlotLabel, sessionEdit_TimeSlotCombo, sessionEdit_SpeakerLabel,
@@ -812,9 +823,9 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_Page.setStyle(styleSet);
 
 			Scene sessionEdit_Scene = new Scene(sessionEdit_Page, 900, 400);
-
+*/
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 			timeSlotAdd.setOnAction(e -> window.setScene(timeSlotAdd_Scene));
 			speakerAdd.setOnAction(e -> window.setScene(speakerAdd_Scene));
 			roomAdd.setOnAction(e -> window.setScene(roomAdd_Scene));
@@ -868,129 +879,39 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			speakerEdit_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			timeSlotEdit_HomeButton.setOnAction(e -> window.setScene(sceneHome));
-
+*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public class roomCap {
-		private String roomName;
-		private String roomCapacity;
-
-		public roomCap() {
-			this.roomName = "";
-			this.roomCapacity = "";
-		}
-
-		public roomCap(String roomName, String roomCapacity) {
-			this.roomName = roomName;
-			this.roomCapacity = roomCapacity;
-		}
-
-		public String getRoomName() {
-			return roomName;
-		}
-
-		public void setRoomName(String roomName) {
-			this.roomName = roomName;
-		}
-
-		public String getRoomCapacity() {
-			return roomCapacity;
-		}
-
-		public void setRoomCapacity(String roomCapacity) {
-			this.roomCapacity = roomCapacity;
-		}
-	}
-
-	public ObservableList<Object> getTimeSlotItems(ArrayList<DB_Object> temp) {
-		ObservableList<Object> timeSlotList = FXCollections.observableArrayList();
+	public ObservableList<DB_Object> getTimeSlotItems(ArrayList<DB_Object> temp) {
+		ObservableList<DB_Object> timeSlotList = FXCollections.observableArrayList();
 		timeSlotList = addItem(timeSlotList, temp);
 		return timeSlotList;
 	}
 
-	public ObservableList<Object> getSpeakers(ArrayList<DB_Object> temp) {
-		ObservableList<Object> speakers = FXCollections.observableArrayList();
+	public ObservableList<DB_Object> getSpeakers(ArrayList<DB_Object> temp) {
+		ObservableList<DB_Object> speakers = FXCollections.observableArrayList();
 		speakers = addItem(speakers, temp);
 		return speakers;
 	}
 
-	public ObservableList<Object> getRoomAndCapacity(ArrayList<DB_Object> temp) {
-		ObservableList<Object> roomsAndCapacities = FXCollections.observableArrayList();
+	public ObservableList<DB_Object> getRoomAndCapacity(ArrayList<DB_Object> temp) {
+		ObservableList<DB_Object> roomsAndCapacities = FXCollections.observableArrayList();
 		roomsAndCapacities = addItem(roomsAndCapacities, temp);
 		return roomsAndCapacities;
 	}
 
-	public ObservableList<Object> getSessions(ArrayList<DB_Object> temp) {
-		ObservableList<Object> sessions = FXCollections.observableArrayList();
+	public ObservableList<DB_Object> getSessions(ArrayList<DB_Object> temp) {
+		ObservableList<DB_Object> sessions = FXCollections.observableArrayList();
 		sessions = addItem(sessions, temp);
 		return sessions;
 	}
 
-	public class timeSlotItem {
-		private int startHour;
-		private int startMinute;
-		private int endHour;
-		private int endMinute;
-
-		public timeSlotItem() {
-			this.startHour = 0;
-			this.startMinute = 0;
-			this.endHour = 0;
-			this.endHour = 0;
-		}
-
-		public timeSlotItem(int startHour, int startMinute, int endHour, int endMinute) {
-			this.startHour = startHour;
-			this.startMinute = startMinute;
-			this.endHour = endHour;
-			this.endMinute = endMinute;
-		}
-
-		public int getStartHour() {
-			return startHour;
-		}
-
-		public void setStartHour(int startHour) {
-			this.startHour = startHour;
-		}
-
-		public int getStartMinute() {
-			return startMinute;
-		}
-
-		public void setStartMinute(int startMinute) {
-			this.startMinute = startMinute;
-		}
-
-		public int getEndHour() {
-			return endHour;
-		}
-
-		public void setEndHour(int endHour) {
-			this.endHour = endHour;
-		}
-
-		public int getEndMinute() {
-			return endMinute;
-		}
-
-		public void setEndMinute(int endMinute) {
-			this.endMinute = endMinute;
-		}
-
-		public String getTime() {
-			return startHour + ":" + startMinute + " - " + endHour + ":" + endMinute;
-		}
-	}
-
-	public ObservableList<Object> addItem(ObservableList<Object> viewableList, ArrayList<DB_Object> DBList) {
-		for (int i = 0; i < DBList.size(); i++) {
-			viewableList.add(DBList.indexOf(i));
-		}
+	public ObservableList<DB_Object> addItem(ObservableList<DB_Object> viewableList, ArrayList<DB_Object> DBList) {
+		viewableList.addAll(DBList);
 		return viewableList;
 	}
 
