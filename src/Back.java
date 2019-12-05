@@ -27,8 +27,10 @@ public class Back {
         return pullTable(list.get(0));
     }
 
-    /** pushes a single DB object to the database, if object with same UID exists in the DB it is overwritten
+    /** pushes a single DB object to the database, if object with same UID exists in the DB it is overwritten,
+     * if passed a DB_Object with a UID equal to or less than 0, it simply returns everything in the DB
      * @param o singular object to be pushed to the database
+     * @return ArrayList Everything that is in the DB
      */
     public ArrayList<DB_Object> pushDB_Object(DB_Object o) {
         if(o.UID>0){
@@ -95,7 +97,7 @@ public class Back {
     }
 
     /**
-     * Deletes a main.DB_Object with same UID as o, if UID is < 0, it WILL delete all entries from the table
+     * Deletes a DB_Object with same UID as o, if UID is < 0, it WILL delete all entries from the table
      * @param o Object used to identify UID
      * @return Resultant list from the DB
      */
