@@ -4,7 +4,6 @@
     <excludeFromCompile>
       <file url="file://$PROJECT_DIR$/src/MainV3.java" />
       <file url="file://$PROJECT_DIR$/src/MainV4.java" />
-      <file url="file://$PROJECT_DIR$/src/MainV5.java" />
     </excludeFromCompile>
   </component>
 </project>

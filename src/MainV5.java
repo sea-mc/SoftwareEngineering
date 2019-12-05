@@ -551,7 +551,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 					DB_Object tempTimeslot = findObject(nullTimeslot, inputSessionTimeSlot);
 					DB_Object tempSpeaker = findObject(nullSpeaker, inputSessionTimeSlot);
 					DB_Object tempRoom = findObject(nullRoom, inputSessionTimeSlot);
-					ArrayList<DB_Object> temp = IFront.addToList(new Session(-1, inputSessionName, tempTimeslot, tempSpeaker, tempRoom));
+					ArrayList<DB_Object> temp = IFront.addToList(new Session(-1, inputSessionName, (Timeslot) tempTimeslot, (Speaker) tempSpeaker,(Room) tempRoom));
 					sessionAdd_List.setItems(getSessions(temp));
 				}
 
