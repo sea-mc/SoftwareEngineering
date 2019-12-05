@@ -37,7 +37,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 	ArrayList<DB_Object> nullSession = IFront.addToList(emptySession);
 
 	Stage window;
-	Label mainTitleLabel = labelMaker("Boston Code Camp Desktop Application");
+	String mainTitle = "Boston Code Camp Desktop Application";
+
 	String styleSet = "-fx-padding: 10;" + "-fx-border-style: solid inside;" + "-fx-border-width: 2;"
 			+ "-fx-border-insets: 5;" + "-fx-border-radius: 5;" + "-fx-border-color: #999999;";
 	String backgroundColor = "-fx-background-color: #ffffff;";
@@ -62,7 +63,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
 		try {
-			Label title = mainTitleLabel;
+			Label title = labelMaker(mainTitle);
 			title.setStyle("-fx-font: 24 arial;");
 			title.setAlignment(Pos.TOP_CENTER);
 			Separator separator = new Separator(Orientation.HORIZONTAL);
@@ -268,7 +269,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			// -Time Slot
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			Label timeSlotAdd_TitleLabel = mainTitleLabel;
+			Label timeSlotAdd_TitleLabel = labelMaker(mainTitle);
 			timeSlotAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			timeSlotAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator timeSlotAdd_Separator = new Separator(Orientation.HORIZONTAL);
@@ -356,7 +357,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			/////SHOULD WORK MAYBE/////
 			
-			Label speakerAdd_TitleLabel = mainTitleLabel;
+			Label speakerAdd_TitleLabel = labelMaker(mainTitle);
 			speakerAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			speakerAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator speakerAdd_Separator = new Separator(Orientation.HORIZONTAL);
@@ -424,7 +425,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			// -Room
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			Label roomAdd_TitleLabel = mainTitleLabel;
+			Label roomAdd_TitleLabel = labelMaker(mainTitle);
 			roomAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			roomAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator roomAdd_Separator = new Separator(Orientation.HORIZONTAL);
@@ -493,7 +494,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			// -Session
 			// Page-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			Label sessionAdd_TitleLabel = mainTitleLabel;
+			Label sessionAdd_TitleLabel = labelMaker(mainTitle);
 			sessionAdd_TitleLabel.setStyle("-fx-font: 24 arial;");
 			sessionAdd_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator sessionAdd_Separator = new Separator(Orientation.HORIZONTAL);
@@ -551,7 +552,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 					DB_Object tempTimeslot = findObject(nullTimeslot, inputSessionTimeSlot);
 					DB_Object tempSpeaker = findObject(nullSpeaker, inputSessionTimeSlot);
 					DB_Object tempRoom = findObject(nullRoom, inputSessionTimeSlot);
-					ArrayList<DB_Object> temp = IFront.addToList(new Session(-1, inputSessionName, (Timeslot) tempTimeslot, (Speaker) tempSpeaker,(Room) tempRoom));
+					ArrayList<DB_Object> temp = IFront.addToList(new Session(-1, inputSessionName, (Timeslot) tempTimeslot, (Speaker) tempSpeaker, (Room) tempRoom));
 					sessionAdd_List.setItems(getSessions(temp));
 				}
 
@@ -573,8 +574,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Scene sessionAdd_Scene = new Scene(sessionAdd_Page, 900, 400);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-			Label timeSlotEdit_TitleLabel = mainTitleLabel;
+
+			Label timeSlotEdit_TitleLabel = labelMaker(mainTitle);
 			timeSlotEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
 			timeSlotEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator timeSlotEdit_Separator = new Separator(Orientation.HORIZONTAL);
@@ -582,16 +583,16 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button timeSlotEdit_DoneButton = buttonMaker("Done");
 			Button timeSlotEdit_HomeButton = buttonMaker("Home");
 
-			ListView<Object> timeSlotEdit_List = new ListView<>(getTimeSlotItems());
-			timeSlotEdit_List.setCellFactory(param -> new ListCell<Object>() {
+			ListView<DB_Object> timeSlotEdit_List = new ListView<>(getTimeSlotItems(nullTimeslot));
+			timeSlotEdit_List.setCellFactory(param -> new ListCell<DB_Object>() {
 
-				protected void updateItem(timeSlotItem item, boolean empty) {
+				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getTime() == null) {
+					if (empty || item == null || item.getClass().toString() == null) {
 						setText(null);
 					} else {
-						setText(item.getTime());
+						setText(item.getClass().toString());
 					}
 				}
 			});
@@ -602,7 +603,6 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Label timeSlotEdit_Title = labelMaker("Edit Time Slot");
 			Label timeSlotEdit_StartTime = labelMaker("Start Time");
 			Label timeSlotEdit_EndTime = labelMaker("End Time");
-			Label timeSlotEdit_Duration = labelMaker("Duration");
 			timeSlotEdit_Title.setFont(new Font("Arial", 48));
 
 			ComboBox<Integer> timeSlotEdit_StartHour = new ComboBox<Integer>();
@@ -614,8 +614,6 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			ComboBox<Integer> timeSlotEdit_EndMinute = new ComboBox<Integer>();
 			timeSlotEdit_EndMinute.getItems().addAll(minutes);
 
-			ComboBox<Integer> timeSlotEdit_DurationComboBox = new ComboBox<Integer>();
-
 			// start hbox
 			HBox timeSlotEdit_StartComboBox = new HBox(timeSlotEdit_StartHour, timeSlotEdit_StartMinute);
 			timeSlotEdit_StartComboBox.setSpacing(5);
@@ -625,11 +623,6 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotEdit_EndComboBox.setSpacing(5);
 			timeSlotEdit_EndComboBox.setAlignment(Pos.CENTER);
 
-			// not centered please help
-			VBox timeSlotEditDuration = new VBox(timeSlotEdit_Duration, timeSlotEdit_DurationComboBox);
-			timeSlotEditDuration.setSpacing(5);
-			timeSlotEditDuration.setAlignment(Pos.CENTER);
-
 			VBox timeSlotEdit_StartTimeInput = new VBox(timeSlotEdit_StartTime, timeSlotEdit_StartComboBox);
 			timeSlotEdit_StartTimeInput.setSpacing(5);
 			timeSlotEdit_StartTimeInput.setAlignment(Pos.CENTER);
@@ -638,8 +631,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotEdit_EndTimeInput.setSpacing(5);
 			timeSlotEdit_EndTimeInput.setAlignment(Pos.CENTER);
 
-			HBox timeSlotEdit_AllInputs = new HBox(timeSlotEdit_StartTimeInput, timeSlotEditDuration,
-					timeSlotEdit_EndTimeInput);
+			HBox timeSlotEdit_AllInputs = new HBox(timeSlotEdit_StartTimeInput, timeSlotEdit_EndTimeInput);
 			timeSlotEdit_AllInputs.setSpacing(5);
 			timeSlotEdit_AllInputs.setAlignment(Pos.CENTER);
 
@@ -653,8 +645,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Scene timeSlotEdit_Scene = new Scene(timeSlotEdit_Page, 900, 400);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-			Label speakerEdit_TitleLabel = mainTitleLabel;
+/*
+			Label speakerEdit_TitleLabel = labelMaker(mainTitle);
 			speakerEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
 			speakerEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator speakerEdit_Separator = new Separator(Orientation.HORIZONTAL);
@@ -713,7 +705,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			Label roomEdit_TitleLabel = mainTitleLabel;
+			Label roomEdit_TitleLabel = labelMaker(mainTitle);
 			roomEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
 			roomEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator roomEdit_Separator = new Separator(Orientation.HORIZONTAL);
@@ -766,7 +758,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			Label sessionEdit_TitleLabel = mainTitleLabel;
+			Label sessionEdit_TitleLabel = labelMaker(mainTitle);
 			sessionEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
 			sessionEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator sessionEdit_Separator = new Separator(Orientation.HORIZONTAL);
@@ -841,10 +833,10 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			timeSlotEdit.setOnAction(e -> {
 				final int timeSlot_EditIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
-				timeSlotEdit_StartHour.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getStartHour());
-				timeSlotEdit_StartMinute.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getStartMinute());
-				timeSlotEdit_EndHour.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getEndHour());
-				timeSlotEdit_EndMinute.setValue(getTimeSlotItems().get(timeSlot_EditIndex).getEndMinute());
+				timeSlotEdit_StartHour.setValue(nullTimeslot.get(timeSlot_EditIndex).getClass().startTimeHour);
+				timeSlotEdit_StartMinute.setValue(nullTimeslot.get(timeSlot_EditIndex).startTimeMin);
+				timeSlotEdit_EndHour.setValue(nullTimeslot.get(timeSlot_EditIndex).endTimeHour);
+				timeSlotEdit_EndMinute.setValue(nullTimeslot.get(timeSlot_EditIndex).endTimeMin);
 				window.setScene(timeSlotEdit_Scene);
 			});
 
