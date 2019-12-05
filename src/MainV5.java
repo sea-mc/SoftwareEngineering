@@ -451,7 +451,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 
 			roomAdd_AddButton.setOnAction(e -> {
 				String inputRoomName = roomAdd_NameText.getText();
-				String inputRoomCapacity = roomAdd_NameText.getText();
+				String inputRoomCapacity = roomAdd_CapacityText.getText();
 				if (inputRoomName == "" || inputRoomCapacity == null) {
 					// Want to call addToList with null in order to get every entry from database
 					// back
@@ -605,6 +605,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Label timeSlotEdit_EndTime = labelMaker("End Time");
 			timeSlotEdit_Title.setFont(new Font("Arial", 48));
 
+			ComboBox<Integer> timeSlotEdit_UID = new ComboBox<Integer>();
+			timeSlotEdit_UID.setEditable(false);
 			ComboBox<String> timeSlotEdit_StartHour = new ComboBox<String>();
 			timeSlotEdit_StartHour.getItems().addAll(stringHours);
 			ComboBox<String> timeSlotEdit_StartMinute = new ComboBox<String>();
@@ -615,11 +617,12 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotEdit_EndMinute.getItems().addAll(stringMinutes);
 
 			timeSlotEdit_DoneButton.setOnAction(e -> {
+				int timeSlotUID = timeSlotEdit_UID.getValue();
 				int timeSlotStartHour = Integer.parseInt(timeSlotEdit_StartHour.getValue());
 				int timeSlotStartMinute = Integer.parseInt(timeSlotEdit_StartMinute.getValue());
 				int timeSlotEndHour = Integer.parseInt(timeSlotEdit_EndHour.getValue());
 				int timeSlotEndMinute = Integer.parseInt(timeSlotEdit_EndMinute.getValue());
-				Timeslot temp = new Timeslot(-1, timeSlotStartHour, timeSlotStartMinute, timeSlotEndHour,
+				Timeslot temp = new Timeslot(timeSlotUID, timeSlotStartHour, timeSlotStartMinute, timeSlotEndHour,
 						timeSlotEndMinute);
 				ArrayList<DB_Object> toAdd = IFront.addToList(temp);
 				timeSlotEdit_List.setItems(getTimeSlotItems(toAdd));
@@ -669,6 +672,8 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			TableView<DB_Object> speakerEdit_Table = new TableView<>();
 			speakerEdit_Table.setEditable(true);
 
+			ComboBox<Integer> speakerUID = new ComboBox<Integer>();
+			speakerUID.setEditable(false);
 			TableColumn<DB_Object, String> speakerEdit_FirstNameColumn = new TableColumn<>("First Name");
 			speakerEdit_FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("speakerFName"));
 			TableColumn<DB_Object, String> speakerEdit_LastNameColumn = new TableColumn<>("Last Name");
@@ -682,6 +687,18 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			speakerEdit_Table.getColumns().addAll(speakerEdit_FirstNameColumn, speakerEdit_LastNameColumn,
 					speakerEdit_EmailColumn);
 			speakerEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+			speakerAdd_AddButton.setOnAction(e -> {
+				int inputSpeakerUID = speakerUID.getValue();
+				String inputSpeakerEdit_FirstName = speakerEdit_FirstNameColumn.getText();
+				String inputSpeakerEdit_LastName = speakerEdit_LastNameColumn.getText();
+				String inputSpeakerEdit_Email = speakerEdit_EmailColumn.getText();
+				Speaker temp = new Speaker(inputSpeakerUID, inputSpeakerEdit_FirstName, inputSpeakerEdit_LastName,
+						inputSpeakerEdit_Email);
+				ArrayList<DB_Object> toAdd = IFront.addToList(temp);
+				speakerAdd_Table.setItems(getSpeakers(toAdd));
+
+			});
 
 			// good
 			Label speakerEdit_Title = labelMaker("Speaker Information");
@@ -717,49 +734,63 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Scene speakerEdit_Scene = new Scene(speakerEdit_Page, 900, 400);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 			Label roomEdit_TitleLabel = labelMaker(mainTitle);
 			roomEdit_TitleLabel.setStyle("-fx-font: 24 arial;");
 			roomEdit_TitleLabel.setAlignment(Pos.TOP_CENTER);
 			Separator roomEdit_Separator = new Separator(Orientation.HORIZONTAL);
 
-			TableView<roomCap> roomEdit_Table = new TableView<>();
+			TableView<DB_Object> roomEdit_Table = new TableView<>();
 			roomEdit_Table.setEditable(true);
 
-			TableColumn<Room, String> roomEdit_Name = new TableColumn<Room, String>("Name");
+			ComboBox<Integer> roomUID = new ComboBox<Integer>();
+			speakerUID.setEditable(false);
+			TableColumn<DB_Object, String> roomEdit_Name = new TableColumn<DB_Object, String>("Name");
 			roomEdit_Name.setCellValueFactory(new PropertyValueFactory<>("roomName"));
-			TableColumn<Room, String> roomEdit_Capacity = new TableColumn("Capacity");
-			roomEdit_Capacity.setCellValueFactory(new PropertyValueFactory<>("roomCapacity"));
+			TableColumn<DB_Object, Integer> roomEdit_Capacity = new TableColumn("Capacity");
+			roomEdit_Capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
 
-			roomEdit_Table.setItems(getRoomAndCapacity());
+			nullRoom = IFront.addToList(emptyRoom);
+			roomEdit_Table.setItems(getRoomAndCapacity(nullRoom));
 
 			roomEdit_Table.getColumns().addAll(roomEdit_Name, roomEdit_Capacity);
 			roomEdit_Table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-			// good
 			Button roomEdit_DoneButton = buttonMaker("Done");
 			Button roomEdit_HomeButton = buttonMaker("Home");
-			// good
+
 			Label roomEdit_NameLabel = labelMaker("Name");
 			Label roomEdit_CapacityLabel = labelMaker("Capacity");
 			Label roomEdit_Title = labelMaker("Edit Room");
 			roomEdit_Title.setFont(new Font("Arial", 48));
-			// good
+
 			TextField roomEdit_NameText = new TextField();
 			TextField roomEdit_CapacityText = new TextField();
-			// good
+
+			roomEdit_DoneButton.setOnAction(e -> {
+				int inputRoomUID = roomUID.getValue();
+				String inputRoomName = roomEdit_NameText.getText();
+				String inputRoomCapacity = roomAdd_NameText.getText();
+				Room temp = new Room(inputRoomUID, inputRoomName, inputRoomCapacity);
+				ArrayList<DB_Object> toAdd = IFront.addToList(temp);
+				roomAdd_Table.setItems(getRoomAndCapacity(toAdd));
+
+
+			});
+
+
 			VBox roomEdit_Labels = new VBox(roomEdit_NameLabel, roomEdit_CapacityLabel);
 			roomEdit_Labels.setSpacing(15);
 			roomEdit_Labels.setAlignment(Pos.CENTER_RIGHT);
-			// good, adding the text fields to a vbox
+
 			VBox roomEdit_Texts = new VBox(roomEdit_NameText, roomEdit_CapacityText);
 			roomEdit_Texts.setSpacing(5);
 			roomEdit_Texts.setAlignment(Pos.CENTER);
-			// good
+
 			HBox roomEdit_LabelsAndTexts = new HBox(roomEdit_Labels, roomEdit_Texts);
 			roomEdit_LabelsAndTexts.setSpacing(5);
 			roomEdit_LabelsAndTexts.setAlignment(Pos.CENTER);
-			// good
+
 			VBox roomEdit_Page = new VBox(roomEdit_TitleLabel, roomEdit_HomeButton, roomEdit_Separator, roomEdit_Title,
 					roomEdit_Table, roomEdit_LabelsAndTexts, roomEdit_DoneButton);
 			roomEdit_Page.setSpacing(5);
@@ -779,16 +810,17 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Button sessionEdit_DoneButton = buttonMaker("Done");
 			Button sessionEdit_HomeButton = buttonMaker("Home");
 
-			ListView<sessionItem> sessionEdit_List = new ListView<>(getSessions());
-			sessionEdit_List.setCellFactory(param -> new ListCell<sessionItem>() {
+			nullSession = IFront.addToList(emptySession);
+			ListView<DB_Object> sessionEdit_List = new ListView<>(getSessions(nullSession));
+			sessionEdit_List.setCellFactory(param -> new ListCell<DB_Object>() {
 				@Override
-				protected void updateItem(sessionItem item, boolean empty) {
+				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getName() == "") {
+					if (empty || item == null || item.getClass().toString() == "") {
 						setText(null);
 					} else {
-						setText(item.getName());
+						setText(item.getClass().toString());
 					}
 				}
 			});
@@ -801,26 +833,45 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			Label sessionEdit_Title = labelMaker("Edit Session");
 			sessionEdit_Title.setFont(new Font("Arial", 48));
 
+			ComboBox<Integer> sessionUID = new ComboBox<Integer>();
+			sessionUID.setEditable(false);
+
 			TextField sessionEdit_NameText = new TextField();
 
 			ComboBox<String> sessionEdit_TimeSlotCombo = new ComboBox<String>(); // integer
-			for (timeSlotItem ts : getTimeSlotItems()) {
-				sessionEdit_TimeSlotCombo.getItems().add(ts.getTime());
+			for (DB_Object ts : getTimeSlotItems(nullTimeslot)) {
+				sessionEdit_TimeSlotCombo.getItems().add(ts.getClass().toString());
 			}
 
 			ComboBox<String> sessionEdit_SpeakerCombo = new ComboBox<String>();
-			for (speakerPerson s : getSpeakers()) {
-				sessionEdit_SpeakerCombo.getItems().add(s.getFullName());
+			for (DB_Object s : getSpeakers(nullSpeaker)) {
+				sessionEdit_SpeakerCombo.getItems().add(s.getClass().toString());
 			}
 
 			ComboBox<String> sessionEdit_RoomCombo = new ComboBox<String>();
-			for (roomCap r : getRoomAndCapacity()) {
-				sessionEdit_RoomCombo.getItems().add(r.getRoomName());
+			for (DB_Object r : getRoomAndCapacity(nullRoom)) {
+				sessionEdit_RoomCombo.getItems().add(r.getClass().toString());
 			}
 
 			Label sessionEdit_TimeSlotLabel = labelMaker("Time Slot");
 			Label sessionEdit_SpeakerLabel = labelMaker("Speaker");
 			Label sessionEdit_RoomLabel = labelMaker("Room");
+
+			sessionEdit_DoneButton.setOnAction(e -> {
+				int inputSessionUID = sessionUID.getValue();
+				String inputSessionName = sessionEdit_NameText.getText();
+				String inputSessionTimeSlot = sessionEdit_TimeSlotCombo.getValue();
+				String inputSessionSpeaker = sessionEdit_SpeakerCombo.getValue();
+				String inputSessionRoom = sessionEdit_RoomCombo.getValue();
+
+				DB_Object tempTimeslot = findObject(nullTimeslot, inputSessionTimeSlot);
+				DB_Object tempSpeaker = findObject(nullSpeaker, inputSessionTimeSlot);
+				DB_Object tempRoom = findObject(nullRoom, inputSessionTimeSlot);
+				ArrayList<DB_Object> temp = IFront.addToList(new Session(inputSessionUID, inputSessionName, (Timeslot) tempTimeslot, (Speaker) tempSpeaker, (Room) tempRoom));
+				sessionAdd_List.setItems(getSessions(temp));
+
+
+			});
 
 			HBox sessionEdit_LabelsAndTexts = new HBox(sessionEdit_NameLabel, sessionEdit_NameText,
 					sessionEdit_TimeSlotLabel, sessionEdit_TimeSlotCombo, sessionEdit_SpeakerLabel,
@@ -836,7 +887,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_Page.setStyle(styleSet);
 
 			Scene sessionEdit_Scene = new Scene(sessionEdit_Page, 900, 400);
-*/
+
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			timeSlotAdd.setOnAction(e -> window.setScene(timeSlotAdd_Scene));
@@ -847,6 +898,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			timeSlotEdit.setOnAction(e -> {
 				final int timeSlot_EditIndex = timeSlot_List.getSelectionModel().getSelectedIndex();
 				Timeslot entryChosen = (Timeslot) nullTimeslot.get(timeSlot_EditIndex);
+				timeSlotEdit_UID.setValue(entryChosen.UID);
 				timeSlotEdit_StartHour.setValue("" + entryChosen.startTimeHour);
 				timeSlotEdit_StartMinute.setValue("" + entryChosen.startTimeMin);
 				timeSlotEdit_EndHour.setValue("" + entryChosen.endTimeHour);
@@ -857,28 +909,32 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			speakerEdit.setOnAction(e -> {
 				final int speaker_EditIndex = speaker_List.getSelectionModel().getSelectedIndex();
 				Speaker entryChosen = (Speaker) nullSpeaker.get(speaker_EditIndex);
+				speakerUID.setValue(entryChosen.UID);
 				speakerEdit_FirstNameText.setText(entryChosen.speakerFName);
 				speakerEdit_LastNameText.setText(entryChosen.speakerLName);
 				speakerEdit_EmailText.setText(entryChosen.speakerEmail);
 				window.setScene(speakerEdit_Scene);
 			});
-/*
+
 			roomEdit.setOnAction(e -> {
 				final int room_EditIndex = room_List.getSelectionModel().getSelectedIndex();
-				roomEdit_NameText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomName());
-				roomEdit_CapacityText.setText(getRoomAndCapacity().get(room_EditIndex).getRoomCapacity());
-				getRoomAndCapacity().get(room_EditIndex);
+				Room entryChosen = (Room) nullRoom.get(room_EditIndex);
+				roomUID.setValue(entryChosen.UID);
+				roomEdit_NameText.setText(entryChosen.roomName);
+				roomEdit_CapacityText.setText(entryChosen.capacity);
 				window.setScene(roomEdit_Scene);
 			});
 
 			sessionEdit.setOnAction(e -> {
 
 				final int session_EditIndex = session_List.getSelectionModel().getSelectedIndex();
+				Session entryChosen = (Session) nullSession.get(session_EditIndex);
 				if (session_EditIndex != -1) {
-					sessionEdit_NameText.setText(session_List.getItems().get(session_EditIndex).getName());
-					sessionEdit_TimeSlotCombo.setValue(getSessions().get(session_EditIndex).getTimeSlot().getTime());
-					sessionEdit_SpeakerCombo.setValue(getSessions().get(session_EditIndex).getSpeaker().getFullName());
-					sessionEdit_RoomCombo.setValue(getSessions().get(session_EditIndex).getRoom().getRoomName());
+					sessionUID.setValue(entryChosen.UID);
+					sessionEdit_NameText.setText(entryChosen.sessionName);
+					sessionEdit_TimeSlotCombo.setValue(entryChosen.timeslot.getClass().toString());
+					sessionEdit_SpeakerCombo.setValue(entryChosen.speaker.getClass().toString());
+					sessionEdit_RoomCombo.setValue(entryChosen.room.getClass().toString());
 
 				}
 
@@ -895,7 +951,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 			sessionEdit_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			speakerEdit_HomeButton.setOnAction(e -> window.setScene(sceneHome));
 			timeSlotEdit_HomeButton.setOnAction(e -> window.setScene(sceneHome));
-*/
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
