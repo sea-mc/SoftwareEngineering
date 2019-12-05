@@ -9,7 +9,7 @@ public class Back {
     private final String NAME = "admin";
     private final String PASS = "password";
     private final String URL = "jdbc:mysql://localhost/codecamp";
-    private Gson g;
+    private static Gson g;
     private Connection con;
 
     Back(){
