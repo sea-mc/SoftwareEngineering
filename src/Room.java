@@ -1,6 +1,6 @@
 public class Room extends DB_Object implements IFront {
 
-    private String roomName, capacity;
+    public String roomName, capacity;
 
 	public Room() {
 		super();
