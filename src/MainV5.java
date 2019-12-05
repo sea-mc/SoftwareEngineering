@@ -65,7 +65,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
@@ -96,7 +96,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
@@ -160,7 +160,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
@@ -275,7 +275,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
@@ -504,7 +504,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
@@ -588,7 +588,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
@@ -817,7 +817,7 @@ public class MainV5 extends Application implements EventHandler<ActionEvent> {
 				protected void updateItem(DB_Object item, boolean empty) {
 					super.updateItem(item, empty);
 
-					if (empty || item == null || item.getClass().toString() == "") {
+					if (empty || item == null || item.getClass().toString().equals("")) {
 						setText(null);
 					} else {
 						setText(item.getClass().toString());
